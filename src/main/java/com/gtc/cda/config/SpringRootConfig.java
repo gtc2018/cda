@@ -1,3 +1,4 @@
+/*
 package com.gtc.cda.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -32,3 +33,5 @@ public class SpringRootConfig {
 	
 
 }
+
+*/
