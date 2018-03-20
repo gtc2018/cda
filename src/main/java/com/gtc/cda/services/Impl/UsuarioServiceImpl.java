@@ -34,6 +34,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		this.usuarioRepository.delete(id);
 	}
 
+	@Override
+	public List<Usuario> findByEmpresaId(String empresaId) {
+		// TODO Auto-generated method stub
+		return this.usuarioRepository.findByEmpresaId(empresaId);
+	}
+
+	
+	
 	
 
 

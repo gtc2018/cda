@@ -1,12 +1,8 @@
-/*
-
 package com.gtc.cda.controllers;
 
 import java.io.IOException;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,72 +12,69 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.models.Usuario;
+import com.gtc.cda.services.EmpleadoExternoService;
+import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.services.LoginService;
-import com.gtc.cda.util.RestResponse;
 
-
+@Controller
 @RestController
 public class LoginController {
-	
+
 	@Autowired
 	protected LoginService loginService;
-	
+
+	@Autowired
+	protected EmpleadoService empleadoService;
+
+	@Autowired
+	protected EmpleadoExternoService empleadoExternoService;
+
 	protected ObjectMapper mapper;
-	
-	
+
 	/**
-	 * Método crear o actualizar Usuarios.
+	 * Método de Autenticacion.
+	 * Este metodo me permite validar y devolver un empleado si existe, con base a los parametros enviados (email y password)
 	 * @param usuarioJson
 	 * @return
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
 	 */
-/*
-	@RequestMapping(value ="/loginUsuario", method = RequestMethod.POST)
-	public RestResponse loginUsuario(@RequestBody String usuarioJson) throws JsonParseException, JsonMappingException, IOException{
-		
+
+	@RequestMapping(value = "/loginUsuario", method = RequestMethod.POST)
+	public Object loginUsuario(@RequestBody String usuarioJson)
+
+			throws JsonParseException, JsonMappingException, IOException {
+
 		this.mapper = new ObjectMapper();
-		
+
 		Usuario usuario = this.mapper.readValue(usuarioJson, Usuario.class);
-		
-		if (!this.validate(usuario)) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"Los campos obligatorios no estan diligenciados");
-		}
-		
-		this.loginService.findByEmailAndPassword(usuario.getEmail(), usuario.getPassword());
+		Object empleado = new Object();
 
-		return new RestResponse(HttpStatus.OK.value(), "Login: Operacion Exitosa");
-		
-	}
-	
-	/**
-	 * Método validar parametros de entrado creacion usuario.
-	 * @param usuario
-	 * @return
-	 */
-/*
-	private boolean validate(Usuario usuario) {
-	
-		boolean isValid = true;
-		
-		if (StringUtils.trimToNull(usuario.getEmail()) == null ) {
+		if (usuario.getEmail() != null || usuario.getPassword() != " ") {
 
-			isValid = false;
+			Usuario usua = this.loginService.findByEmailAndPassword(usuario.getEmail(), usuario.getPassword());
+
+			if (usua != null && usua.getEmpleadoId() != null && usua.getTipoEmpleado() != null) {
+
+				if (usua.getTipoEmpleado().toUpperCase().equals("INTERNO")) {
+					empleado = this.empleadoService.findByEmpleadoId(usua.getEmpleadoId());
+				} else if (usua.getTipoEmpleado().toUpperCase().equals("EXTERNO")) {
+					empleado = this.empleadoExternoService.findByEmpleadoId(usua.getEmpleadoId());
+				} else {
+					System.out.println("****EL EMPLEADO NO HA SIDO DEFINIDO COMO INTERNO O EXTERNO****"+ usua.getTipoEmpleado().toUpperCase());
+					empleado = null;
+				}
+
+			} else {
+				System.out.println("***** USUARIO O CONTRASEÑA INVALIDO: ******");
+				empleado = null;
+			}
 
 		}
-		
-		if (StringUtils.trimToNull(usuario.getPassword()) == null ) {
 
-			isValid = false;
+		return empleado;
 
-		}
-		
-		return isValid;
-		
 	}
 
 }
-
-*/

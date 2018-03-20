@@ -26,6 +26,10 @@ public interface UsuarioService {
 	 */
 
 	void deleteUsuario(Long id);
+
+	
+
+	List<Usuario> findByEmpresaId(String empresaId);
     
 	
 	

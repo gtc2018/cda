@@ -1,10 +1,11 @@
 package com.gtc.cda.services.Impl;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.gtc.cda.dao.PermisoRepository;
 import com.gtc.cda.models.Permiso;
 import com.gtc.cda.services.PermisoService;
@@ -32,5 +33,26 @@ public class PermisoServiceImpl implements PermisoService {
 		// TODO Auto-generated method stub
 		this.permisoRepository.delete(id);
 	}
+
+	@Override
+	public List<Permiso> findByRolId(String rolId) {
+		// TODO Auto-generated method stub
+		List<Permiso> permisos = new ArrayList<>();
+		this.permisoRepository.findByRolId(rolId).forEach(permisos::add);
+		return  permisos;
+	}
+
+	
+	
+	
+
+	
+
+	
+	
+	
+	
+
+	
 
 }

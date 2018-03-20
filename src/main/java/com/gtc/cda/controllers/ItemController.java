@@ -3,7 +3,6 @@ package com.gtc.cda.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,18 +85,7 @@ public class ItemController {
 		
 		boolean isValid = true;
 		
-		if (StringUtils.trimToNull(item.getDescripcion()) == null ) {
-
-			isValid = false;
-
-		}
-		
-		if (StringUtils.trimToNull(item.getIcono()) == null ) {
-
-			isValid = false;
-
-		}
-		
+				
 		return isValid;
 		
 	}

@@ -13,5 +13,9 @@ public interface EmpresaService {
 
 
 	void deleteEmpresa(Long id);
+	
+	
+	Empresa findByEmpresaId (Long id);
+	
 
 }

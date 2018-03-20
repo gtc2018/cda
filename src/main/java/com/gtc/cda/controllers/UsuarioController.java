@@ -1,6 +1,8 @@
 package com.gtc.cda.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.UsuarioService;
 import com.gtc.cda.util.RestResponse;
+
+/**DOCUMENTACION 
+ * 
+ * @author Dirección Calidad
+ *
+ */
 
 @RestController
 public class UsuarioController {
@@ -33,9 +42,10 @@ public class UsuarioController {
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value ="/saveOrUpdateUsuario", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateUsuario(@RequestBody String usuarioJson) throws JsonParseException, JsonMappingException, IOException{
+	public RestResponse saveOrUpdateUsuario(@RequestBody String usuarioJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		this.mapper = new ObjectMapper();
 		
@@ -45,6 +55,10 @@ public class UsuarioController {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
+		
+		FormatoFecha fecha = new FormatoFecha();
+		Date fech = new Date();
+		usuario.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 		
 		this.usuarioService.save(usuario);
 
@@ -84,6 +98,23 @@ public class UsuarioController {
 		
 	}
 	
+	/**
+	 * 
+	 * @param permisoJson
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllUsuariosByEmpresaId", method = RequestMethod.POST)
+	public List<Usuario>  getAllUsuariosByEmpresaId(@RequestBody String usuarioJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+			
+		Usuario usuario = this.mapper.readValue(usuarioJson, Usuario.class);
+		
+		return this.usuarioService.findByEmpresaId(usuario.getClienteId());
+
+	}
+	
 	
 	
 	
@@ -97,7 +128,13 @@ public class UsuarioController {
 	
 		boolean isValid = true;
 		
-		if (StringUtils.trimToNull(usuario.getNombres()) == null ) {
+		if (StringUtils.trimToNull(usuario.getEmail()) == null ) {
+
+			isValid = false;
+
+		}
+		
+		if (StringUtils.trimToNull(usuario.getPassword()) == null ) {
 
 			isValid = false;
 

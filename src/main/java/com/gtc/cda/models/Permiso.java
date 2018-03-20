@@ -1,70 +1,101 @@
 package com.gtc.cda.models;
 
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "permisos")
+/*
+ * Definicion Procedimiento Almacenado
+ * 
+ * @NamedStoredProcedureQuery( name = "getMenuSession", // name of stored
+ * procedure in the persistence unit procedureName = "getMenuSession", //name of
+ * stored procedure in the database parameters = //Parameters of the stored
+ * procedure {
+ * 
+ * @StoredProcedureParameter(// A parameter, mode = ParameterMode.IN, name=
+ * "rol", type = String.class) } )//Fin definicion del procedimiento Almacenado.
+ */
 @Access(AccessType.FIELD)
 public class Permiso extends ParentEntity {
 
-	
 	private static final long serialVersionUID = -2787594519303851712L;
-	
-	@Column(name="permiso_id", nullable = false, length = 20)
-	private String permisoId;
-	
-	@Column(name="menu_id", nullable = false, length = 20)
-	private String menuId;
-	
-	@Column(name="item_id", nullable = false, length = 20)
-	private String itemId;
-	
-	@Column(name="rol_id", nullable = false, length = 20)
+
+	@Column(name = "rol_id", nullable = false, length = 20)
 	private String rolId;
-	
-	@Column(name="estado", nullable = false, length = 20)
+
+	@Column(name = "estado", nullable = false, length = 20)
 	private String estado;
-	
-	@Column(name="fechaCreacion", nullable = false, length = 20)
+
+	@Column(name = "fechaCreacion", nullable = false, length = 20)
 	private String fechaCreacion;
-	
-	@Column(name="usuario_creacion", nullable = false, length = 20)
+
+	@Column(name = "usuario_creacion", nullable = false, length = 20)
 	private String usuarioCreacion;
-	
-	@Column(name="fecha_modificacion", nullable = false, length = 20)
+
+	@Column(name = "fecha_modificacion", nullable = false, length = 20)
 	private String fechaModificacion;
-	
-	@Column(name="usuario_modificacion", nullable = false, length = 20)
+
+	@Column(name = "usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
-		
 
-	public String getPermisoId() {
-		return permisoId;
+	// @OneToMany(mappedBy = "permiso", cascade = CascadeType.ALL, fetch =
+	// FetchType.EAGER)
+	// private List<Menu> listaPermiso = new ArrayList<Menu>();
+
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "menu_id", nullable = false, referencedColumnName =  "id")
+	private Menu menu;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "item_id", nullable = false, referencedColumnName =  "id")
+	private Item item;
+
+	public Permiso() {
+
 	}
 
-	public void setPermisoId(String permisoId) {
-		this.permisoId = permisoId;
+	public Permiso(String rolId, String estado, String fechaCreacion, String usuarioCreacion,
+			String fechaModificacion, String usuarioModificacion, List<Menu> listaPermiso) {
+		super();
+		this.rolId = rolId;
+		this.estado = estado;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
+
 	}
 
-	public String getMenuId() {
-		return menuId;
+	public Menu getMenu() {
+		return menu;
 	}
 
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+	
+	
+
+	public Item getItem() {
+		return item;
 	}
 
-	public String getItemId() {
-		return itemId;
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
+	
 
 	public String getRolId() {
 		return rolId;

@@ -7,21 +7,30 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="empresas")
+@Table(name="clientes")
 @Access(AccessType.FIELD)
 public class Empresa extends ParentEntity {
 
 	
 	private static final long serialVersionUID = 5189702709640035487L;
 	
-	@Column(name="empresa_id", nullable = false, length = 20)
-	private String empresaId;
-	
 	@Column(name="descripcion", nullable = false, length = 100 )
 	private String descripcion;
 	
-	@Column(name="nit", nullable = false, length = 20)
-	private String nit;
+	@Column(name="tipo_cliente", nullable = false, length = 60)
+	private String tipoCliente;
+	
+	@Column(name="url_carpeta", nullable = false, length = 100)
+	private String urlCarpeta;
+	
+	@Column(name="tipo_documento", nullable = false, length = 60)
+	private String tipoDocumento;
+	
+	@Column(name="numero_documento", nullable = false, length = 20)
+	private String numeroDocumento;
+	
+	@Column(name="nombre_contacto", nullable = false, length = 100)
+	private String nombreContacto;
 	
 	@Column(name="email", nullable = false, length = 255)
 	private String email;
@@ -51,25 +60,13 @@ public class Empresa extends ParentEntity {
 	private String imagenEmpresa;
 	
 	
-	
-	public String getEmpresaId() {
-		return empresaId;
-	}
-	public void setEmpresaId(String empresaId) {
-		this.empresaId = empresaId;
-	}
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getNit() {
-		return nit;
-	}
-	public void setNit(String nit) {
-		this.nit = nit;
-	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -125,10 +122,39 @@ public class Empresa extends ParentEntity {
 		this.imagenEmpresa = imagenEmpresa;
 	}
 	
+		
+	public String getTipoCliente() {
+		return tipoCliente;
+	}
 	
+	public void setTipoCliente(String tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
+	public String getUrlCarpeta() {
+		return urlCarpeta;
+	}
+	public void setUrlCarpeta(String urlCarpeta) {
+		this.urlCarpeta = urlCarpeta;
+	}
+	public String getNombreContacto() {
+		return nombreContacto;
+	}
 	
-	
-	
+	public void setNombreContacto(String nombreContacto) {
+		this.nombreContacto = nombreContacto;
+	}
 	
 
 }

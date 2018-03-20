@@ -36,4 +36,12 @@ public class EmpresaServiceImpl implements EmpresaService{
 		
 	}
 
+	@Override
+	public Empresa findByEmpresaId(Long id) {
+		// TODO Auto-generated method stub
+		return this.empresaRepository.findById(id);
+	}
+	
+	
+
 }
