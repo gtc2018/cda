@@ -13,14 +13,12 @@ public class Rol extends ParentEntity {
 
 	private static final long serialVersionUID = -4420691149495131780L;
 	
-	@Column(name="rol_id", nullable = false, length = 20)
-	private String rolId;
+	
 	
 	@Column(name="descripcion", nullable = false, length = 100)
 	private String descripcion;
 	
-	@Column(name="cliente_id", nullable = false, length = 20)
-	private String clienteId;
+	
 	
 	@Column(name="fecha_creacion", nullable = false, length = 25)
 	private String fechaCreacion;
@@ -36,13 +34,7 @@ public class Rol extends ParentEntity {
 		
 	
 	
-	public String getRolId() {
-		return rolId;
-	}
 	
-	public void setRolId(String rolId) {
-		this.rolId = rolId;
-	}
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -54,13 +46,7 @@ public class Rol extends ParentEntity {
 	
 	
 	
-	public String getClienteId() {
-		return clienteId;
-	}
-
-	public void setClienteId(String clienteId) {
-		this.clienteId = clienteId;
-	}
+	
 
 	public String getFechaCreacion() {
 		return fechaCreacion;

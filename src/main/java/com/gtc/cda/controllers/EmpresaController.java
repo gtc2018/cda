@@ -62,6 +62,7 @@ public class EmpresaController {
 			//Llamado al metodo para crear carpeta Empresa.
 			Generico generico = new Generico();
 			generico.createFolder(url);
+			generico.createFolder(url+"\\Empleados\\Fotos");
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		}
 	}

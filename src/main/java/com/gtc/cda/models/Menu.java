@@ -30,6 +30,12 @@ public class Menu extends ParentEntity {
 
 	@Column(name = "icono", nullable = false, length = 200)
 	private String icono;
+	
+	@Column(name = "parent", nullable = false, length = 5)
+	private String parent;
+	
+	@Column(name = "grupo", nullable = false, length = 10)
+	private String grupo;
 
 	@Column(name = "fecha_creacion", nullable = false, length = 20)
 	private String fechaCreacion;
@@ -134,5 +140,27 @@ public class Menu extends ParentEntity {
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
 	}
+
+	
+	
+	
+
+	public String getParent() {
+		return parent;
+	}
+
+	public void setParent(String parent) {
+		this.parent = parent;
+	}
+
+	public String getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}
+	
+	
 
 }
