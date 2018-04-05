@@ -39,5 +39,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 		// TODO Auto-generated method stub
 		return this.empleadoRepository.findOne(empleadoId);
 	}
+	
+	@Override
+	public List<Empleado> findEmployeesToEnterprise(Long empresaId) {
+		// TODO Auto-generated method stub
+		return this.empleadoRepository.findEmployeesToEnterprise(empresaId);
+	}
 
 }

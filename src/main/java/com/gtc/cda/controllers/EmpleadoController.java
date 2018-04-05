@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +19,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Empleado;
+import com.gtc.cda.models.Empresa;
+import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
+
+
 
 @RestController
 public class EmpleadoController {
@@ -75,6 +80,18 @@ public class EmpleadoController {
 		Empleado empleado = this.mapper.readValue(rolId, Empleado.class);
 		
 		return this.empleadoService.findByEmpleadoId(empleado.getId());
+
+	}
+	
+	
+	@RequestMapping(value = "/getAllEmployeesByEnterpriseId", method = RequestMethod.POST)
+	public List<Empleado>  getAllEmployeesByEnterpriseId(@RequestBody String empresaJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+			
+		Empresa empresa = this.mapper.readValue(empresaJson, Empresa.class);
+		
+		return this.empleadoService.findEmployeesToEnterprise(empresa.getId());
 
 	}
 	

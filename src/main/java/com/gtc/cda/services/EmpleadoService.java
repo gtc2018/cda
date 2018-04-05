@@ -13,5 +13,7 @@ public interface EmpleadoService {
 	void deleteEmpleado(Long id);
 
 	Empleado findByEmpleadoId(Long id);
+	
+	List<Empleado> findEmployeesToEnterprise(Long empresaId);
 
 }

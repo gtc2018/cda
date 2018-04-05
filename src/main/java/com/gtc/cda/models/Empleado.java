@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name="empleados")
 @Access(AccessType.FIELD)
@@ -49,9 +48,6 @@ public class Empleado extends ParentEntity {
 	@Column(name="telefono", nullable = false, length = 14 )
 	private String telefono;
 	
-	@Column(name="celular", nullable = false, length = 14 )
-	private String celular;
-	
 	@Column(name="sueldo", nullable = false)
 	private Double sueldo;
 	
@@ -67,6 +63,17 @@ public class Empleado extends ParentEntity {
 	@Column(name="foto", nullable = false, length = 255)
 	private String foto;
 	
+	@Column(name="otros_beneficios", nullable = false, length = 255)
+	private String otrosBeneficios;
+	
+	public String getOtrosBeneficios() {
+		return otrosBeneficios;
+	}
+
+	public void setOtrosBeneficios(String otrosBeneficios) {
+		this.otrosBeneficios = otrosBeneficios;
+	}
+
 	@Column(name="estado_eliminacion", nullable = false, length = 5)
 	private String estadoEliminacion;
 	
@@ -98,8 +105,6 @@ public class Empleado extends ParentEntity {
 		this.rolId = rolId;
 	}
 	
-	
-
 	public Long getCargoId() {
 		return cargoId;
 	}
@@ -255,16 +260,10 @@ public class Empleado extends ParentEntity {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
 	
 	
 		
 
 }
+
+
