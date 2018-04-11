@@ -25,7 +25,7 @@ import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 
 
-
+@CrossOrigin(origins="*")
 @RestController
 public class EmpleadoController {
 	
@@ -84,8 +84,8 @@ public class EmpleadoController {
 	}
 	
 	
-	@RequestMapping(value = "/getAllEmployeesByEnterpriseId", method = RequestMethod.POST)
-	public List<Empleado>  getAllEmployeesByEnterpriseId(@RequestBody String empresaJson) throws Exception {
+	@RequestMapping(value = "/getAllEmployeesToEnterprise", method = RequestMethod.POST)
+	public List<Empleado>  getAllEmployeesToEnterprise(@RequestBody String empresaJson) throws Exception {
 
 		this.mapper = new ObjectMapper();
 			

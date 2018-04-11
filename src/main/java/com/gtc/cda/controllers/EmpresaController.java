@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,8 @@ import com.gtc.cda.common.Generico;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.util.RestResponse;
+
+@CrossOrigin(origins="*")
 
 @RestController
 public class EmpresaController {

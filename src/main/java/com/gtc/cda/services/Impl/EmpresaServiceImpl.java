@@ -28,6 +28,11 @@ public class EmpresaServiceImpl implements EmpresaService{
 		// TODO Auto-generated method stub
 		return this.empresaRepository.findAll();
 	}
+	
+	public Empresa getOne(Long id) {
+		// TODO Auto-generated method stub
+		return this.empresaRepository.getOne(id);
+	}
 
 	@Override
 	public void deleteEmpresa(Long id) {

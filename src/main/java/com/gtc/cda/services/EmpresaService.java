@@ -2,6 +2,7 @@ package com.gtc.cda.services;
 
 import java.util.List;
 
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 
 public interface EmpresaService {
@@ -16,6 +17,8 @@ public interface EmpresaService {
 	
 	
 	Empresa findByEmpresaId (Long id);
+	
+	Empresa getOne(Long id);
 	
 
 }

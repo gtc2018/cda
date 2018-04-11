@@ -3,6 +3,7 @@ package com.gtc.cda.controllers;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,8 @@ import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.EmpleadoExternoService;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.services.LoginService;
+
+@CrossOrigin(origins="*")
 
 @Controller
 @RestController

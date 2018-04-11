@@ -27,6 +27,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 		// TODO Auto-generated method stub
 		return this.empleadoRepository.findAll();
 	}
+	
+	public Empleado getOne(Long id) {
+		// TODO Auto-generated method stub
+		return this.empleadoRepository.getOne(id);
+	}
 
 	@Override
 	public void deleteEmpleado(Long id) {

@@ -19,6 +19,8 @@ public interface UsuarioService {
 	 */
 
 	List<Usuario> findAll();
+
+	Usuario findToOne(Long id);
 	
 	/**
 	 * Elimina un usuario recibiendo como parametro el ID
@@ -26,18 +28,8 @@ public interface UsuarioService {
 	 */
 
 	void deleteUsuario(Long id);
-
 	
-
 	List<Usuario> findByEmpresaId(String empresaId);
-    
-	
-	
-
-	
-
-	
-
 	
 
 }

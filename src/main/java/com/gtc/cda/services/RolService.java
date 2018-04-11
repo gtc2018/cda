@@ -2,6 +2,7 @@ package com.gtc.cda.services;
 
 import java.util.List;
 
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Rol;
 
 public interface RolService {
@@ -28,5 +29,7 @@ public interface RolService {
 	 * @param id
 	 */
 	void deleteRol(Long id);
+	
+	Rol getOne(Long id);
 
 }

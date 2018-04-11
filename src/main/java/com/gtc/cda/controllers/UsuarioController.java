@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Usuario;
+import com.gtc.cda.services.EmpleadoService;
+import com.gtc.cda.services.EmpresaService;
+import com.gtc.cda.services.RolService;
 import com.gtc.cda.services.UsuarioService;
 import com.gtc.cda.util.RestResponse;
 
@@ -26,11 +30,20 @@ import com.gtc.cda.util.RestResponse;
  *
  */
 
+@CrossOrigin(origins="*")
+
 @RestController
 public class UsuarioController {
 	
 	@Autowired
 	protected UsuarioService usuarioService;
+	
+	@Autowired
+	protected EmpleadoService empleadoService;
+	@Autowired
+	protected EmpresaService empresaService;
+	@Autowired
+	protected RolService rolService;
 	
 	protected ObjectMapper mapper;
 	
@@ -73,7 +86,25 @@ public class UsuarioController {
 	 */
 	@RequestMapping(value ="/getAllUsuarios", method = RequestMethod.GET)
 	public List<Usuario> getAllUsuarios(){
-		return  this.usuarioService.findAll();
+		
+		List<Usuario> usuarios ;
+		
+		usuarios = this.usuarioService.findAll();
+		
+		for(Usuario usuario:usuarios){
+			
+			usuario.setNombres(this.empleadoService.getOne(usuario.getEmpleadoId()).getNombres());
+			
+			usuario.setApellidos(this.empleadoService.getOne(usuario.getEmpleadoId()).getApellidos());
+			
+			usuario.setCliente(this.empresaService.getOne(new Long(usuario.getClienteId())).getDescripcion());
+			
+			usuario.setRol(this.rolService.getOne(new Long(usuario.getRolId())).getDescripcion());
+		}
+	  
+		return  usuarios;
+		
+		
 		
 	}
 	

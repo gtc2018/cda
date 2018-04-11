@@ -5,6 +5,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,12 +13,21 @@ import javax.persistence.Table;
 public class Usuario extends ParentEntity {
 
 	private static final long serialVersionUID = -7245319454543405629L;
+	
+	@Transient
+	private String nombres;
+	
+	@Transient
+	private String apellidos;
 
 	@Column(name = "username", nullable = false, length = 20)
 	private String userName;
 
 	@Column(name = "cliente_id", nullable = false, length = 20)
 	private String clienteId;
+	
+	@Transient
+	private String cliente;
 
 	@Column(name = "empleado_id", nullable = false, length = 20)
 	private Long empleadoId;
@@ -27,6 +37,9 @@ public class Usuario extends ParentEntity {
 
 	@Column(name = "rol_id", nullable = false, length = 20)
 	private String rolId;
+	
+	@Transient
+	private String rol;
 
 	@Column(name = "email", nullable = false, length = 255)
 	private String email;
@@ -51,6 +64,46 @@ public class Usuario extends ParentEntity {
 
 	@Column(name = "usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
+	
+	@Transient
+	public String getNombres() {
+		return nombres;
+	}
+
+	@Transient
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	@Transient
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	@Transient
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	@Transient
+	public String getCliente() {
+		return cliente;
+	}
+
+	@Transient
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
+	@Transient
+	public String getRol() {
+		return rol;
+	}
+
+	@Transient
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
 
 	public String getRolId() {
 		return rolId;
@@ -155,11 +208,6 @@ public class Usuario extends ParentEntity {
 	public void setTipoEmpleado(String tipoEmpleado) {
 		this.tipoEmpleado = tipoEmpleado;
 	}
-
-	
-	
-	
-	
 	
 
 }

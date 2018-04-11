@@ -14,6 +14,8 @@ public interface EmpleadoService {
 
 	Empleado findByEmpleadoId(Long id);
 	
+	Empleado getOne(Long id);
+	
 	List<Empleado> findEmployeesToEnterprise(Long empresaId);
 
 }

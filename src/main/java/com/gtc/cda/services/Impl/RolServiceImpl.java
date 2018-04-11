@@ -26,6 +26,11 @@ public class RolServiceImpl implements RolService{
 		// TODO Auto-generated method stub
 		return this.rolRepository.findAll();
 	}
+	
+	public Rol getOne(Long id) {
+		// TODO Auto-generated method stub
+		return this.rolRepository.getOne(id);
+	}
 
 	@Override
 	public void deleteRol(Long id) {
