@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.models.Menu;
 import com.gtc.cda.models.Permiso;
 import com.gtc.cda.services.PermisoService;
 import com.gtc.cda.util.RestResponse;
@@ -37,14 +38,29 @@ public class PermisoController {
 
 		Permiso permiso = this.mapper.readValue(permisoJson, Permiso.class);
 
-		if (!this.validate(permiso)) {
+		
+		Menu menu = new Menu();
+
+		//Rol rol = new Rol();
+
+		menu.setId(new Long(permiso.getMenu_id()));
+
+		//rol.setId(new Long(permiso.getRol_id()));
+
+		permiso.setMenu(menu);
+		//permiso.setRol(rol);
+		
+        if (!this.validate(permiso)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
 
+		permiso.setEstado("1");
+
 		this.permisoService.save(permiso);
 
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+
 	}
 
 	/**
@@ -71,23 +87,27 @@ public class PermisoController {
 		this.permisoService.deletePermiso(permiso.getId());
 
 	}
-	
-	
+
 	@RequestMapping(value = "/getMenuSession", method = RequestMethod.POST)
-	public List<Permiso>  getMenuSession(@RequestBody String rolId) throws Exception {
+	public List<Permiso> getMenuSession(@RequestBody String rolId) throws Exception {
 
 		this.mapper = new ObjectMapper();
-			
+
 		Permiso permiso = this.mapper.readValue(rolId, Permiso.class);
 		
+		//Rol rol = new Rol();
+		//rol.setId(new Long(permiso.getRol_id()));
+	    //permiso.setRol(rol);
+
 		return this.permisoService.findByRolId(permiso.getRolId());
 
 	}
-	
 
 	private boolean validate(Permiso permiso) {
 
 		boolean isValid = true;
+		
+		
 
 		if (StringUtils.trimToNull(permiso.getRolId()) == null) {
 

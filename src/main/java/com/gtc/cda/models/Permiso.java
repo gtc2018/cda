@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
 
 
 
@@ -33,7 +36,25 @@ public class Permiso extends ParentEntity {
 
 	@Column(name = "rol_id", nullable = false, length = 20)
 	private String rolId;
+	
+	@Transient
+	private String menu_id;
+	
+	
+	
+	@Column(name = "crear", nullable = false, length = 2)
+	private String crear;
 
+	@Column(name = "editar", nullable = false, length = 2)
+	private String editar;
+
+	@Column(name = "eliminar", nullable = false, length = 2)
+	private String eliminar;
+
+	@Column(name = "leer", nullable = false, length = 2)
+	private String leer;
+	
+		
 	@Column(name = "estado", nullable = false, length = 20)
 	private String estado;
 
@@ -49,17 +70,13 @@ public class Permiso extends ParentEntity {
 	@Column(name = "usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
 
-	// @OneToMany(mappedBy = "permiso", cascade = CascadeType.ALL, fetch =
-	// FetchType.EAGER)
-	// private List<Menu> listaPermiso = new ArrayList<Menu>();
+	
 
 	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "menu_id", nullable = false, referencedColumnName =  "id")
+	@JoinColumn(name = "menu_id" , nullable = false, referencedColumnName =  "id")
 	private Menu menu;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "item_id", nullable = false, referencedColumnName =  "id")
-	private Item item;
+	
 
 	public Permiso() {
 
@@ -77,26 +94,9 @@ public class Permiso extends ParentEntity {
 
 	}
 
-	public Menu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-	}
-	
 	
 
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
 	
-
 	public String getRolId() {
 		return rolId;
 	}
@@ -144,5 +144,61 @@ public class Permiso extends ParentEntity {
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
 	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+    
+	@Transient
+	public String getMenu_id() {
+		return menu_id;
+	}
+	@Transient
+	public void setMenu_id(String menu_id) {
+		this.menu_id = menu_id;
+	}
+
+	
+	
+
+	public String getCrear() {
+		return crear;
+	}
+
+	public void setCrear(String crear) {
+		this.crear = crear;
+	}
+
+	public String getEditar() {
+		return editar;
+	}
+
+	public void setEditar(String editar) {
+		this.editar = editar;
+	}
+
+	public String getEliminar() {
+		return eliminar;
+	}
+
+	public void setEliminar(String eliminar) {
+		this.eliminar = eliminar;
+	}
+
+	public String getLeer() {
+		return leer;
+	}
+
+	public void setLeer(String leer) {
+		this.leer = leer;
+	}
+	
+	
+	
+	
 
 }

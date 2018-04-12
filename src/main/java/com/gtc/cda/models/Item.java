@@ -1,18 +1,16 @@
 package com.gtc.cda.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+/* 
+ * 
+ * 
+ */
+
 
 @Entity
 @Table(name = "items")
@@ -48,17 +46,14 @@ public class Item extends ParentEntity {
 	/**
 	 * Relacion tabla Item permisos.
 	 */
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonIgnore
-	private List<Permiso> listaItem = new ArrayList<Permiso>();
-
+	
 	public Item() {
 
 	}
 
 	public Item(String crear, String editar, String eliminar, String leer, String url, String icono,
-			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
-			List<Permiso> listaItem) {
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion
+			) {
 		super();
 		this.crear = crear;
 		this.editar = editar;
@@ -68,7 +63,7 @@ public class Item extends ParentEntity {
 		this.usuarioCreacion = usuarioCreacion;
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
-		this.listaItem = listaItem;
+		
 	}
 
 	public String getCrear() {
@@ -103,13 +98,7 @@ public class Item extends ParentEntity {
 		this.leer = leer;
 	}
 
-	public List<Permiso> getListaItem() {
-		return listaItem;
-	}
-
-	public void setListaItem(List<Permiso> listaItem) {
-		this.listaItem = listaItem;
-	}
+	
 
 	public String getFechaCreacion() {
 		return fechaCreacion;
