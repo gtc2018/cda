@@ -16,9 +16,6 @@ public class Proyecto extends ParentEntity {
 	@Column(name="cliente_id", nullable = false, length = 20)
 	private Long clienteId;
 	
-	@Column(name="empleado_id", nullable = false, length = 20)
-	private Long empleadoId;
-	
 	@Column(name="nombre", nullable = false, length = 100)
 	private String nombre;
 	
