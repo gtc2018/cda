@@ -5,6 +5,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="empleados")
@@ -65,6 +66,9 @@ public class Empleado extends ParentEntity {
 	
 	@Column(name="otros_beneficios", nullable = false, length = 255)
 	private String otrosBeneficios;
+	
+	@Transient
+	private String imagen;
 	
 	public String getOtrosBeneficios() {
 		return otrosBeneficios;
@@ -260,6 +264,17 @@ public class Empleado extends ParentEntity {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+	
+	@Transient
+	public String getImagen() {
+		return imagen;
+	}
+
+	@Transient
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	
 	
 		

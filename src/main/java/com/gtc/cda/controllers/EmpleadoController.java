@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
-import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 
@@ -59,6 +59,55 @@ public class EmpleadoController {
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 	}
+	
+	
+	@RequestMapping(value = "/empleado/create", method = RequestMethod.POST)
+	public RestResponse createUser(@RequestBody Empleado empleado) throws ParseException, IOException {
+		// System.out.println("==============ARCHIVO===================");
+
+		if (!this.validate(empleado)) {
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+					"Los campos obligatorios no estan diligenciados");
+
+		}
+
+		FormatoFecha fecha = new FormatoFecha();
+		Date fech = new Date();
+
+		empleado.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+		empleado.setFoto("http://25.72.193.72:8887/" + empleado.getFoto());
+
+		this.empleadoService.save(empleado);
+
+		if (empleado.getImagen() != null) {
+			Archivo archivo = new Archivo();
+
+			String foto = empleado.getFoto();
+
+			if (foto != null) {
+				String[] parts = foto.split("87");
+				String part2 = parts[1]; // 034556
+				String[] nombreArchivo = part2.split("/");
+				
+				String nombreArchivo2 = nombreArchivo[1]; // 034556
+				System.out.println(" ==============foto=========" + nombreArchivo2);
+				String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\"+ nombreArchivo2;
+
+				 archivo.decodeBase64(empleado.getImagen(), url);
+				
+
+			}
+
+			
+			
+
+		}
+
+		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+	}
+	
+	
+	
 	
 	
 	/**
