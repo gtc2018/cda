@@ -5,6 +5,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Entidad Asociar Proyetos. Ésta clase contiene todos los atributos de la
@@ -20,12 +21,22 @@ public class AsociarProyecto extends ParentEntity {
 
 	private static final long serialVersionUID = 2369437860906179169L;
 
-	@Column(name = "empresa_id", nullable = false, length = 20)
-	private String empresaId;
+	@Column(name = "empleado_id", nullable = false, length = 20)
+	private String empleadoId;
+	
+	@Transient
+	private String NombreEmpleado;
+	
+	@Transient
+	private String ApellidoEmpleado;
+	
+	@Transient
+	private String FotoEmpleado;
+	
+	@Transient
+	private String proyectosInvolucrado;
 
-	@Column(name = "usuario_id", nullable = false, length = 20)
-	private String usuarioId;
-
+	
 	@Column(name = "proyecto_id", nullable = false, length = 20)
 	private String proyectoId;
 
@@ -47,33 +58,24 @@ public class AsociarProyecto extends ParentEntity {
 
 	}
 
-	public AsociarProyecto(String empresaId, String usuarioId, String proyectoId, String fechaCreacion,
+	public AsociarProyecto(String empleadoId, String proyectoId, String fechaCreacion,
 			String usuarioCreacion, String fechaModificacion, String usuarioModificacion) {
 		super();
-		this.empresaId = empresaId;
-		this.usuarioId = usuarioId;
+		this.empleadoId = empleadoId;
 		this.proyectoId = proyectoId;
 		this.fechaCreacion = fechaCreacion;
 		this.usuarioCreacion = usuarioCreacion;
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
 		
+	}	
+
+	public String getEmpleadoId() {
+		return empleadoId;
 	}
 
-	public String getEmpresaId() {
-		return empresaId;
-	}
-
-	public void setEmpresaId(String empresaId) {
-		this.empresaId = empresaId;
-	}
-
-	public String getUsuarioId() {
-		return usuarioId;
-	}
-
-	public void setUsuarioId(String usuarioId) {
-		this.usuarioId = usuarioId;
+	public void setEmpleadoId(String empleadoId) {
+		this.empleadoId = empleadoId;
 	}
 
 	public String getProyectoId() {
@@ -115,6 +117,47 @@ public class AsociarProyecto extends ParentEntity {
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
 	}
+
+	@Transient
+	public String getNombreEmpleado() {
+		return NombreEmpleado;
+	}
+
+	@Transient
+	public void setNombreEmpleado(String nombreEmpleado) {
+		NombreEmpleado = nombreEmpleado;
+	}
+
+	@Transient
+	public String getApellidoEmpleado() {
+		return ApellidoEmpleado;
+	}
+
+	@Transient
+	public void setApellidoEmpleado(String apellidoEmpleado) {
+		ApellidoEmpleado = apellidoEmpleado;
+	}
+
+	@Transient
+	public String getFotoEmpleado() {
+		return FotoEmpleado;
+	}
+
+	@Transient
+	public void setFotoEmpleado(String fotoEmpleado) {
+		FotoEmpleado = fotoEmpleado;
+	}
+
+	@Transient
+	public String getProyectosInvolucrado() {
+		return proyectosInvolucrado;
+	}
+    
+	@Transient
+	public void setProyectosInvolucrado(String proyectosInvolucrado) {
+		this.proyectosInvolucrado = proyectosInvolucrado;
+	}
+
 
 	
 

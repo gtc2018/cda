@@ -43,20 +43,19 @@ public class Permiso extends ParentEntity {
 	
 	
 	@Column(name = "crear", nullable = false, length = 2)
-	private String crear;
+	private Integer crear;
 
 	@Column(name = "editar", nullable = false, length = 2)
-	private String editar;
+	private Integer editar;
 
 	@Column(name = "eliminar", nullable = false, length = 2)
-	private String eliminar;
+	private Integer eliminar;
 
 	@Column(name = "leer", nullable = false, length = 2)
-	private String leer;
-	
+	private Integer leer;
 		
 	@Column(name = "estado", nullable = false, length = 20)
-	private String estado;
+	private Integer estado;
 
 	@Column(name = "fechaCreacion", nullable = false, length = 20)
 	private String fechaCreacion;
@@ -82,7 +81,7 @@ public class Permiso extends ParentEntity {
 
 	}
 
-	public Permiso(String rolId, String estado, String fechaCreacion, String usuarioCreacion,
+	public Permiso(String rolId, Integer estado, String fechaCreacion, String usuarioCreacion,
 			String fechaModificacion, String usuarioModificacion, List<Menu> listaPermiso) {
 		super();
 		this.rolId = rolId;
@@ -105,11 +104,11 @@ public class Permiso extends ParentEntity {
 		this.rolId = rolId;
 	}
 
-	public String getEstado() {
+	public Integer getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
@@ -162,38 +161,35 @@ public class Permiso extends ParentEntity {
 		this.menu_id = menu_id;
 	}
 
-	
-	
-
-	public String getCrear() {
+	public Integer getCrear() {
 		return crear;
 	}
 
-	public void setCrear(String crear) {
+	public void setCrear(Integer crear) {
 		this.crear = crear;
 	}
 
-	public String getEditar() {
+	public Integer getEditar() {
 		return editar;
 	}
 
-	public void setEditar(String editar) {
+	public void setEditar(Integer editar) {
 		this.editar = editar;
 	}
 
-	public String getEliminar() {
+	public Integer getEliminar() {
 		return eliminar;
 	}
 
-	public void setEliminar(String eliminar) {
+	public void setEliminar(Integer eliminar) {
 		this.eliminar = eliminar;
 	}
 
-	public String getLeer() {
+	public Integer getLeer() {
 		return leer;
 	}
 
-	public void setLeer(String leer) {
+	public void setLeer(Integer leer) {
 		this.leer = leer;
 	}
 	

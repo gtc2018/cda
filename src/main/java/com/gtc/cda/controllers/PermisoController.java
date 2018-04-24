@@ -55,7 +55,7 @@ public class PermisoController {
 					"Los campos obligatorios no estan diligenciados");
 		}
 
-		permiso.setEstado("1");
+		permiso.setEstado(1);
 
 		this.permisoService.save(permiso);
 
