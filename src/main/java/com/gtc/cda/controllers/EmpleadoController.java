@@ -24,43 +24,40 @@ import com.gtc.cda.models.Empresa;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 
-
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 @RestController
 public class EmpleadoController {
-	
-	
+
 	@Autowired
 	protected EmpleadoService empleadoService;
-	
+
 	protected ObjectMapper mapper;
-	
-	
-	@RequestMapping(value ="/saveOrUpdateEmpleado", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateEmpleado(@RequestBody String empleadoJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
-		
+
+	@RequestMapping(value = "/saveOrUpdateEmpleado", method = RequestMethod.POST)
+	public RestResponse saveOrUpdateEmpleado(@RequestBody String empleadoJson)
+			throws JsonParseException, JsonMappingException, IOException, ParseException {
+
 		this.mapper = new ObjectMapper();
-		
+
 		Empleado empleado = this.mapper.readValue(empleadoJson, Empleado.class);
-		
+
 		if (!this.validate(empleado)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
-		
-		//Generacion fecha creacion
+
+		// Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
-		//seteo la fecha de creacon al campo fechaCreacion.
+		// seteo la fecha de creacon al campo fechaCreacion.
 		empleado.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
-		
+
 		this.empleadoService.save(empleado);
 
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-		
+
 	}
-	
-	
+
 	@RequestMapping(value = "/empleado/create", method = RequestMethod.POST)
 	public RestResponse createUser(@RequestBody Empleado empleado) throws ParseException, IOException {
 		// System.out.println("==============ARCHIVO===================");
@@ -86,118 +83,104 @@ public class EmpleadoController {
 
 			if (foto != null) {
 				String[] parts = foto.split("87");
-				String part2 = parts[1]; // 034556
+				String part2 = parts[1];
 				String[] nombreArchivo = part2.split("/");
-				
-				String nombreArchivo2 = nombreArchivo[1]; // 034556
-				System.out.println(" ==============foto=========" + nombreArchivo2);
-				String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\"+ nombreArchivo2;
 
-				 archivo.decodeBase64(empleado.getImagen(), url);
-				
+				String nombreArchivo2 = nombreArchivo[1]; // 034556
+				String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+				archivo.decodeBase64(empleado.getImagen(), url);
 
 			}
-
-			
-			
 
 		}
 
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * Metodo consultar todos los empleados.
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value ="/getAllEmpleados", method = RequestMethod.GET)
-	public List<Empleado> getAllEmpleados(){
-		return  this.empleadoService.findAll();
-		
+	@RequestMapping(value = "/getAllEmpleados", method = RequestMethod.GET)
+	public List<Empleado> getAllEmpleados() {
+		return this.empleadoService.findAll();
+
 	}
-	
-	
+
 	@RequestMapping(value = "/getEmpleadoById", method = RequestMethod.POST)
-	public Empleado  getEmpleadoById(@RequestBody String rolId) throws Exception {
+	public Empleado getEmpleadoById(@RequestBody String rolId) throws Exception {
 
 		this.mapper = new ObjectMapper();
-			
+
 		Empleado empleado = this.mapper.readValue(rolId, Empleado.class);
-		
+
 		return this.empleadoService.findByEmpleadoId(empleado.getId());
 
 	}
-	
-	
+
 	@RequestMapping(value = "/getAllEmployeesToEnterprise", method = RequestMethod.POST)
-	public List<Empleado>  getAllEmployeesToEnterprise(@RequestBody String empresaJson) throws Exception {
+	public List<Empleado> getAllEmployeesToEnterprise(@RequestBody String empresaJson) throws Exception {
 
 		this.mapper = new ObjectMapper();
-			
+
 		Empresa empresa = this.mapper.readValue(empresaJson, Empresa.class);
-		
+
 		return this.empleadoService.findEmployeesToEnterprise(empresa.getId());
 
 	}
-	
-	
-	
+
 	/**
 	 * Metodo Eliminar Empleados.
+	 * 
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value ="/deleteEmpleado", method = RequestMethod.POST)
-	public void deleteEmpleado(@RequestBody String usuarioJson) throws Exception{
+	@RequestMapping(value = "/deleteEmpleado", method = RequestMethod.POST)
+	public void deleteEmpleado(@RequestBody String usuarioJson) throws Exception {
 		this.mapper = new ObjectMapper();
-		
+
 		Empleado empleado = this.mapper.readValue(usuarioJson, Empleado.class);
-		
-		if(empleado.getId() == null){
+
+		if (empleado.getId() == null) {
 			throw new Exception("El ID no puede ser nulo.");
 		}
-		
+
 		this.empleadoService.deleteEmpleado(empleado.getId());
-		
+
 	}
-	
-	
+
 	private boolean validate(Empleado empleado) {
-		
+
 		boolean isValid = true;
-		
-		if (StringUtils.trimToNull(empleado.getNombres()) == null ) {
+
+		if (StringUtils.trimToNull(empleado.getNombres()) == null) {
 
 			isValid = false;
 
 		}
-		
-		if (StringUtils.trimToNull(empleado.getApellidos()) == null ) {
+
+		if (StringUtils.trimToNull(empleado.getApellidos()) == null) {
 
 			isValid = false;
 
 		}
-		
-		if (StringUtils.trimToNull(empleado.getEmail()) == null ) {
+
+		if (StringUtils.trimToNull(empleado.getEmail()) == null) {
 
 			isValid = false;
 
 		}
-		
-		if (empleado.getCargoId() == null ) {
+
+		if (empleado.getCargoId() == null) {
 
 			isValid = false;
 
 		}
-		
-		
+
 		return isValid;
-		
+
 	}
-	
 
 }

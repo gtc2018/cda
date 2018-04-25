@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.common.Generico;
 import com.gtc.cda.models.Empresa;
@@ -58,10 +59,33 @@ public class EmpresaController {
 			String url = empresa.getUrlCarpeta()+ "\\" + empresa.getNumeroDocumento()+ "_"+  empresa.getDescripcion();
 			FormatoFecha fecha = new FormatoFecha();
 			Date fech = new Date();
-			fecha.fecha("yyyy-MM-dd HH:mm:ss", fech);
+			fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech);
 			empresa.setUrlCarpeta(url);
-			empresa.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+			
+			empresa.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
+			empresa.setImagenEmpresa("http://25.72.193.72:8887/" + empresa.getImagenEmpresa());
 			this.empresaService.save(empresa);
+			
+			if (empresa.getImagen() != null) {
+				Archivo archivo = new Archivo();
+
+				String foto = empresa.getImagenEmpresa();
+
+				if (foto != null) {
+					String[] parts = foto.split("87");
+					String part2 = parts[1];
+					String[] nombreArchivo = part2.split("/");
+
+					String nombreArchivo2 = nombreArchivo[1]; 
+					String url2 = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+					archivo.decodeBase64(empresa.getImagen(), url2);
+
+				}
+
+			}
+			
+			
 			//Llamado al metodo para crear carpeta Empresa.
 			Generico generico = new Generico();
 			generico.createFolder(url);
