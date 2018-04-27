@@ -65,6 +65,12 @@ public class EmpleadoExterno extends ParentEntity {
 	
 	@Column(name = "foto_empleado", nullable = false, length = 200)
 	private String fotoEmpleado;
+	
+	@Column(name = "tipo_documento", nullable = false, length = 5)
+	private String tipoDocumento;
+	
+	@Column(name = "numero_documento", nullable = false, length = 15)
+	private String numeroDocumento;
 
 	public String getClienteId() {
 		return clienteId;
@@ -202,6 +208,24 @@ public class EmpleadoExterno extends ParentEntity {
 		this.fotoEmpleado = fotoEmpleado;
 	}
 	
+	
+	
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
+
 	public EmpleadoExterno() {
 		
 	}
@@ -209,7 +233,7 @@ public class EmpleadoExterno extends ParentEntity {
 	public EmpleadoExterno(String clienteId, String cargoId, String tipoEmpleado, String nombres, String apellidos,
 			String email, String sexo, String fechaNacimiento, int estado, String direccion, String telefono,
 			String extension, String fechaCreacion, String usuarioCreacion, String fechaModificacion,
-			String usuarioModificacion, String fotoEmpleado) {
+			String usuarioModificacion, String fotoEmpleado, String tipoDocumento, String numeroDocumento) {
 		super();
 		this.clienteId = clienteId;
 		this.cargoId = cargoId;
@@ -228,7 +252,11 @@ public class EmpleadoExterno extends ParentEntity {
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
 		this.fotoEmpleado = fotoEmpleado;
+		this.tipoDocumento = tipoDocumento;
+		this.numeroDocumento = numeroDocumento;
 	}
+
+	
 	
 	
 
