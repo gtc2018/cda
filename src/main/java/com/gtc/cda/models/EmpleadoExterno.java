@@ -40,7 +40,7 @@ public class EmpleadoExterno extends ParentEntity {
 	private String fechaNacimiento;
 	
 	@Column(name = "estado", nullable = false, length = 5)
-	private String estado;
+	private int estado;
 	
 	@Column(name = "direccion", nullable = false, length = 100)
 	private String direccion;
@@ -130,11 +130,11 @@ public class EmpleadoExterno extends ParentEntity {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getEstado() {
+	public int getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(int estado) {
 		this.estado = estado;
 	}
 
@@ -207,7 +207,7 @@ public class EmpleadoExterno extends ParentEntity {
 	}
 
 	public EmpleadoExterno(String clienteId, String cargoId, String tipoEmpleado, String nombres, String apellidos,
-			String email, String sexo, String fechaNacimiento, String estado, String direccion, String telefono,
+			String email, String sexo, String fechaNacimiento, int estado, String direccion, String telefono,
 			String extension, String fechaCreacion, String usuarioCreacion, String fechaModificacion,
 			String usuarioModificacion, String fotoEmpleado) {
 		super();
