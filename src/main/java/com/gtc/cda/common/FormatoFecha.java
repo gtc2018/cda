@@ -9,6 +9,7 @@ import java.util.Locale;
 public class FormatoFecha {
 	
 	public final String FORMATO_YYYY_MM_DD = "yyyy-MM-dd HH:mm:ss";
+	public final String DIRECTORIO_IMAGENES = "http://25.72.193.72:8887/";
 
 	public String fecha(String formato, Date fecha) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat(formato, new Locale("es", "CO"));

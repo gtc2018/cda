@@ -22,5 +22,8 @@ public interface PermisoRepository extends JpaRepository<Permiso, Long> {
 	//@Procedure(name = "getMenuSession")
 	 public List<Permiso> findByRolId(@Param("rol") String rolId);
 	//public List<Permiso> findByRolId(String rolId);
+	 
+	 @Query(value = "SELECT * FROM PERMISOS WHERE rol_id = ?1 AND menu_id = ?2" , nativeQuery = true)
+	 public	 List<Permiso> existe(@Param("rol") String rolId, @Param("menu") String menuId);
 
 }

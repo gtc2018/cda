@@ -43,6 +43,13 @@ public class PermisoServiceImpl implements PermisoService {
 	}
 
 	
+	public List<Permiso> existe(String rolId, String menuId) {
+		// TODO Auto-generated method stub
+		List<Permiso> permisos = new ArrayList<>();
+		this.permisoRepository.existe(rolId, menuId).forEach(permisos::add);
+		return  permisos;
+	}
+	
 	
 	
 

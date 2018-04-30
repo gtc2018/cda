@@ -24,7 +24,7 @@ import com.gtc.cda.models.Empresa;
 import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.util.RestResponse;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 
 @RestController
 public class EmpresaController {
@@ -33,15 +33,16 @@ public class EmpresaController {
 	protected EmpresaService empresaService;
 
 	protected ObjectMapper mapper;
-    
-	/**aaaaaaaa!Test
-	 * Metodo crear o editar Empresas.
+
+	/**
+	 * aaaaaaaa!Test Metodo crear o editar Empresas.
+	 * 
 	 * @param empresaJson
-	 * @return 
+	 * @return
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/saveOrUpdateEmpresa", method = RequestMethod.POST)
 	public RestResponse saveOrUpdate(@RequestBody String empresaJson)
@@ -55,17 +56,23 @@ public class EmpresaController {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		} else {
-            //Servicio crear o editar empresa.
-			String url = empresa.getUrlCarpeta()+ "\\" + empresa.getNumeroDocumento()+ "_"+  empresa.getDescripcion();
+			// Servicio crear o editar empresa.
+			String url = empresa.getUrlCarpeta() + "\\" + empresa.getNumeroDocumento() + "_" + empresa.getDescripcion();
 			FormatoFecha fecha = new FormatoFecha();
 			Date fech = new Date();
 			fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech);
 			empresa.setUrlCarpeta(url);
-			
+
 			empresa.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
-			empresa.setImagenEmpresa("http://25.72.193.72:8887/" + empresa.getImagenEmpresa());
-			this.empresaService.save(empresa);
+			if (empresa.getImagen() != null) {
+				
+				empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES + empresa.getImagenEmpresa());
+			}else {
+				empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES+"logo.png");
+			}
 			
+			this.empresaService.save(empresa);
+
 			if (empresa.getImagen() != null) {
 				Archivo archivo = new Archivo();
 
@@ -76,7 +83,7 @@ public class EmpresaController {
 					String part2 = parts[1];
 					String[] nombreArchivo = part2.split("/");
 
-					String nombreArchivo2 = nombreArchivo[1]; 
+					String nombreArchivo2 = nombreArchivo[1];
 					String url2 = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
 
 					archivo.decodeBase64(empresa.getImagen(), url2);
@@ -84,12 +91,11 @@ public class EmpresaController {
 				}
 
 			}
-			
-			
-			//Llamado al metodo para crear carpeta Empresa.
+
+			// Llamado al metodo para crear carpeta Empresa.
 			Generico generico = new Generico();
 			generico.createFolder(url);
-			generico.createFolder(url+"\\Empleados\\Fotos");
+			generico.createFolder(url + "\\Empleados\\Fotos");
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		}
 	}
@@ -107,20 +113,16 @@ public class EmpresaController {
 	}
 
 	@RequestMapping(value = "/getEmpresaById", method = RequestMethod.POST)
-	public  Empresa getEmpresaById(@RequestBody String empresaidJson) throws Exception {
-		
+	public Empresa getEmpresaById(@RequestBody String empresaidJson) throws Exception {
+
 		this.mapper = new ObjectMapper();
-		
 
 		Empresa empresa = this.mapper.readValue(empresaidJson, Empresa.class);
-		
-						
+
 		return this.empresaService.findByEmpresaId(empresa.getId());
 
 	}
 
-	
-	
 	/**
 	 * Metodo eliminar Empresas.
 	 * 
@@ -155,11 +157,11 @@ public class EmpresaController {
 		if (StringUtils.trimToNull(empresa.getTipoDocumento()) == null) {
 			isValid = false;
 		}
-		
+
 		if (StringUtils.trimToNull(empresa.getNumeroDocumento()) == null) {
 			isValid = false;
 		}
-		
+
 		if (StringUtils.trimToNull(empresa.getEmail()) == null) {
 			isValid = false;
 		}

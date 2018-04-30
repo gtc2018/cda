@@ -48,9 +48,14 @@ public class EmpleadoController {
 
 		// Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
-		Date fech = new Date();
+		Date fechaActual = new Date();
 		// seteo la fecha de creacon al campo fechaCreacion.
-		empleado.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+		if(empleado.getId() == null) {
+			empleado.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+			}else {
+				empleado.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+			}
+		
 
 		this.empleadoService.save(empleado);
 
@@ -60,8 +65,7 @@ public class EmpleadoController {
 
 	@RequestMapping(value = "/empleado/create", method = RequestMethod.POST)
 	public RestResponse createUser(@RequestBody Empleado empleado) throws ParseException, IOException {
-		// System.out.println("==============ARCHIVO===================");
-
+		
 		if (!this.validate(empleado)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
@@ -71,9 +75,12 @@ public class EmpleadoController {
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
 
-		empleado.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
-		empleado.setFoto("http://25.72.193.72:8887/" + empleado.getFoto());
-
+		empleado.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
+		if(empleado.getImagen() != null) {
+		empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
+		}else {
+			empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "logo.png");
+		}
 		this.empleadoService.save(empleado);
 
 		if (empleado.getImagen() != null) {
@@ -81,7 +88,12 @@ public class EmpleadoController {
 
 			String foto = empleado.getFoto();
 
-			if (foto != null) {
+			if (foto != null  && foto != null
+					
+					
+					
+					
+					) {
 				String[] parts = foto.split("87");
 				String part2 = parts[1];
 				String[] nombreArchivo = part2.split("/");

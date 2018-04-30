@@ -1,6 +1,9 @@
 package com.gtc.cda.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Menu;
 import com.gtc.cda.models.Permiso;
 import com.gtc.cda.services.PermisoService;
 import com.gtc.cda.util.RestResponse;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 
 @RestController
 public class PermisoController {
@@ -32,30 +36,47 @@ public class PermisoController {
 
 	@RequestMapping(value = "/saveOrUpdatePermiso", method = RequestMethod.POST)
 	public RestResponse saveOrUpdatePermiso(@RequestBody String permisoJson)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws JsonParseException, JsonMappingException, IOException, ParseException {
 
 		this.mapper = new ObjectMapper();
 
 		Permiso permiso = this.mapper.readValue(permisoJson, Permiso.class);
 
-		
 		Menu menu = new Menu();
 
-		//Rol rol = new Rol();
+		// Rol rol = new Rol();
 
 		menu.setId(new Long(permiso.getMenu_id()));
 
-		//rol.setId(new Long(permiso.getRol_id()));
+		// rol.setId(new Long(permiso.getRol_id()));
 
 		permiso.setMenu(menu);
-		//permiso.setRol(rol);
-		
-        if (!this.validate(permiso)) {
+		// permiso.setRol(rol);
+
+		if (!this.validate(permiso)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
 
-		permiso.setEstado(1);
+		if (this.existe(permiso)) {
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+					"El permiso asociado al Rol y Pantalla selecionada ya existe.");
+		}
+
+		// Generacion fecha creacion
+		FormatoFecha fecha = new FormatoFecha();
+		Date fechaActual = new Date();
+		// seteo la fecha de creacion al campo fechaCreacion.
+
+		/*
+		if (permiso.getId() == null ) {
+			permiso.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+			permiso.setEstado(0);
+		} else {
+			System.out.println(" ============ID==== FRONT:  "+permiso.getId());
+			permiso.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+		}
+		*/
 
 		this.permisoService.save(permiso);
 
@@ -94,26 +115,54 @@ public class PermisoController {
 		this.mapper = new ObjectMapper();
 
 		Permiso permiso = this.mapper.readValue(rolId, Permiso.class);
-		
-		//Rol rol = new Rol();
-		//rol.setId(new Long(permiso.getRol_id()));
-	    //permiso.setRol(rol);
+
+		// Rol rol = new Rol();
+		// rol.setId(new Long(permiso.getRol_id()));
+		// permiso.setRol(rol);
 
 		return this.permisoService.findByRolId(permiso.getRolId());
+
+	}
+
+	/**
+	 * Metodo para validar si el permiso ya existe, recibe dos parametros RolId y
+	 * MenuId, retorna verdadero is existe y falso si no.
+	 * 
+	 * @param permiso
+	 * @return true / false
+	 */
+	private boolean existe(Permiso permiso) {
+
+		List<Permiso> permisosResponse = new ArrayList<>();
+
+		permisosResponse = this.permisoService.existe(permiso.getRolId(), permiso.getMenu_id());
+
+		if (permisosResponse.size() > 0) {
+			return true;
+
+		}
+
+		return false;
 
 	}
 
 	private boolean validate(Permiso permiso) {
 
 		boolean isValid = true;
-		
-		
 
 		if (StringUtils.trimToNull(permiso.getRolId()) == null) {
 
 			isValid = false;
 
 		}
+
+		if (StringUtils.trimToNull(permiso.getMenu_id()) == null ) {
+
+			isValid = false;
+
+		}
+		
+		
 
 		return isValid;
 

@@ -28,4 +28,6 @@ public interface PermisoService {
 	 */
 	public List<Permiso> findByRolId(String rolId);
 
+	
+	public List<Permiso> existe(String rolId, String menuId);
 }
