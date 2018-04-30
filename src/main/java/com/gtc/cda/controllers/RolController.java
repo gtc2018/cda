@@ -2,6 +2,8 @@ package com.gtc.cda.controllers;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Rol;
 import com.gtc.cda.services.RolService;
 import com.gtc.cda.util.RestResponse;
@@ -39,9 +42,10 @@ public class RolController {
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value="/saveOrUpdateRol", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateRol(@RequestBody String rolJson) throws JsonParseException, JsonMappingException, IOException{
+	public RestResponse saveOrUpdateRol(@RequestBody String rolJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		this.mapper = new ObjectMapper();
 		
@@ -50,6 +54,18 @@ public class RolController {
 		if(!this.validate(rol)){
 		return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 				"Los campos obligatorios no estan diligenciados");
+		}
+		FormatoFecha fecha = new FormatoFecha();
+		Date fechaActual = new Date();
+		// seteo la fecha de creacion al campo fechaCreacion.
+
+		if (rol.getId() != null) {
+			rol.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+		} else {
+			rol.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+			
+
 		}
 		
 		this.rolService.save(rol);

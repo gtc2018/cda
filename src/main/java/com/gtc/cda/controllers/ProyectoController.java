@@ -28,7 +28,7 @@ import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.services.ProyectoService;
 import com.gtc.cda.util.RestResponse;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 
 @RestController
 public class ProyectoController {
@@ -40,7 +40,7 @@ public class ProyectoController {
 	protected EmpresaService empresaService;
 
 	protected ObjectMapper mapper;
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/saveOrUpdateProyecto", method = RequestMethod.POST)
@@ -57,29 +57,37 @@ public class ProyectoController {
 		} else {
 
 			Empresa empresa = new Empresa();
-			if(proyecto.getClienteId() !=null ){
-			empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
-			
-			
+			if (proyecto.getClienteId() != null) {
+				empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
+
 			}
-			if(empresa.getUrlCarpeta() != null){
+			if (empresa.getUrlCarpeta() != null) {
 				proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
 			}
-			
+
 			FormatoFecha fecha = new FormatoFecha();
-			Date fech = new Date();
+			Date fechaActual = new Date();
 		
-			proyecto.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+			if (proyecto.getId() != null) {
+				proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+			} else {
+				proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+			}
+			
 			this.proyectoService.save(proyecto);
 
 			if (empresa.getUrlCarpeta() != null) {
 
 				Generico generico = new Generico();
 				generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-				logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\" + proyecto.getNombre() );
+				logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
+						+ proyecto.getNombre());
 
 			} else {
-				logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
+				logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
+						+ proyecto.getNombre());
 
 			}
 

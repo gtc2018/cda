@@ -53,8 +53,15 @@ public class EmpleadoExternoController {
 		}
 		
 		FormatoFecha fecha = new FormatoFecha();
-		Date fech = new Date();
-		empleadoExterno.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+		Date fechaActual = new Date();
+		
+		if (empleadoExterno.getId() != null) {
+			empleadoExterno.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+		} else {
+			empleadoExterno.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+		}
 		
 		this.empleadoExternoService.save(empleadoExterno);
 

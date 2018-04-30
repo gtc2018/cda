@@ -58,12 +58,20 @@ public class EmpresaController {
 		} else {
 			// Servicio crear o editar empresa.
 			String url = empresa.getUrlCarpeta() + "\\" + empresa.getNumeroDocumento() + "_" + empresa.getDescripcion();
+			
 			FormatoFecha fecha = new FormatoFecha();
-			Date fech = new Date();
-			fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech);
+			Date fechaActual = new Date();
+			fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual);
 			empresa.setUrlCarpeta(url);
 
-			empresa.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
+			if (empresa.getId() != null) {
+				empresa.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+			} else {
+				empresa.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+			}
+			
 			if (empresa.getImagen() != null) {
 				
 				empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES + empresa.getImagenEmpresa());

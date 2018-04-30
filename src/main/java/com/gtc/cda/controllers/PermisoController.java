@@ -2,7 +2,7 @@ package com.gtc.cda.controllers;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,25 +58,25 @@ public class PermisoController {
 					"Los campos obligatorios no estan diligenciados");
 		}
 
-		if (this.existe(permiso)) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"El permiso asociado al Rol y Pantalla selecionada ya existe.");
-		}
+		/*
+		 * if (this.existe(permiso)) { return new
+		 * RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+		 * "El permiso asociado al Rol y Pantalla selecionada ya existe."); }
+		 */
 
 		// Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fechaActual = new Date();
 		// seteo la fecha de creacion al campo fechaCreacion.
 
-		/*
-		if (permiso.getId() == null ) {
-			permiso.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-			permiso.setEstado(0);
-		} else {
-			System.out.println(" ============ID==== FRONT:  "+permiso.getId());
+		if (permiso.getId() != null) {
 			permiso.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+		} else {
+			permiso.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+			permiso.setEstado(1);
+
 		}
-		*/
 
 		this.permisoService.save(permiso);
 
@@ -131,20 +131,23 @@ public class PermisoController {
 	 * @param permiso
 	 * @return true / false
 	 */
-	private boolean existe(Permiso permiso) {
 
-		List<Permiso> permisosResponse = new ArrayList<>();
-
-		permisosResponse = this.permisoService.existe(permiso.getRolId(), permiso.getMenu_id());
-
-		if (permisosResponse.size() > 0) {
-			return true;
-
-		}
-
-		return false;
-
-	}
+	/*
+	 * private boolean existe(Permiso permiso) {
+	 * 
+	 * List<Permiso> permisosResponse = new ArrayList<>();
+	 * 
+	 * permisosResponse = this.permisoService.existe(permiso.getRolId(),
+	 * permiso.getMenu_id());
+	 * 
+	 * if (permisosResponse.size() > 0) { return true;
+	 * 
+	 * }
+	 * 
+	 * return false;
+	 * 
+	 * }
+	 */
 
 	private boolean validate(Permiso permiso) {
 
@@ -156,13 +159,11 @@ public class PermisoController {
 
 		}
 
-		if (StringUtils.trimToNull(permiso.getMenu_id()) == null ) {
+		if (StringUtils.trimToNull(permiso.getMenu_id()) == null) {
 
 			isValid = false;
 
 		}
-		
-		
 
 		return isValid;
 
