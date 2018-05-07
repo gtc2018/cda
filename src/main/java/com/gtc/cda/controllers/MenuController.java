@@ -1,6 +1,8 @@
 package com.gtc.cda.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Menu;
 import com.gtc.cda.services.MenuService;
 import com.gtc.cda.util.RestResponse;
@@ -36,10 +39,11 @@ public class MenuController {
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
 	
 	@RequestMapping(value ="/saveOrUpdateMenu", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateMenu(@RequestBody String menuJson) throws JsonParseException, JsonMappingException, IOException{
+	public RestResponse saveOrUpdateMenu(@RequestBody String menuJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		this.mapper = new ObjectMapper();
 		
@@ -48,6 +52,17 @@ public class MenuController {
 		if (!this.validate(menu)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
+		}
+		
+		FormatoFecha fecha = new FormatoFecha();
+		Date fechaActual = new Date();
+	
+		if (menu.getId() != null) {
+			menu.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
+		} else {
+			menu.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+
 		}
 		
 		this.menuService.save(menu);

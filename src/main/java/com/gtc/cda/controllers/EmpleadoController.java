@@ -98,7 +98,7 @@ public class EmpleadoController {
 				String part2 = parts[1];
 				String[] nombreArchivo = part2.split("/");
 
-				String nombreArchivo2 = nombreArchivo[1]; // 034556
+				String nombreArchivo2 = nombreArchivo[1]; 
 				String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
 
 				archivo.decodeBase64(empleado.getImagen(), url);
