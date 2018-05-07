@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.EmpleadoExterno;
 import com.gtc.cda.services.EmpleadoExternoService;
 import com.gtc.cda.util.RestResponse;
@@ -61,6 +63,61 @@ public class EmpleadoExternoController {
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 	}
+	
+	
+	@RequestMapping(value = "/empleadoExterno/create", method = RequestMethod.POST)
+	public RestResponse createUser(@RequestBody EmpleadoExterno empleadoExterno) throws ParseException, IOException {
+		
+		if (!this.validate(empleadoExterno)) {
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+					"Los campos obligatorios no estan diligenciados");
+
+		}
+
+		FormatoFecha fecha = new FormatoFecha();
+		Date fech = new Date();
+
+		empleadoExterno.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
+		
+		System.out.println("Foto empleado");
+		System.out.println(empleadoExterno.getFotoEmpleado());
+		if(empleadoExterno.getImagen() != null) {
+		empleadoExterno.setFotoEmpleado(fecha.DIRECTORIO_IMAGENES + empleadoExterno.getFotoEmpleado());
+			
+			
+		}else {
+			empleadoExterno.setFotoEmpleado(fecha.DIRECTORIO_IMAGENES + "logo.png");
+		}
+		this.empleadoExternoService.save(empleadoExterno);
+
+		if (empleadoExterno.getImagen() != null) {
+			Archivo archivo = new Archivo();
+
+			String foto = empleadoExterno.getFotoEmpleado();
+
+			if (foto != null  && foto != null
+					
+					
+					
+					
+					) {
+				String[] parts = foto.split("87");
+				String part2 = parts[1];
+				String[] nombreArchivo = part2.split("/");
+
+				String nombreArchivo2 = nombreArchivo[1]; // 034556
+				String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+				archivo.decodeBase64(empleadoExterno.getImagen(), url);
+
+			}
+
+		}
+
+		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+	}
+	
+	
 	
 	/**
 	 * 	Metodo consultar Empleados Externos

@@ -5,6 +5,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "empleados_externos")
@@ -71,6 +72,9 @@ public class EmpleadoExterno extends ParentEntity {
 	
 	@Column(name = "numero_documento", nullable = false, length = 15)
 	private String numeroDocumento;
+	
+	@Transient
+	private String imagen;
 
 	public String getClienteId() {
 		return clienteId;
@@ -226,6 +230,14 @@ public class EmpleadoExterno extends ParentEntity {
 		this.numeroDocumento = numeroDocumento;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	public EmpleadoExterno() {
 		
 	}
@@ -233,7 +245,8 @@ public class EmpleadoExterno extends ParentEntity {
 	public EmpleadoExterno(String clienteId, String cargoId, String tipoEmpleado, String nombres, String apellidos,
 			String email, String sexo, String fechaNacimiento, int estado, String direccion, String telefono,
 			String extension, String fechaCreacion, String usuarioCreacion, String fechaModificacion,
-			String usuarioModificacion, String fotoEmpleado, String tipoDocumento, String numeroDocumento) {
+			String usuarioModificacion, String fotoEmpleado, String tipoDocumento, String numeroDocumento, 
+			String imagen) {
 		super();
 		this.clienteId = clienteId;
 		this.cargoId = cargoId;
@@ -254,8 +267,11 @@ public class EmpleadoExterno extends ParentEntity {
 		this.fotoEmpleado = fotoEmpleado;
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
+		this.imagen = imagen;
 	}
 
+	
+	
 	
 	
 	
