@@ -2,21 +2,28 @@ package com.gtc.cda.models;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "requerimientos")
 @Access(AccessType.FIELD)
-public class Requerimiento extends ParentEntity {
+public class Requerimiento extends ParentEntity{
 	
-	//public static final long serialVersionUID =   ;
 	
+	private static final long serialVersionUID = 4484173925408325716L;
+	
+
 	@Column(name = "cliente_id", nullable = false, length = 20)
 	private String clienteId;
 	
-	@Column(name = "proyecto_id", nullable = false, length = 20)
+	//@Column(name = "proyecto_id", nullable = false, length = 20)
+	@Transient
 	private String proyectoId;
 	
 	@Column(name = "numero_rq", nullable = false, length = 20)
@@ -78,22 +85,38 @@ public class Requerimiento extends ParentEntity {
 	
 	@Column (name = "usuario_modificacion", nullable = false, length = 100)
 	private String usuarioModificacion;
+	
+	/*@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "cliente_id" , nullable = false, referencedColumnName =  "id")
+	private Empresa empresa;*/
+	
+	
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "proyecto_id" , nullable = false, referencedColumnName =  "id")
+	private Proyecto proyecto;
 
+	
+	
 	public String getClienteId() {
 		return clienteId;
 	}
-
+	
+	
 	public void setClienteId(String clienteId) {
 		this.clienteId = clienteId;
 	}
-
+	
+	@Transient
 	public String getProyectoId() {
 		return proyectoId;
 	}
 
+	@Transient
 	public void setProyectoId(String proyectoId) {
 		this.proyectoId = proyectoId;
 	}
+
 
 	public String getNumeroRq() {
 		return numeroRq;
@@ -255,6 +278,25 @@ public class Requerimiento extends ParentEntity {
 		this.usuarioModificacion = usuarioModificacion;
 	}
 	
+	/*public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}*/
+	
+
+
+	public Proyecto getProyecto() {
+		return proyecto;
+	}
+
+
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
+	}
+
 	public Requerimiento() {
 		
 	}

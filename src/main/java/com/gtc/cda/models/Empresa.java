@@ -1,11 +1,13 @@
 package com.gtc.cda.models;
 
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "clientes")
@@ -61,6 +63,13 @@ public class Empresa extends ParentEntity {
 
 	@Transient
 	private String imagen;
+	
+	/**
+     * Relacion tabla Empresa - Requerimiento.
+     */
+	/*@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Requerimiento> listaRequerimiento = new ArrayList<Requerimiento>();*/
 
 	public String getDescripcion() {
 		return descripcion;
@@ -191,8 +200,15 @@ public class Empresa extends ParentEntity {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
+
+	/*public List<Requerimiento> getListaRequerimiento() {
+		return listaRequerimiento;
+	}
+
+	public void setListaRequerimiento(List<Requerimiento> listaRequerimiento) {
+		this.listaRequerimiento = listaRequerimiento;
+	}*/
 	
-	
-	
+		
 
 }

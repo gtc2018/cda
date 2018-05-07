@@ -1,10 +1,18 @@
 package com.gtc.cda.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "proyectos")
@@ -40,6 +48,12 @@ public class Proyecto extends ParentEntity {
 	@Column(name="usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
 	
+	/**
+     * Relacion tabla Proyecto - Requerimiento.
+     */
+	@OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Requerimiento> listaRequerimiento = new ArrayList<Requerimiento>();
 	
 
 	public Long getClienteId() {
@@ -113,8 +127,14 @@ public class Proyecto extends ParentEntity {
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
 	}
-	
-	
+
+	public List<Requerimiento> getListaRequerimiento() {
+		return listaRequerimiento;
+	}
+
+	public void setListaRequerimiento(List<Requerimiento> listaRequerimiento) {
+		this.listaRequerimiento = listaRequerimiento;
+	}
 	
 	
 
