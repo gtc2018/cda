@@ -30,13 +30,13 @@ public interface RequerimientoService {
 	 * @param requerimientoId
 	 * @return
 	 */
-	public List<Requerimiento> findByRolId(String requerimientoId);
+	//public List<Requerimiento> findByProyectoId(String requerimientoId);
 
 	/**
 	 * 
 	 * @param clienteId, proyectoId
 	 * @return
 	 */
-	public List<Requerimiento> existe(String clienteId, String proyectoId);
+	//public List<Requerimiento> existe(String clienteId, String proyectoId);
 
 }

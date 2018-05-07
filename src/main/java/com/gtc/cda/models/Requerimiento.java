@@ -39,7 +39,7 @@ public class Requerimiento extends ParentEntity{
 	private String version;
 	
 	@Column (name = "estado", nullable = false, length = 5)
-	private String estado;
+	private Integer estado;
 	
 	@Column (name = "fase", nullable = false, length = 10)
 	private String fase;
@@ -150,11 +150,11 @@ public class Requerimiento extends ParentEntity{
 		this.version = version;
 	}
 
-	public String getEstado() {
+	public Integer getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
@@ -302,7 +302,7 @@ public class Requerimiento extends ParentEntity{
 	}
 
 	public Requerimiento(String clienteId, String proyectoId, String numeroRq, String numeroCasoPrueba,
-			String descripcion, String version, String estado, String fase, String fechaInicio,
+			String descripcion, String version, Integer estado, String fase, String fechaInicio,
 			String fechaPlaneadaEntrega, String fechaEntrega, String numeroHallazgoBloqueante,
 			String numeroHallazgoFuncional, String numeroHallazgoPresentacion, String centroCosto, String observacion,
 			String gestorTecnico, String gestorProyecto, String fechaCreacion, String usuarioCreacion,
@@ -331,10 +331,5 @@ public class Requerimiento extends ParentEntity{
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
 	}
-	
-	
-	
-	
-
 }
 
