@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "requerimientos")
 @Access(AccessType.FIELD)
-public class Requerimientos extends ParentEntity {
+public class Requerimiento extends ParentEntity {
 	
 	//public static final long serialVersionUID =   ;
 	
@@ -255,11 +255,11 @@ public class Requerimientos extends ParentEntity {
 		this.usuarioModificacion = usuarioModificacion;
 	}
 	
-	public Requerimientos() {
+	public Requerimiento() {
 		
 	}
 
-	public Requerimientos(String clienteId, String proyectoId, String numeroRq, String numeroCasoPrueba,
+	public Requerimiento(String clienteId, String proyectoId, String numeroRq, String numeroCasoPrueba,
 			String descripcion, String version, String estado, String fase, String fechaInicio,
 			String fechaPlaneadaEntrega, String fechaEntrega, String numeroHallazgoBloqueante,
 			String numeroHallazgoFuncional, String numeroHallazgoPresentacion, String centroCosto, String observacion,
@@ -295,3 +295,4 @@ public class Requerimientos extends ParentEntity {
 	
 
 }
+
