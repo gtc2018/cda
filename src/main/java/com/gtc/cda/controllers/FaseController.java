@@ -45,11 +45,11 @@ public class FaseController {
 		FormatoFecha fecha = new FormatoFecha();
 		Date fechaActual = new Date();
 
-		if (fase.getId() == null) {
-			fase.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-		} else {
-			fase.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-		}
+//		if (fase.getId() == null) {
+//			fase.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+//		} else {
+//			fase.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+//		}
 
 		this.faseService.save(fase);
 

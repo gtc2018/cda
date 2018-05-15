@@ -39,5 +39,11 @@ public class PorcentajePorFasesServiceImpl implements PorcentajePorFasesService 
 		// TODO Auto-generated method stub
 		return this.porcentajePorFasesRepository.findOne(porcentajePorFaseId);
 	}
+	
+	@Override
+	public List<PorcentajePorFase> findByPorcentajePorFaseYEmpresa(Long porcentajePorFaseYEmpresa) {
+		// TODO Auto-generated method stub
+		return this.porcentajePorFasesRepository.findByPorcentajePorFaseYEmpresa(porcentajePorFaseYEmpresa);
+	}
 
 }

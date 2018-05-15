@@ -1,6 +1,8 @@
 package com.gtc.cda.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.FormatoFecha;
 //import com.google.gson.JsonObject;
 //import com.google.gson.JsonParser;
 import com.gtc.cda.models.Area;
+
+import com.gtc.cda.models.Empresa;
 //import com.gtc.cda.models.Empresa;
 import com.gtc.cda.services.AreaService;
 import com.gtc.cda.util.RestResponse;
@@ -33,34 +38,46 @@ public class AreaController {
 	
 	/**
 	 * 
-	 * @param cargoJson
+	 * @param areaJson
 	 * @return 
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
+	// Guardar o Editar
 	@RequestMapping(value ="/saveOrUpdateArea", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateArea(@RequestBody String areaJson) throws JsonParseException, JsonMappingException, IOException{
+	public RestResponse saveOrUpdateArea(@RequestBody String areaJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		
 		
 		this.mapper = new ObjectMapper();
 		
 		Area area = this.mapper.readValue(areaJson, Area.class);
 		
-//		JsonParser jsonParser = new JsonParser();		
-//		JsonObject objectFromString = jsonParser.parse(areaJson).getAsJsonObject();
-//		JsonObject cliente = jsonParser.parse(objectFromString.get("cliente").toString()).getAsJsonObject();
-//		String clienteG = cliente.get("id").toString();
-//		String descripcion = objectFromString.get("descripcion").toString();		
-//		Empresa clienteTMP = new Empresa();
-//		clienteTMP.setId(new Long(clienteG.substring(1, clienteG.length()-1)));		
-//		Area area = new Area(); 
-//		area.setCliente(clienteTMP);
-//		area.setDescripcion(descripcion.substring(1, descripcion.length()-1));
-//		
 		if (!this.validate(area)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
+		}	
+		
+		FormatoFecha fecha = new FormatoFecha();
+		Date fech = new Date();
+		fecha.fecha("yyyy-MM-dd HH:mm:ss", fech);		
+		//seteo la fecha de creacion al campo fechaCreacion.
+		if(area.getId() ==null ) {
+		area.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+		area.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 		}
+		else {
+		//Seteo la fecha de modificacion al campo fechaModificacion.
+		area.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));	
+		}
+		
+		Empresa empresa = new Empresa();
+		
+		empresa.setId(new Long(area.getClienteId()));
+		
+		area.setCliente(empresa);
+		
 		this.areaService.save(area);
 
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
@@ -73,19 +90,22 @@ public class AreaController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value ="/deleteArea", method = RequestMethod.POST)
-	public void deleteArea(@RequestBody String areaJson) throws Exception{
+	public RestResponse deleteArea(@RequestBody String areaJson) throws Exception{
 		this.mapper = new ObjectMapper();
 		
 		Area area = this.mapper.readValue(areaJson, Area.class);
 		
 		if(area.getId() == null){
-			throw new Exception("El ID no puede ser nulo.");
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+					"El campo id no puede ser nulo");
 		}		
-		this.areaService.deleteArea(area.getId());		
+		
+		this.areaService.deleteArea(area.getId());	
+		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 	}
 	
 	/**
-	 * Metodo consultar Cargo
+	 * Metodo consultar areas
 	 * @return
 	 */
 	@RequestMapping(value ="/getAllAreas", method = RequestMethod.GET)
@@ -94,8 +114,44 @@ public class AreaController {
 		
 	}	
 	
-	private boolean validate(Area cargo) {		
-		boolean isValid = true;				
+	/**
+	 * Metodo Obtener Areas por ID.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getFindByAreaId", method = RequestMethod.POST)
+	public Area findByAreaId(@RequestBody String clienteId) throws Exception {
+
+		this.mapper = new ObjectMapper();
+			
+		Area area = this.mapper.readValue(clienteId, Area.class);
+	
+		if(area.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.areaService.findByAreaId(area.getId()) == null) {
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.areaService.findByAreaId(area.getId()) ;
+		} 
+
+	}
+	
+	// Validaciones
+	private boolean validate(Area area) {		
+		boolean isValid = true;			
+		
+		if (area.getDescripcion() == null ) {
+
+			isValid = false;
+
+		}
 		return isValid;	
 	}
 

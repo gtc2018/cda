@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "areas")
@@ -34,6 +35,9 @@ public class Area extends ParentEntity {
 
 	@Column(name = "usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
+	
+	@Transient
+	private String clienteId;
 	
 	public Area() {
 	}		
@@ -95,6 +99,19 @@ public class Area extends ParentEntity {
 
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
-	}	
+	}
+
+	@Transient
+	public String getClienteId() {
+		return clienteId;
+	}
+
+	@Transient
+	public void setClienteId(String clienteId) {
+		this.clienteId = clienteId;
+	}
+
+	
+	
 
 }

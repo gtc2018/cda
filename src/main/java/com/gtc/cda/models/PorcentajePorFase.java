@@ -2,9 +2,13 @@ package com.gtc.cda.models;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -15,13 +19,13 @@ public class PorcentajePorFase extends ParentEntity {
 	
 	private static final long serialVersionUID = 1861714197594497953L;
 	
-	@Column(name="cliente_id", nullable = false, length = 20 )
-	private Long clienteId;
-		
-	@Column(name="etapa", nullable = false, length = 100 )
-	private String etapa;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "clientes_id", nullable = false, referencedColumnName =  "id")
+	private Empresa cliente;
 	
-	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "fases_id", nullable = false, referencedColumnName =  "id")
+	private Fase fases;
 	
 	@Column(name="porcentaje", nullable = false, length = 4 )
 	private Long porcentaje;
@@ -36,24 +40,36 @@ public class PorcentajePorFase extends ParentEntity {
 	private String fechaModificacion;
 	
 	@Column(name="usuario_modificacion", length = 20 )
-	private String usuarioModiciacion;
+	private String usuarioModificacion;
+	
+	@Transient
+	private String clienteId;
+	
+	@Transient
+	private String fasesId;
+	
+	public PorcentajePorFase() {
+	}	
 
 	// Set y Get
 	
-	public Long getClienteId() {
-		return clienteId;
+	public Empresa getCliente() {
+		return cliente;
 	}
 
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
+	public PorcentajePorFase(Empresa cliente, Fase fases, String fechaCreacion, String usuarioCreacion,
+			String fechaModificacion, String usuarioModificacion) {
+		super();
+		this.cliente = cliente;
+		this.fases = fases;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
 	}
 
-	public String getEtapa() {
-		return etapa;
-	}
-
-	public void setEtapa(String etapa) {
-		this.etapa = etapa;
+	public void setCliente(Empresa cliente) {
+		this.cliente = cliente;
 	}
 
 	public Long getPorcentaje() {
@@ -88,13 +104,40 @@ public class PorcentajePorFase extends ParentEntity {
 		this.fechaModificacion = fechaModificacion;
 	}
 
-	public String getUsuarioModiciacion() {
-		return usuarioModiciacion;
+	public String getUsuarioModificacion() {
+		return usuarioModificacion;
 	}
 
-	public void setUsuarioModiciacion(String usuarioModiciacion) {
-		this.usuarioModiciacion = usuarioModiciacion;
+	public void setUsuarioModificacion(String usuarioModificacion) {
+		this.usuarioModificacion = usuarioModificacion;
+	}
+	
+	@Transient
+	public String getClienteId() {
+		return clienteId;
 	}
 
+	@Transient
+	public void setClienteId(String clienteId) {
+		this.clienteId = clienteId;
+	}
+
+	public Fase getFases() {
+		return fases;
+	}
+
+	public void setFases(Fase fases) {
+		this.fases = fases;
+	}
+
+	@Transient
+	public String getFasesId() {
+		return fasesId;
+	}
+
+	@Transient
+	public void setFasesId(String fasesId) {
+		this.fasesId = fasesId;
+	}
 
 }

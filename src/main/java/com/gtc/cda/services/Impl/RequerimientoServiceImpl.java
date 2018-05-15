@@ -1,16 +1,17 @@
 package com.gtc.cda.services.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.gtc.cda.dao.RequerimientoRepository;
 import com.gtc.cda.models.Requerimiento;
 import com.gtc.cda.services.RequerimientoService;
 
 @Service
 public class RequerimientoServiceImpl implements RequerimientoService {
+	
 	
 	@Autowired
 	protected RequerimientoRepository requerimientoRepository;
@@ -33,21 +34,10 @@ public class RequerimientoServiceImpl implements RequerimientoService {
 		this.requerimientoRepository.delete(id);
 	}
 
-	/*@Override
-	public List<Requerimiento> findByRolId(String rolId) {
+	@Override
+	public Requerimiento findByRequerimientoId(Long requerimientoId) {
 		// TODO Auto-generated method stub
-		List<Permiso> permisos = new ArrayList<>();
-		this.permisoRepository.findByRolId(rolId).forEach(permisos::add);
-		return  permisos;
+		return this.requerimientoRepository.findOne(requerimientoId);
 	}
-
-	
-	public List<Permiso> existe(String rolId, String menuId) {
-		// TODO Auto-generated method stub
-		List<Permiso> permisos = new ArrayList<>();
-		this.permisoRepository.existe(rolId, menuId).forEach(permisos::add);
-		return  permisos;
-	}*/
-	
 
 }

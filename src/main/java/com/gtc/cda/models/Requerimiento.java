@@ -13,45 +13,41 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "requerimientos")
 @Access(AccessType.FIELD)
-public class Requerimiento extends ParentEntity{
+public class Requerimiento extends ParentEntity {
 	
+	private static final long serialVersionUID = 1961714197594497953L;
 	
-	private static final long serialVersionUID = 4484173925408325716L;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "clientes_id", nullable = false, referencedColumnName =  "id")
+	private Empresa cliente;
 	
-
-	@Column(name = "cliente_id", nullable = false, length = 20)
-	private String clienteId;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "proyectos_id", nullable = false, referencedColumnName =  "id")
+	private Proyecto proyecto;
 	
-	//@Column(name = "proyecto_id", nullable = false, length = 20)
-	@Transient
-	private String proyectoId;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "cotizaciones_id", nullable = false, referencedColumnName =  "id")
+	private Cotizacion cotizacion;
 	
-	@Column(name = "numero_rq", nullable = false, length = 20)
-	private String numeroRq;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "fases_id", nullable = false, referencedColumnName =  "id")
+	private Fase fase;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "estados_id", nullable = false, referencedColumnName =  "id")
+	private Estado estado;
 	
 	@Column (name = "numero_caso_prueba", nullable = false, length = 10)
 	private String numeroCasoPrueba;
+	
+	@Column (name = "requerimientoscol", nullable = false, length = 10)
+	private String adjunto;
 	
 	@Column (name = "descripcion", nullable = false, length = 100)
 	private String descripcion;
 	
 	@Column (name = "version", nullable = false, length = 15)
 	private String version;
-	
-	@Column (name = "estado", nullable = false, length = 5)
-	private Integer estado;
-	
-	@Column (name = "fase", nullable = false, length = 10)
-	private String fase;
-	
-	@Column (name = "fecha_inicio", nullable = false, length= 20)
-	private String fechaInicio;
-	
-	@Column (name = "fecha_planeada_entrega", nullable = false, length = 20)
-	private String fechaPlaneadaEntrega;
-	
-	@Column (name = "fecha_entrega", nullable = false, length = 20)
-	private String fechaEntrega;
 	
 	@Column (name = "numero_hallazgo_bloqueante", nullable = false, length = 10)
 	private String numeroHallazgoBloqueante;
@@ -86,44 +82,71 @@ public class Requerimiento extends ParentEntity{
 	@Column (name = "usuario_modificacion", nullable = false, length = 100)
 	private String usuarioModificacion;
 	
-	/*@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "cliente_id" , nullable = false, referencedColumnName =  "id")
-	private Empresa empresa;*/
+	@Column (name = "fecha_inicio", nullable = false, length= 20)
+	private String fechaInicio;
 	
+	@Column (name = "fecha_plan_entrega", nullable = false, length = 20)
+	private String fechaPlaneadaEntrega;
 	
+	@Column (name = "fecha_entrega", nullable = false, length = 20)
+	private String fechaEntrega;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "proyecto_id" , nullable = false, referencedColumnName =  "id")
-	private Proyecto proyecto;
-
-	
-	
-	public String getClienteId() {
-		return clienteId;
-	}
-	
-	
-	public void setClienteId(String clienteId) {
-		this.clienteId = clienteId;
-	}
+	@Column (name = "email", nullable = false, length = 20)
+	private String email;
 	
 	@Transient
-	public String getProyectoId() {
-		return proyectoId;
-	}
-
+	private String clienteId;
+	
 	@Transient
-	public void setProyectoId(String proyectoId) {
-		this.proyectoId = proyectoId;
+	private String proyectoId;
+	
+	@Transient
+	private String cotizacionId;
+	
+	@Transient
+	private String faseId;
+	
+	@Transient
+	private String estadoId;
+
+	public Empresa getCliente() {
+		return cliente;
 	}
 
-
-	public String getNumeroRq() {
-		return numeroRq;
+	public void setCliente(Empresa cliente) {
+		this.cliente = cliente;
 	}
 
-	public void setNumeroRq(String numeroRq) {
-		this.numeroRq = numeroRq;
+	public Proyecto getProyecto() {
+		return proyecto;
+	}
+
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
+	}
+
+	public Cotizacion getCotizacion() {
+		return cotizacion;
+	}
+
+	public void setCotizacion(Cotizacion cotizacion) {
+		this.cotizacion = cotizacion;
+	}
+
+	public Fase getFase() {
+		return fase;
+	}
+
+	public void setFase(Fase fase) {
+		this.fase = fase;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	public String getNumeroCasoPrueba() {
@@ -148,22 +171,6 @@ public class Requerimiento extends ParentEntity{
 
 	public void setVersion(String version) {
 		this.version = version;
-	}
-
-	public Integer getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Integer estado) {
-		this.estado = estado;
-	}
-
-	public String getFase() {
-		return fase;
-	}
-
-	public void setFase(String fase) {
-		this.fase = fase;
 	}
 
 	public String getFechaInicio() {
@@ -277,48 +284,43 @@ public class Requerimiento extends ParentEntity{
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
 	}
-	
-	/*public Empresa getEmpresa() {
-		return empresa;
+
+	public String getAdjunto() {
+		return adjunto;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}*/
-	
-
-
-	public Proyecto getProyecto() {
-		return proyecto;
+	public void setAdjunto(String adjunto) {
+		this.adjunto = adjunto;
 	}
 
+	public String getEmail() {
+		return email;
+	}
 
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Requerimiento() {
 		
 	}
 
-	public Requerimiento(String clienteId, String proyectoId, String numeroRq, String numeroCasoPrueba,
-			String descripcion, String version, Integer estado, String fase, String fechaInicio,
-			String fechaPlaneadaEntrega, String fechaEntrega, String numeroHallazgoBloqueante,
-			String numeroHallazgoFuncional, String numeroHallazgoPresentacion, String centroCosto, String observacion,
-			String gestorTecnico, String gestorProyecto, String fechaCreacion, String usuarioCreacion,
-			String fechaModificacion, String usuarioModificacion) {
+	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
+			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
+			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
+			String centroCosto, String observacion, String gestorTecnico, String gestorProyecto,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
+			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String email) {
 		super();
-		this.clienteId = clienteId;
-		this.proyectoId = proyectoId;
-		this.numeroRq = numeroRq;
+		this.cliente = cliente;
+		this.proyecto = proyecto;
+		this.cotizacion = cotizacion;
+		this.fase = fase;
 		this.numeroCasoPrueba = numeroCasoPrueba;
+		this.adjunto = adjunto;
 		this.descripcion = descripcion;
 		this.version = version;
 		this.estado = estado;
-		this.fase = fase;
-		this.fechaInicio = fechaInicio;
-		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
-		this.fechaEntrega = fechaEntrega;
 		this.numeroHallazgoBloqueante = numeroHallazgoBloqueante;
 		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
 		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
@@ -330,6 +332,58 @@ public class Requerimiento extends ParentEntity{
 		this.usuarioCreacion = usuarioCreacion;
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
+		this.fechaInicio = fechaInicio;
+		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
+		this.fechaEntrega = fechaEntrega;
+		this.email = email;
 	}
+
+	@Transient
+	public String getClienteId() {
+		return clienteId;
+	}
+
+	@Transient
+	public void setClienteId(String clienteId) {
+		this.clienteId = clienteId;
+	}
+
+	@Transient
+	public String getProyectoId() {
+		return proyectoId;
+	}
+
+	@Transient
+	public void setProyectoId(String proyectoId) {
+		this.proyectoId = proyectoId;
+	}
+
+	@Transient
+	public String getCotizacionId() {
+		return cotizacionId;
+	}
+
+	@Transient
+	public void setCotizacionId(String cotizacionId) {
+		this.cotizacionId = cotizacionId;
+	}
+
+	@Transient
+	public String getFaseId() {
+		return faseId;
+	}
+
+	public void setFaseId(String faseId) {
+		this.faseId = faseId;
+	}
+
+	public String getEstadoId() {
+		return estadoId;
+	}
+
+	public void setEstadoId(String estadoId) {
+		this.estadoId = estadoId;
+	}
+	
 }
 

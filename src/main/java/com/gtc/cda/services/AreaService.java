@@ -12,7 +12,7 @@ public interface AreaService {
 
 	void deleteArea(Long id);
 	
-	Area findOne(long areaId);
+	Area findByAreaId(long areaId);
 
 }
 

@@ -13,5 +13,7 @@ public interface PorcentajePorFasesService {
 	void deletePorcentajePorFase(Long id);
 
 	PorcentajePorFase findByPorcentajePorFaseId(Long id);
+	
+	List<PorcentajePorFase> findByPorcentajePorFaseYEmpresa(Long id);
 
 }

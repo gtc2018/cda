@@ -34,7 +34,7 @@ public class AreaServiceImpl implements AreaService {
 	}
 	
 	@Override
-	public Area findOne(long areaId) {
+	public Area findByAreaId(long areaId) {
 		// TODO Auto-generated method stub
 		return this.areaRepository.findOne(areaId);
 	}
