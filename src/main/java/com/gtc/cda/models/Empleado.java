@@ -2,8 +2,11 @@ package com.gtc.cda.models;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -15,11 +18,17 @@ public class Empleado extends ParentEntity {
 	
 	private static final long serialVersionUID = 1861714197594497953L;
 	
-	@Column(name="cliente_id", nullable = false, length = 20 )
-	private Long clienteId;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "cliente_id", nullable = false, referencedColumnName =  "id")
+	private Empresa cliente;
 	
-	@Column(name="cargo_id", nullable = false, length = 20 )
-	private Long cargoId;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name="cargo_id", nullable = false, referencedColumnName =  "id")
+	private Cargo cargo;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name="areas_id", nullable = false, referencedColumnName =  "id")
+	private Area area;
 	
 	@Column(name="tipo_empleado", nullable = false, length = 30 )
 	private String tipoEmpleado;
@@ -63,17 +72,6 @@ public class Empleado extends ParentEntity {
 	@Column(name="otros_beneficios", nullable = false, length = 255)
 	private String otrosBeneficios;
 	
-	@Transient
-	private String imagen;
-	
-	public String getOtrosBeneficios() {
-		return otrosBeneficios;
-	}
-
-	public void setOtrosBeneficios(String otrosBeneficios) {
-		this.otrosBeneficios = otrosBeneficios;
-	}
-
 	@Column(name="estado_eliminacion", nullable = false, length = 5)
 	private String estadoEliminacion;
 	
@@ -88,23 +86,50 @@ public class Empleado extends ParentEntity {
 	
 	@Column(name="usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
+	
+	@Transient
+	private String imagen;
+	
+	@Transient
+	private String cargoId;
+	
+	@Transient
+	private String clienteId;
+	
+	@Transient
+	private String areaId;
 
-	public Long getClienteId() {
-		return clienteId;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
+	public String getOtrosBeneficios() {
+		return otrosBeneficios;
+	}
+
+	public void setOtrosBeneficios(String otrosBeneficios) {
+		this.otrosBeneficios = otrosBeneficios;
+	}
+
+	public Empresa getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Empresa cliente) {
+		this.cliente = cliente;
 	}
 	
-	public Long getCargoId() {
-		return cargoId;
+	public Cargo getCargo() {
+		return cargo;
 	}
 
-	public void setCargoId(Long cargoId) {
-		this.cargoId = cargoId;
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
-
 	public String getTipoEmpleado() {
 		return tipoEmpleado;
 	}
@@ -128,8 +153,6 @@ public class Empleado extends ParentEntity {
 	public void setNumeroDocumento(Long numeroDocumento) {
 		this.numeroDocumento = numeroDocumento;
 	}
-
-	
 
 	public Double getSueldo() {
 		return sueldo;
@@ -259,6 +282,67 @@ public class Empleado extends ParentEntity {
 	@Transient
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	@Transient
+	public String getCargoId() {
+		return cargoId;
+	}
+
+	@Transient
+	public void setCargoId(String cargoId) {
+		this.cargoId = cargoId;
+	}
+
+	@Transient
+	public String getClienteId() {
+		return clienteId;
+	}
+
+	@Transient
+	public void setClienteId(String clienteId) {
+		this.clienteId = clienteId;
+	}
+	
+	@Transient
+	public String getAreaId() {
+		return areaId;
+	}
+
+	@Transient
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	public Empleado() {
+	}
+	
+	public Empleado(Empresa cliente, Cargo cargo, Area area, String tipoEmpleado, String tipoDocumento, Long numeroDocumento, String nombres, String apellidos, String email,
+			String direccion, String telefono, Double sueldo, String sexo, String ciudad, String estado, String foto, String otrosBeneficios, String estadoEliminacion,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion) {
+		super();
+		this.cliente = cliente;
+		this.cargo = cargo;
+		this.area = area;
+		this.tipoEmpleado = tipoEmpleado;
+		this.tipoDocumento = tipoDocumento;
+		this.numeroDocumento = numeroDocumento;
+		this.nombres = nombres;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.direccion = direccion;
+		this.telefono = telefono;
+		this.sueldo = sueldo;
+		this.sexo = sexo;
+		this.ciudad = ciudad;
+		this.estado = estado;
+		this.foto = foto;
+		this.otrosBeneficios = otrosBeneficios;
+		this.estadoEliminacion = estadoEliminacion;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
 	}
 
 	

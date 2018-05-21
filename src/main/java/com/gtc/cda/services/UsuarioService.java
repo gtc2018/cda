@@ -2,6 +2,7 @@ package com.gtc.cda.services;
 
 import java.util.List;
 
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.models.Usuario;
 
 
@@ -21,6 +22,8 @@ public interface UsuarioService {
 	List<Usuario> findAll();
 
 	Usuario findToOne(Long id);
+	
+	Usuario findByUsuarioId(String email, String password);
 	
 	/**
 	 * Elimina un usuario recibiendo como parametro el ID

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.UsuarioRepository;
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.UsuarioService;
 
@@ -48,7 +49,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	
-	
+	@Override
+	public Usuario findByUsuarioId(String email, String password) {
+		// TODO Auto-generated method stub
+		return this.usuarioRepository.finByUsuario(email, password);
+	}
 	
 
 

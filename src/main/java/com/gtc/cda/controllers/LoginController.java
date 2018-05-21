@@ -16,6 +16,7 @@ import com.gtc.cda.models.Usuario;
 import com.gtc.cda.services.EmpleadoExternoService;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.services.LoginService;
+import com.gtc.cda.services.UsuarioService;
 
 @CrossOrigin(origins="*")
 
@@ -25,6 +26,9 @@ public class LoginController {
 
 	@Autowired
 	protected LoginService loginService;
+	
+	@Autowired
+	protected UsuarioService usuarioService;
 
 	@Autowired
 	protected EmpleadoService empleadoService;
@@ -54,16 +58,30 @@ public class LoginController {
 		Usuario usuario = this.mapper.readValue(usuarioJson, Usuario.class);
 		Object empleado = new Object();
 
+		System.out.println(usuario);
+		
 		if (usuario.getEmail() != null || usuario.getPassword() != " ") {
 
-			Usuario usua = this.loginService.findByEmailAndPassword(usuario.getEmail(), usuario.getPassword());
+			Usuario usua = this.usuarioService.findByUsuarioId(usuario.getEmail(), usuario.getPassword());
+			
+			usua.setClienteId(usua.getCliente().getId().toString());
+			
+			usua.setEmpleadoId(usua.getEmpleado().getId().toString());
+			
+			usua.setRolId(usua.getRol().getId().toString());
+			
+			usuario = usua;
+					
+			System.out.println(usuario);
 
 			if (usua != null && usua.getEmpleadoId() != null && usua.getTipoEmpleado() != null) {
+				
+				System.out.println("entro");
 
 				if (usua.getTipoEmpleado().toUpperCase().equals("INTERNO")) {
-					empleado = this.empleadoService.findByEmpleadoId(usua.getEmpleadoId());
+					empleado = this.empleadoService.findByEmpleadoId(usua.getEmpleado().getId());
 				} else if (usua.getTipoEmpleado().toUpperCase().equals("EXTERNO")) {
-					empleado = this.empleadoExternoService.findByEmpleadoId(usua.getEmpleadoId());
+					empleado = this.empleadoExternoService.findByEmpleadoId(usua.getEmpleado().getId());
 				} else {
 					System.out.println("****EL EMPLEADO NO HA SIDO DEFINIDO COMO INTERNO O EXTERNO****"+ usua.getTipoEmpleado().toUpperCase());
 					empleado = null;
@@ -76,7 +94,7 @@ public class LoginController {
 
 		}
 
-		return empleado;
+		return usuario;
 
 	}
 

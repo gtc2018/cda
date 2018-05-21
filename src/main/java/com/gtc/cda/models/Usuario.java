@@ -2,8 +2,11 @@ package com.gtc.cda.models;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -14,33 +17,24 @@ public class Usuario extends ParentEntity {
 
 	private static final long serialVersionUID = -7245319454543405629L;
 	
-	@Transient
-	private String nombres;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "cliente_id", nullable = false, referencedColumnName =  "id")
+	private Empresa cliente;
 	
-	@Transient
-	private String apellidos;
-
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "empleado_id", nullable = false, referencedColumnName =  "id")
+	private Empleado empleado;
+	
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "rol_id", nullable = false, referencedColumnName =  "id")
+	private Rol rol;
+	
 	@Column(name = "username", nullable = false, length = 20)
 	private String userName;
-
-	@Column(name = "cliente_id", nullable = false, length = 20)
-	private String clienteId;
-	
-	@Transient
-	private String cliente;
-
-	@Column(name = "empleado_id", nullable = false, length = 20)
-	private Long empleadoId;
 	
 	@Column(name = "tipo_empleado", nullable = false, length = 20)
 	private String tipoEmpleado;
-
-	@Column(name = "rol_id", nullable = false, length = 20)
-	private String rolId;
 	
-	@Transient
-	private String rol;
-
 	@Column(name = "email", nullable = false, length = 255)
 	private String email;
 
@@ -64,53 +58,75 @@ public class Usuario extends ParentEntity {
 
 	@Column(name = "usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
+
+	@Transient
+	private String clienteId;
 	
 	@Transient
-	public String getNombres() {
-		return nombres;
-	}
-
+	private String rolId;
+	
 	@Transient
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
+	private String empleadoId;
 
-	@Transient
-	public String getApellidos() {
-		return apellidos;
+	public Usuario() {
 	}
-
-	@Transient
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	
+	public Usuario(Empresa cliente, Empleado empleado, Rol rol, String userName, String tipoEmpleado, String email, String password, Integer estado,
+			String token, String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion) {
+		super();
+		this.cliente = cliente;
+		this.empleado = empleado;
+		this.rol = rol;
+		this.userName = userName;
+		this.tipoEmpleado = tipoEmpleado;
+		this.email = email;
+		this.password = password;
+		this.estado = estado;
+		this.token = token;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
 	}
-
-	@Transient
-	public String getCliente() {
+	
+	public Empresa getCliente() {
 		return cliente;
 	}
 
-	@Transient
-	public void setCliente(String cliente) {
+	public void setCliente(Empresa cliente) {
 		this.cliente = cliente;
 	}
 
-	@Transient
-	public String getRol() {
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+
+	public Rol getRol() {
 		return rol;
 	}
 
-	@Transient
-	public void setRol(String rol) {
+	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
 
-	public String getRolId() {
-		return rolId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setRolId(String rolId) {
-		this.rolId = rolId;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getTipoEmpleado() {
+		return tipoEmpleado;
+	}
+
+	public void setTipoEmpleado(String tipoEmpleado) {
+		this.tipoEmpleado = tipoEmpleado;
 	}
 
 	public String getEmail() {
@@ -135,6 +151,14 @@ public class Usuario extends ParentEntity {
 
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public String getFechaCreacion() {
@@ -169,45 +193,35 @@ public class Usuario extends ParentEntity {
 		this.usuarioModificacion = usuarioModificacion;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
+	@Transient
 	public String getClienteId() {
 		return clienteId;
 	}
 
+	@Transient
 	public void setClienteId(String clienteId) {
 		this.clienteId = clienteId;
 	}
 
-	public Long getEmpleadoId() {
+	@Transient
+	public String getRolId() {
+		return rolId;
+	}
+
+	@Transient
+	public void setRolId(String rolId) {
+		this.rolId = rolId;
+	}
+
+	@Transient
+	public String getEmpleadoId() {
 		return empleadoId;
 	}
 
-	public void setEmpleadoId(Long empleadoId) {
+	@Transient
+	public void setEmpleadoId(String empleadoId) {
 		this.empleadoId = empleadoId;
 	}
 
-	public String getTipoEmpleado() {
-		return tipoEmpleado;
-	}
-
-	public void setTipoEmpleado(String tipoEmpleado) {
-		this.tipoEmpleado = tipoEmpleado;
-	}
 	
-
 }
