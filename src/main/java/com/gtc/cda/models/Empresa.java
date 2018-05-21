@@ -209,6 +209,7 @@ public class Empresa extends ParentEntity {
 		this.listaRequerimiento = listaRequerimiento;
 	}*/
 	
+	
 		
 
 }

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.common.Generico;
 import com.gtc.cda.models.Empresa;
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.services.ProyectoService;
@@ -129,6 +130,32 @@ public class ProyectoController {
 		}
 
 		return isValid;
+
+	}
+	
+	
+	@RequestMapping(value = "/getProyectoByCliente", method = RequestMethod.POST)
+	public List<Proyecto> getProyectoPorEmpresa(@RequestBody String empresaJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empresa empresa = this.mapper.readValue(empresaJson, Empresa.class);
+		
+		
+		if(empresa.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.proyectoService.findByCliente(empresa.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {		
+			return this.proyectoService.findByCliente(empresa.getId());
+		} 
 
 	}
 
