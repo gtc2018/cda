@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.CotizacionRepository;
 import com.gtc.cda.models.Cotizacion;
+import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.CotizacionService;
 
 @Service
@@ -38,6 +39,14 @@ public class CotizacionServiceImpl implements CotizacionService {
 	public Cotizacion findByCotizacionId(Long cotizacionId) {
 		// TODO Auto-generated method stub
 		return this.cotizacionRepository.findOne(cotizacionId);
+	}
+
+	@Override
+	public List<Cotizacion> findByProyecto(Long id) {
+		// TODO Auto-generated method stub
+		
+		return this.cotizacionRepository.findByProyecto(id);
+
 	}
 
 }

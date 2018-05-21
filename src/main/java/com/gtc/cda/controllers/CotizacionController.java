@@ -196,5 +196,34 @@ public class CotizacionController {
 		
 	}
 	
+	
+	/**
+	 * Metodo que obtiene las cotizaciones por proyecto
+	 * 	 */
+	@RequestMapping(value = "/getCotizacionByProyecto", method = RequestMethod.POST)
+	public List<Cotizacion> getCotizacionPorProyecto(@RequestBody String proyectoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Proyecto proyecto = this.mapper.readValue(proyectoJson, Proyecto.class);
+		
+		
+		if(proyecto.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.cotizacionService.findByProyecto(proyecto.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {		
+			return this.cotizacionService.findByProyecto(proyecto.getId());
+		} 
+
+	}
+	
 
 }
