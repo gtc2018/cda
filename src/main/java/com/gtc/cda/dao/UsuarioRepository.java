@@ -23,6 +23,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	@Query(value = "SELECT * FROM USUARIOS WHERE cliente_id = ?1" , nativeQuery = true)
 	public List<Usuario> findByEmpresaId(@Param("clienteId") String clienteId);
 	
+	@Query(value = "SELECT * FROM USUARIOS WHERE email = ?1 AND password = ?2" , nativeQuery = true)
+	public Usuario finByUsuario(String email, String password);
+	
 	
 	
 }

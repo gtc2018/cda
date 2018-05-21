@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.common.Generico;
 import com.gtc.cda.models.Empresa;
+import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.services.ProyectoService;
@@ -54,45 +55,82 @@ public class ProyectoController {
 		if (!this.validate(proyecto)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
-		} else {
-
-			Empresa empresa = new Empresa();
-			if (proyecto.getClienteId() != null) {
-				empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
-
-			}
-			if (empresa.getUrlCarpeta() != null) {
-				proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-			}
-
-			FormatoFecha fecha = new FormatoFecha();
-			Date fechaActual = new Date();
+		} 
 		
-			if (proyecto.getId() != null) {
-				proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+		//Generacion fecha creacion
+				FormatoFecha fecha = new FormatoFecha();
+				Date fech = new Date();
+				//seteo la fecha de creacion al campo fechaCreacion.
+				if(proyecto.getId() ==null ) {
+					proyecto.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+					proyecto.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+				}
+				else {
+				//Seteo la fecha de modificacion al campo fechaModificacion.
+					proyecto.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));	
+				}
+				
+				//Valida la entrada de los datos por estructura
+				if (proyecto.getClienteId() != null) {
+				
+				    Empresa empresa = new Empresa();// Variable de empresa
+			        
+					empresa.setId(new Long(proyecto.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
+					
+					proyecto.setCliente(empresa);//Setea la empresa al cliente
+					
+					this.proyectoService.save(proyecto);// Ejecuta el servicio para guardar el arreglo
 
-			} else {
-				proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+					return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+					
+				}else {
+					
+				this.proyectoService.save(proyecto);
+				
+				//CODIGO DE FELIX -------------------------------------------------------------------------------------------
+		
+		//else {
 
-			}
-			
-			this.proyectoService.save(proyecto);
-
-			if (empresa.getUrlCarpeta() != null) {
-
-				Generico generico = new Generico();
-				generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-				logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
-						+ proyecto.getNombre());
-
-			} else {
-				logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
-						+ proyecto.getNombre());
-
-			}
-
-		}
+//			Empresa empresa = new Empresa();
+//			if (proyecto.getClienteId() != null) {
+//				empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
+//
+//			}
+//			if (empresa.getUrlCarpeta() != null) {
+//				proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
+//			}
+//
+//			FormatoFecha fecha = new FormatoFecha();
+//			Date fechaActual = new Date();
+//		
+//			if (proyecto.getId() != null) {
+//				proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+//
+//			} else {
+//				proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+//
+//			}
+//			
+//			this.proyectoService.save(proyecto);
+//
+//			if (empresa.getUrlCarpeta() != null) {
+//
+//				Generico generico = new Generico();
+//				generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
+//				logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
+//						+ proyecto.getNombre());
+//
+//			} else {
+//				logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
+//						+ proyecto.getNombre());
+//
+//			}
+//
+		//}
+				
+				
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+				}
 
 	}
 

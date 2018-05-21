@@ -7,5 +7,7 @@ public interface LoginService {
 
 	Usuario findByEmailAndPassword(String email, String password);
 	
+	Usuario findByEmail(Long id);
+	
 
 }

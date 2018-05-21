@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.AreaRepository;
 import com.gtc.cda.models.Area;
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.services.AreaService;
 
 @Service
@@ -37,6 +38,12 @@ public class AreaServiceImpl implements AreaService {
 	public Area findByAreaId(long areaId) {
 		// TODO Auto-generated method stub
 		return this.areaRepository.findOne(areaId);
+	}
+	
+	@Override
+	public List<Area> getAllAreasToEnterprise(Long empresaId) {
+		// TODO Auto-generated method stub
+		return this.areaRepository.getAllAreasToEnterprise(empresaId);
 	}
 
 }

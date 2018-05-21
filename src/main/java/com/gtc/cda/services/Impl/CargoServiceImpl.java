@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.CargoRepository;
+import com.gtc.cda.models.Area;
 import com.gtc.cda.models.Cargo;
 import com.gtc.cda.services.CargoService;
 
@@ -37,6 +38,12 @@ public class CargoServiceImpl implements CargoService {
 	public Cargo findByCargoId(long cargoId) {
 		// TODO Auto-generated method stub
 		return this.cargoRepository.findOne(cargoId);
+	}
+	
+	@Override
+	public List<Cargo> getAllChargeToEnterprise(Long empresaId) {
+		// TODO Auto-generated method stub
+		return this.cargoRepository.getAllChargeToEnterprise(empresaId);
 	}
 
 }

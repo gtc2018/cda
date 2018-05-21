@@ -13,5 +13,7 @@ public interface CargoService {
 	void deleteCargo(Long id);
 	
 	Cargo findByCargoId(long cargoId);
+	
+	List<Cargo> getAllChargeToEnterprise(Long empresaId);
 
 }

@@ -109,15 +109,15 @@ public class CargoController {
 	
 	/**
 	 * Metodo Obtener Cargos por ID.
-	 * @param usuarioJson
+	 * @param cargoJson
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/findByCargoId", method = RequestMethod.POST)
-	public Cargo findOne(@RequestBody String clienteId) throws Exception {
+	public Cargo findOne(@RequestBody String cargoId) throws Exception {
 
 		this.mapper = new ObjectMapper();
 			
-		Cargo cargo = this.mapper.readValue(clienteId, Cargo.class);
+		Cargo cargo = this.mapper.readValue(cargoId, Cargo.class);
 	
 		if(cargo.getId() == null){
 			
@@ -132,6 +132,35 @@ public class CargoController {
 		else {
 			 			
 			return this.cargoService.findByCargoId(cargo.getId()) ;
+		} 
+
+	}
+	
+	/**
+	 * Metodo Obtener Cargos por ID de empresa.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllChargeToEnterprise", method = RequestMethod.POST)
+	public List<Cargo> getAllChargeToEnterprise(@RequestBody String chargeId) throws Exception {
+
+		this.mapper = new ObjectMapper();
+			
+		Empresa empresa = this.mapper.readValue(chargeId, Empresa.class);
+	
+		if(empresa.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.cargoService.getAllChargeToEnterprise(empresa.getId()) == null) {
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.cargoService.getAllChargeToEnterprise(empresa.getId()) ;
 		} 
 
 	}

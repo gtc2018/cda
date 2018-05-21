@@ -19,8 +19,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
+import com.gtc.cda.models.Area;
+import com.gtc.cda.models.Cargo;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
+import com.gtc.cda.models.Fase;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 
@@ -56,10 +59,38 @@ public class EmpleadoController {
 				empleado.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
 			}
 		
+		//Valida la entrada de los datos por estructura
+		if (empleado.getClienteId() != null | empleado.getCargo() != null) {
+				
+		    Empresa empresa = new Empresa();// Variable de empresa
+			        
+			Cargo cargo = new Cargo();//Variable de cargo
+			
+			Area area = new Area();//Variable de area
+					
+			empresa.setId(new Long(empleado.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
+					
+			empleado.setCliente(empresa);//Setea la empresa al cliente
+					
+			cargo.setId(new Long(empleado.getCargoId()));//Setea el ID que viene del campo CargoId a la variable cargo
+					
+			empleado.setCargo(cargo);//Setea cargos al empleado del arreglo
+			
+			area.setId(new Long(empleado.getAreaId()));//Setea el ID que viene del campo AreaId a la variable area
+			
+			empleado.setArea(area);//Setea areas al empleado del arreglo
+					
+			this.empleadoService.save(empleado);// Ejecuta el servicio para guardar el arreglo
 
-		this.empleadoService.save(empleado);
+			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+					
+			}else {
+					
+			this.empleadoService.save(empleado);
 
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+				
+			}
 
 	}
 

@@ -2,9 +2,13 @@ package com.gtc.cda.models;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "proyectos")
@@ -12,9 +16,9 @@ import javax.persistence.Table;
 public class Proyecto extends ParentEntity {
 
 	private static final long serialVersionUID = 8234224536518540417L;
-	
-	@Column(name="cliente_id", nullable = false, length = 20)
-	private Long clienteId;
+	@ManyToOne(cascade=CascadeType.REFRESH)
+	@JoinColumn(name = "cliente_id", nullable = false, referencedColumnName =  "id")
+	private Empresa cliente;
 	
 	@Column(name="nombre", nullable = false, length = 100)
 	private String nombre;
@@ -40,14 +44,33 @@ public class Proyecto extends ParentEntity {
 	@Column(name="usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
 	
+	@Transient
+	private String clienteId;
 	
-
-	public Long getClienteId() {
-		return clienteId;
+	public Proyecto() {
 	}
 
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
+	public Proyecto(Empresa cliente, String nombre, String descripcion, String tipo,
+			String urlCarpeta, String fechaCreacion, String usuarioCreacion,
+			String fechaModificacion, String usuarioModificacion) {
+		super();
+		this.cliente = cliente;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.tipo = tipo;
+		this.urlCarpeta = urlCarpeta;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
+	}
+
+	public Empresa getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Empresa cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getNombre() {
@@ -112,6 +135,16 @@ public class Proyecto extends ParentEntity {
 
 	public void setUsuarioModificacion(String usuarioModificacion) {
 		this.usuarioModificacion = usuarioModificacion;
+	}
+
+	@Transient
+	public String getClienteId() {
+		return clienteId;
+	}
+
+	@Transient
+	public void setClienteId(String clienteId) {
+		this.clienteId = clienteId;
 	}
 	
 	

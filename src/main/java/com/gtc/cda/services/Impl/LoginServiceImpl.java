@@ -20,6 +20,10 @@ public class LoginServiceImpl implements LoginService {
 		return this.loginRepository.findByEmailAndPassword(email, password);
 	}
 
-	
+	@Override
+	public Usuario findByEmail(Long id) {
+		// TODO Auto-generated method stub
+		return this.loginRepository.findOne(id);
+	}
 
 }

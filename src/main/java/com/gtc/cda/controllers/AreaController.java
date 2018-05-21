@@ -116,15 +116,15 @@ public class AreaController {
 	
 	/**
 	 * Metodo Obtener Areas por ID.
-	 * @param usuarioJson
+	 * @param areaJson
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/getFindByAreaId", method = RequestMethod.POST)
-	public Area findByAreaId(@RequestBody String clienteId) throws Exception {
+	public Area findByAreaId(@RequestBody String areaId) throws Exception {
 
 		this.mapper = new ObjectMapper();
 			
-		Area area = this.mapper.readValue(clienteId, Area.class);
+		Area area = this.mapper.readValue(areaId, Area.class);
 	
 		if(area.getId() == null){
 			
@@ -139,6 +139,35 @@ public class AreaController {
 		else {
 			 			
 			return this.areaService.findByAreaId(area.getId()) ;
+		} 
+
+	}
+	
+	/**
+	 * Metodo Obtener Areas por ID de empresa.
+	 * @param areaJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllAreasToEnterprise", method = RequestMethod.POST)
+	public List<Area> getAllAreasToEnterprise(@RequestBody String areaId) throws Exception {
+
+		this.mapper = new ObjectMapper();
+			
+		Empresa empresa = this.mapper.readValue(areaId, Empresa.class);
+	
+		if(empresa.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.areaService.getAllAreasToEnterprise(empresa.getId()) == null) {
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.areaService.getAllAreasToEnterprise(empresa.getId()) ;
 		} 
 
 	}

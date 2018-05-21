@@ -13,6 +13,8 @@ public interface AreaService {
 	void deleteArea(Long id);
 	
 	Area findByAreaId(long areaId);
+	
+	List<Area> getAllAreasToEnterprise(Long empresaId);
 
 }
 
