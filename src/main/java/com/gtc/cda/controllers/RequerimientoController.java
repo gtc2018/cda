@@ -45,8 +45,9 @@ public class RequerimientoController {
 		
 		this.mapper = new ObjectMapper();
 		
-		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
 		
+		
+		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
 		//Se ejecuta las validaciones
 		if (!this.validate(requerimiento)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
