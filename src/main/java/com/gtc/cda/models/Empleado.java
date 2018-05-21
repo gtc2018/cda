@@ -18,10 +18,6 @@ public class Empleado extends ParentEntity {
 	@Column(name="cliente_id", nullable = false, length = 20 )
 	private Long clienteId;
 	
-	
-	@Column(name="rol_id", nullable = false, length = 20 )
-	private Long rolId;
-	
 	@Column(name="cargo_id", nullable = false, length = 20 )
 	private Long cargoId;
 	
@@ -100,14 +96,6 @@ public class Empleado extends ParentEntity {
 	public void setClienteId(Long clienteId) {
 		this.clienteId = clienteId;
 	}
-
-	public Long getRolId() {
-		return rolId;
-	}
-
-	public void setRolId(Long rolId) {
-		this.rolId = rolId;
-	}
 	
 	public Long getCargoId() {
 		return cargoId;
@@ -116,8 +104,6 @@ public class Empleado extends ParentEntity {
 	public void setCargoId(Long cargoId) {
 		this.cargoId = cargoId;
 	}
-
-	
 
 	public String getTipoEmpleado() {
 		return tipoEmpleado;

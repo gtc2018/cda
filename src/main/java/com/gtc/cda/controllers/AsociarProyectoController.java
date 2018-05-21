@@ -9,6 +9,7 @@ import org.hibernate.type.CustomType;
 import org.jboss.logging.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,19 +48,25 @@ public class AsociarProyectoController {
 	protected ObjectMapper mapper;
 	
 	@RequestMapping(value ="/saveOrUpdateAsociarProyecto", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateAsociarProyecto(@RequestBody Iterable<AsociarProyecto> asociarProyectoJson) throws JsonParseException, JsonMappingException, IOException{
+	public ResponseEntity saveOrUpdateAsociarProyecto(@RequestParam("projectId") String ProyectoId,@RequestBody Iterable<AsociarProyecto> asociarProyectoJson) throws JsonParseException, JsonMappingException, IOException{
 		
 		try{
 			
-		this.mapper = new ObjectMapper();
+		Iterable<AsociarProyecto> asociarProyectoForDelete = this.asociarProyectoService.findAllForProject(ProyectoId);
+		
+		if (!String.valueOf(asociarProyectoForDelete).equals("[]")) {
+		
+		this.asociarProyectoService.deleteAllByProject(asociarProyectoForDelete);
+		}
 		this.asociarProyectoService.save(asociarProyectoJson);
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+		
+		return (ResponseEntity) ResponseEntity.ok();
 		
 		}catch(Exception e){
 			
 			System.out.println(e);
 			
-			return new RestResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error en el proceso");
+			return (ResponseEntity) ResponseEntity.badRequest().body("Error al insertar los involucrados");
 		}
 	}
 	
@@ -78,10 +85,7 @@ public class AsociarProyectoController {
 			
 		}
 		
-		
-		
 		return asociarProyectos ;
-		
 		
 	}
 	

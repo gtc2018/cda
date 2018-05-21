@@ -25,13 +25,13 @@ public class AsociarProyecto extends ParentEntity {
 	private String empleadoId;
 	
 	@Transient
-	private String NombreEmpleado;
+	private String nombreEmpleado;
 	
 	@Transient
-	private String ApellidoEmpleado;
+	private String apellidoEmpleado;
 	
 	@Transient
-	private String FotoEmpleado;
+	private String fotoEmpleado;
 	
 	@Transient
 	private String proyectosInvolucrado;
@@ -120,32 +120,32 @@ public class AsociarProyecto extends ParentEntity {
 
 	@Transient
 	public String getNombreEmpleado() {
-		return NombreEmpleado;
+		return nombreEmpleado;
 	}
 
 	@Transient
 	public void setNombreEmpleado(String nombreEmpleado) {
-		NombreEmpleado = nombreEmpleado;
+		this.nombreEmpleado = nombreEmpleado;
 	}
 
 	@Transient
 	public String getApellidoEmpleado() {
-		return ApellidoEmpleado;
+		return apellidoEmpleado;
 	}
 
 	@Transient
 	public void setApellidoEmpleado(String apellidoEmpleado) {
-		ApellidoEmpleado = apellidoEmpleado;
+		this.apellidoEmpleado = apellidoEmpleado;
 	}
 
 	@Transient
 	public String getFotoEmpleado() {
-		return FotoEmpleado;
+		return fotoEmpleado;
 	}
 
 	@Transient
 	public void setFotoEmpleado(String fotoEmpleado) {
-		FotoEmpleado = fotoEmpleado;
+		this.fotoEmpleado = fotoEmpleado;
 	}
 
 	@Transient
