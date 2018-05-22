@@ -146,9 +146,5 @@ public class Proyecto extends ParentEntity {
 	public void setClienteId(String clienteId) {
 		this.clienteId = clienteId;
 	}
-	
-	
-	
-	
 
 }

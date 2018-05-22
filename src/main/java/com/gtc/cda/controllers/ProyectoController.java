@@ -44,6 +44,14 @@ public class ProyectoController {
 	protected ObjectMapper mapper;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+
+
+	@RequestMapping(value = "/getAllProyectos", method = RequestMethod.GET)
+	public List<Proyecto> getAllProyectos() {
+		return this.proyectoService.findAll();
+
+	}
 
 	@RequestMapping(value = "/saveOrUpdateProyecto", method = RequestMethod.POST)
 	public RestResponse saveOrUpdateProyecto(@RequestBody String proyectoJson)
@@ -132,12 +140,6 @@ public class ProyectoController {
 				
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 				}
-
-	}
-
-	@RequestMapping(value = "/getAllProyectos", method = RequestMethod.GET)
-	public List<Proyecto> getAllProyectos() {
-		return this.proyectoService.findAll();
 
 	}
 

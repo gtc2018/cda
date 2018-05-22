@@ -60,7 +60,7 @@ public class AsociarProyectoController {
 		}
 		this.asociarProyectoService.save(asociarProyectoJson);
 		
-		return (ResponseEntity) ResponseEntity.ok();
+		return (ResponseEntity) ResponseEntity.ok().body("");
 		
 		}catch(Exception e){
 			
