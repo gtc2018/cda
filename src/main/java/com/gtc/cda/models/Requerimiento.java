@@ -61,8 +61,8 @@ public class Requerimiento extends ParentEntity {
 	@Column (name = "centro_costo", nullable = false, length = 10)
 	private String centroCosto;
 	
-	@Column (name = "observacion", nullable = false, length = 300)
-	private String observacion;
+	@Column (name = "archivo", nullable = false, length = 300)
+	private String archivo;
 	
 	@Column (name = "gestor_tecnico", nullable = false, length = 100)
 	private String gestorTecnico;
@@ -232,12 +232,12 @@ public class Requerimiento extends ParentEntity {
 		this.centroCosto = centroCosto;
 	}
 
-	public String getObservacion() {
-		return observacion;
+	public String getArchivo() {
+		return archivo;
 	}
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
 	}
 
 	public String getGestorTecnico() {
@@ -321,7 +321,7 @@ public class Requerimiento extends ParentEntity {
 	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
 			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
 			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
-			String centroCosto, String observacion, String gestorTecnico, String gestorProyecto,
+			String centroCosto, String archivo, String gestorTecnico, String gestorProyecto,
 			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
 			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto) {
 		super();
@@ -338,7 +338,7 @@ public class Requerimiento extends ParentEntity {
 		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
 		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
 		this.centroCosto = centroCosto;
-		this.observacion = observacion;
+		this.archivo = archivo;
 		this.gestorTecnico = gestorTecnico;
 		this.gestorProyecto = gestorProyecto;
 		this.fechaCreacion = fechaCreacion;
