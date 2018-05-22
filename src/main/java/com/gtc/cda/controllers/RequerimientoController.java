@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,12 @@ public class RequerimientoController {
 		
 		
 		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
+		
+		System.out.println("maperrrrrrrrrrrrrrrrrrrr");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//FormatoFecha fechas = new FormatoFecha();
+		//requerimiento.setFechaInicio(fechas.fecha("yyyy-MM-dd HH:mm:ss", formatter.parse(requerimiento.getFechaInicio())));
+	
 		//Se ejecuta las validaciones
 		if (!this.validate(requerimiento)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
@@ -57,6 +65,7 @@ public class RequerimientoController {
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
+		
 		//seteo la fecha de creacion al campo fechaCreacion.
 		if(requerimiento.getId() ==null ) {
 			requerimiento.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
