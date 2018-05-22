@@ -111,6 +111,9 @@ public class Requerimiento extends ParentEntity {
 	
 	@Transient
 	private String estadoId;
+	
+	@Transient
+	private String documento;
 
 	public Empresa getCliente() {
 		return cliente;
@@ -313,6 +316,15 @@ public class Requerimiento extends ParentEntity {
 	public void setEmailProyecto(String emailProyecto) {
 		this.emailProyecto = emailProyecto;
 	}
+	
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
 
 	public Requerimiento() {
 		
@@ -323,7 +335,7 @@ public class Requerimiento extends ParentEntity {
 			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
 			String centroCosto, String archivo, String gestorTecnico, String gestorProyecto,
 			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
-			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto) {
+			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto, String documento) {
 		super();
 		this.cliente = cliente;
 		this.proyecto = proyecto;
@@ -350,6 +362,7 @@ public class Requerimiento extends ParentEntity {
 		this.fechaEntrega = fechaEntrega;
 		this.emailTecnico = emailTecnico;
 		this.emailProyecto = emailProyecto;
+		this.documento = documento;
 	}
 
 	@Transient

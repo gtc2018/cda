@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empresa;
@@ -51,10 +52,7 @@ public class RequerimientoController {
 		
 		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
 		
-		System.out.println("maperrrrrrrrrrrrrrrrrrrr");
-		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		//FormatoFecha fechas = new FormatoFecha();
-		//requerimiento.setFechaInicio(fechas.fecha("yyyy-MM-dd HH:mm:ss", formatter.parse(requerimiento.getFechaInicio())));
+
 	
 		//Se ejecuta las validaciones
 		if (!this.validate(requerimiento)) {
@@ -62,9 +60,16 @@ public class RequerimientoController {
 					"Los campos obligatorios no estan diligenciados");
 		}
 		
+		
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
+		
+		if(requerimiento.getDocumento() != null) {
+			requerimiento.setArchivo(fecha.DIRECTORIO_IMAGENES + requerimiento.getArchivo());
+				
+				
+			}
 		
 		//seteo la fecha de creacion al campo fechaCreacion.
 		if(requerimiento.getId() ==null ) {
@@ -114,6 +119,30 @@ public class RequerimientoController {
 			requerimiento.setEstado(estado);;
 			
 			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo
+			
+			if (requerimiento.getDocumento() != null) {
+				Archivo archivo = new Archivo();
+
+				String arc = requerimiento.getArchivo();
+
+				if (arc != null  && arc != null
+						
+						
+						
+						
+						) {
+					String[] parts = arc.split("87");
+					String part2 = parts[1];
+					String[] nombreArchivo = part2.split("/");
+
+					String nombreArchivo2 = nombreArchivo[1]; 
+					String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+					archivo.decodeBase64(requerimiento.getArchivo(), url);
+
+				}
+
+			}
 
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 			
