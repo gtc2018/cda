@@ -48,7 +48,7 @@ public class AsociarProyectoServiceImpl implements AsociarProyectoService {
 		try {
 		this.asociarProyectoRepository.delete(asociarProyecto);
 		
-		return (ResponseEntity) ResponseEntity.ok();
+		return (ResponseEntity) ResponseEntity.ok().body("Registros eliminados");
 		}catch (Exception e) {
 			
 		return (ResponseEntity) ResponseEntity.noContent();
