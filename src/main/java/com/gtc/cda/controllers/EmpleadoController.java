@@ -60,7 +60,8 @@ public class EmpleadoController {
 			}
 		
 		//Valida la entrada de los datos por estructura
-		if (empleado.getClienteId() != null | empleado.getCargo() != null) {
+		if (empleado.getClienteId() != null | empleado.getCargoId() != null
+				| empleado.getAreaId() != null) {
 				
 		    Empresa empresa = new Empresa();// Variable de empresa
 			        
@@ -81,6 +82,37 @@ public class EmpleadoController {
 			empleado.setArea(area);//Setea areas al empleado del arreglo
 					
 			this.empleadoService.save(empleado);// Ejecuta el servicio para guardar el arreglo
+			
+			if(empleado.getImagen() != null) {
+				empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
+				}else {
+					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "logo.png");
+				}
+				this.empleadoService.save(empleado);
+
+				if (empleado.getImagen() != null) {
+					Archivo archivo = new Archivo();
+
+					String foto = empleado.getFoto();
+
+					if (foto != null  && foto != null
+							
+							
+							
+							
+							) {
+						String[] parts = foto.split("87");
+						String part2 = parts[1];
+						String[] nombreArchivo = part2.split("/");
+
+						String nombreArchivo2 = nombreArchivo[1]; 
+						String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+						archivo.decodeBase64(empleado.getImagen(), url);
+
+					}
+
+				}
 
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 					

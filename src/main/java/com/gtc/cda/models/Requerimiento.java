@@ -91,8 +91,11 @@ public class Requerimiento extends ParentEntity {
 	@Column (name = "fecha_entrega", nullable = false, length = 20)
 	private String fechaEntrega;
 	
-	@Column (name = "email", nullable = false, length = 20)
-	private String email;
+	@Column (name = "email_gestor_tecnico", nullable = false, length = 20)
+	private String emailTecnico;
+	
+	@Column (name = "email_gestor_proyecto", nullable = false, length = 20)
+	private String emailProyecto;
 	
 	@Transient
 	private String clienteId;
@@ -293,12 +296,22 @@ public class Requerimiento extends ParentEntity {
 		this.adjunto = adjunto;
 	}
 
-	public String getEmail() {
-		return email;
+
+
+	public String getEmailTecnico() {
+		return emailTecnico;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailTecnico(String emailTecnico) {
+		this.emailTecnico = emailTecnico;
+	}
+
+	public String getEmailProyecto() {
+		return emailProyecto;
+	}
+
+	public void setEmailProyecto(String emailProyecto) {
+		this.emailProyecto = emailProyecto;
 	}
 
 	public Requerimiento() {
@@ -310,7 +323,7 @@ public class Requerimiento extends ParentEntity {
 			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
 			String centroCosto, String observacion, String gestorTecnico, String gestorProyecto,
 			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
-			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String email) {
+			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto) {
 		super();
 		this.cliente = cliente;
 		this.proyecto = proyecto;
@@ -335,7 +348,8 @@ public class Requerimiento extends ParentEntity {
 		this.fechaInicio = fechaInicio;
 		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
 		this.fechaEntrega = fechaEntrega;
-		this.email = email;
+		this.emailTecnico = emailTecnico;
+		this.emailProyecto = emailProyecto;
 	}
 
 	@Transient
