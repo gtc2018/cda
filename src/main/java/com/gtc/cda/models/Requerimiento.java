@@ -325,46 +325,7 @@ public class Requerimiento extends ParentEntity {
 	public void setDocumento(String documento) {
 		this.documento = documento;
 	}
-
-	public Requerimiento() {
-		
-	}
-
-	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
-			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
-			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
-			String centroCosto, String archivo, String gestorTecnico, String gestorProyecto,
-			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
-			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto, String documento) {
-		super();
-		this.cliente = cliente;
-		this.proyecto = proyecto;
-		this.cotizacion = cotizacion;
-		this.fase = fase;
-		this.numeroCasoPrueba = numeroCasoPrueba;
-		this.adjunto = adjunto;
-		this.descripcion = descripcion;
-		this.version = version;
-		this.estado = estado;
-		this.numeroHallazgoBloqueante = numeroHallazgoBloqueante;
-		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
-		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
-		this.centroCosto = centroCosto;
-		this.archivo = archivo;
-		this.gestorTecnico = gestorTecnico;
-		this.gestorProyecto = gestorProyecto;
-		this.fechaCreacion = fechaCreacion;
-		this.usuarioCreacion = usuarioCreacion;
-		this.fechaModificacion = fechaModificacion;
-		this.usuarioModificacion = usuarioModificacion;
-		this.fechaInicio = fechaInicio;
-		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
-		this.fechaEntrega = fechaEntrega;
-		this.emailTecnico = emailTecnico;
-		this.emailProyecto = emailProyecto;
-		this.documento = documento;
-	}
-
+	
 	@Transient
 	public String getClienteId() {
 		return clienteId;
@@ -411,6 +372,47 @@ public class Requerimiento extends ParentEntity {
 	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
 	}
+
+	public Requerimiento() {
+		
+	}
+
+	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
+			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
+			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
+			String centroCosto, String archivo, String gestorTecnico, String gestorProyecto,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
+			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto, String documento) {
+		super();
+		this.cliente = cliente;
+		this.proyecto = proyecto;
+		this.cotizacion = cotizacion;
+		this.fase = fase;
+		this.numeroCasoPrueba = numeroCasoPrueba;
+		this.adjunto = adjunto;
+		this.descripcion = descripcion;
+		this.version = version;
+		this.estado = estado;
+		this.numeroHallazgoBloqueante = numeroHallazgoBloqueante;
+		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
+		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
+		this.centroCosto = centroCosto;
+		this.archivo = archivo;
+		this.gestorTecnico = gestorTecnico;
+		this.gestorProyecto = gestorProyecto;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
+		this.fechaInicio = fechaInicio;
+		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
+		this.fechaEntrega = fechaEntrega;
+		this.emailTecnico = emailTecnico;
+		this.emailProyecto = emailProyecto;
+		this.documento = documento;
+	}
+
+	
 	
 }
 

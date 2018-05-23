@@ -46,13 +46,11 @@ public class RequerimientoController {
 	@RequestMapping(value ="/saveOrUpdateRequerimiento", method = RequestMethod.POST)
 	public RestResponse saveOrUpdateRequerimiento(@RequestBody String requerimientoJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
+		
+		try{
 		this.mapper = new ObjectMapper();
 		
-		
-		
 		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
-		
-
 	
 		//Se ejecuta las validaciones
 		if (!this.validate(requerimiento)) {
@@ -66,7 +64,7 @@ public class RequerimientoController {
 		Date fech = new Date();
 		
 		if(requerimiento.getDocumento() != null) {
-			requerimiento.setArchivo(fecha.DIRECTORIO_IMAGENES + requerimiento.getArchivo());
+			requerimiento.setArchivo(fecha.DIRECTORIO_IMAGENES+"REQUERIMIENTOS/" + requerimiento.getArchivo());
 				
 				
 			}
@@ -116,9 +114,7 @@ public class RequerimientoController {
 			
 			requerimiento.setProyecto(proyecto);;
 			
-			requerimiento.setEstado(estado);;
-			
-			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo
+			requerimiento.setEstado(estado);
 			
 			if (requerimiento.getDocumento() != null) {
 				Archivo archivo = new Archivo();
@@ -131,18 +127,23 @@ public class RequerimientoController {
 						
 						
 						) {
-					String[] parts = arc.split("87");
+					String[] parts = arc.split("REQUERIMIENTOS");
+					System.out.println("PARTSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+					System.out.println(parts);
 					String part2 = parts[1];
 					String[] nombreArchivo = part2.split("/");
 
 					String nombreArchivo2 = nombreArchivo[1]; 
-					String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+					String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\REQUERIMIENTOS\\" + nombreArchivo2;
 
-					archivo.decodeBase64(requerimiento.getArchivo(), url);
+					archivo.decodeBase64(requerimiento.getDocumento(), url);
 
 				}
 
 			}
+			
+			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo
+			
 
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 			
@@ -153,6 +154,15 @@ public class RequerimientoController {
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 		}
+		
+		}catch(Exception e ) {
+			
+			return new RestResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());			
+			
+		}
+		
+		
+		
 	}
 	
 	
