@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.common.Generico;
 import com.gtc.cda.models.Empresa;
@@ -80,66 +81,89 @@ public class ProyectoController {
 				}
 				
 				//Valida la entrada de los datos por estructura
-				if (proyecto.getClienteId() != null) {
+//				if (proyecto.getClienteId() != null) {
+//				
+//				    Empresa empresa = new Empresa();// Variable de empresa
+//			        
+//					empresa.setId(new Long(proyecto.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
+//					
+//					proyecto.setCliente(empresa);//Setea la empresa al cliente
+//					
+//					this.proyectoService.save(proyecto);// Ejecuta el servicio para guardar el arreglo
+//
+//					return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+					
+//				}else {
 				
-				    Empresa empresa = new Empresa();// Variable de empresa
-			        
-					empresa.setId(new Long(proyecto.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
+				if(proyecto.getDocBits() != null) {
+					proyecto.setDocumento(fecha.DIRECTORIO_IMAGENES + proyecto.getDocumento());
 					
-					proyecto.setCliente(empresa);//Setea la empresa al cliente
-					
-					this.proyectoService.save(proyecto);// Ejecuta el servicio para guardar el arreglo
+						Archivo archivo = new Archivo();
 
-					return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
-					
-				}else {
+						String nameDoc = proyecto.getDocumento();
+
+						if (nameDoc != null	) {
+							
+							String[] parts = nameDoc.split("87");
+							String part2 = parts[1];
+							String[] nombreArchivo = part2.split("/");
+
+							String nombreArchivo2 = nombreArchivo[1]; 
+							String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+							archivo.decodeBase64(proyecto.getDocBits(), url);
+
+						}
+
+					}
 					
 				this.proyectoService.save(proyecto);
 				
+		        return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+		        
+		        
+				
+				
 				//CODIGO DE FELIX -------------------------------------------------------------------------------------------
-		
-		//else {
+				
+				//else {
 
-//			Empresa empresa = new Empresa();
-//			if (proyecto.getClienteId() != null) {
-//				empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
-//
-//			}
-//			if (empresa.getUrlCarpeta() != null) {
-//				proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-//			}
-//
-//			FormatoFecha fecha = new FormatoFecha();
-//			Date fechaActual = new Date();
-//		
-//			if (proyecto.getId() != null) {
-//				proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-//
-//			} else {
-//				proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-//
-//			}
-//			
-//			this.proyectoService.save(proyecto);
-//
-//			if (empresa.getUrlCarpeta() != null) {
-//
-//				Generico generico = new Generico();
-//				generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-//				logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
-//						+ proyecto.getNombre());
-//
-//			} else {
-//				logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
-//						+ proyecto.getNombre());
-//
-//			}
-//
-		//}
-				
-				
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-				}
+//					Empresa empresa = new Empresa();
+//					if (proyecto.getClienteId() != null) {
+//						empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
+		//
+//					}
+//					if (empresa.getUrlCarpeta() != null) {
+//						proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
+//					}
+		//
+//					FormatoFecha fecha = new FormatoFecha();
+//					Date fechaActual = new Date();
+//				
+//					if (proyecto.getId() != null) {
+//						proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+		//
+//					} else {
+//						proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
+		//
+//					}
+//					
+//					this.proyectoService.save(proyecto);
+		//
+//					if (empresa.getUrlCarpeta() != null) {
+		//
+//						Generico generico = new Generico();
+//						generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
+//						logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
+//								+ proyecto.getNombre());
+		//
+//					} else {
+//						logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
+//								+ proyecto.getNombre());
+		//
+//					}
+		//
+				//}
 
 	}
 

@@ -9,9 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -31,6 +33,7 @@ import com.gtc.cda.util.RestResponse;
 
 
 @CrossOrigin(origins="*")
+@RequestMapping(value ="/Quotations")
 @RestController
 
 public class CotizacionController {
@@ -41,7 +44,7 @@ public class CotizacionController {
 	protected ObjectMapper mapper;
 	
 	// Guardar o Editar
-	@RequestMapping(value ="/saveOrUpdateCotizacion", method = RequestMethod.POST)
+	@RequestMapping(value ="/saveOrUpdate", method = RequestMethod.POST)
 	public RestResponse saveOrUpdateCotizacion(@RequestBody String cotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		this.mapper = new ObjectMapper();
@@ -128,7 +131,7 @@ public class CotizacionController {
 	 * Metodo consultar todos las cotizaciones.
 	 * @return
 	 */
-	@RequestMapping(value ="/getAllCotizacion", method = RequestMethod.GET)
+	@RequestMapping(value ="/getAll", method = RequestMethod.GET)
 	public List<Cotizacion> getAllCotizacion(){
 		
 		return  this.cotizacionService.findAll();// Regresa todas las cotizaciones
@@ -140,8 +143,8 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getCotizacion", method = RequestMethod.POST)
-	public Cotizacion getCotizacionById(@RequestBody String id) throws Exception {
+	@RequestMapping(value = "/getId/{id}", method = RequestMethod.POST)
+	public Cotizacion getCotizacionById(@PathVariable(value="id") String id) throws Exception {
 
 		this.mapper = new ObjectMapper();
 		
@@ -169,18 +172,18 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value ="/deleteCotizacion", method = RequestMethod.POST)
-	public RestResponse deleteCotizacion(@RequestBody String usuarioJson) throws Exception{
+	@RequestMapping(value ="/delete", method = RequestMethod.POST)
+	public RestResponse deleteCotizacion(@RequestParam("id") Long id) throws Exception{
 		this.mapper = new ObjectMapper();
 		
-		Cotizacion cotizacion = this.mapper.readValue(usuarioJson, Cotizacion.class);
+//		Cotizacion cotizacion = this.mapper.readValue(usuarioJson, Cotizacion.class);
 		
-		if(cotizacion.getId() == null){
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"El campo ID no puede ser nulo");
-		}
+//		if(cotizacion.getId() == null){
+//			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+//					"El campo ID no puede ser nulo");
+//		}
 		
-		this.cotizacionService.deleteCotizacion(cotizacion.getId());
+		this.cotizacionService.deleteCotizacion(id);
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 	}
