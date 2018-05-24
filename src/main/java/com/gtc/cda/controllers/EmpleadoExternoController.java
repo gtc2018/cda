@@ -86,8 +86,6 @@ public class EmpleadoExternoController {
 
 		empleadoExterno.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fech));
 		
-		System.out.println("Foto empleado");
-		System.out.println(empleadoExterno.getFotoEmpleado());
 		if(empleadoExterno.getImagen() != null) {
 		empleadoExterno.setFotoEmpleado(fecha.DIRECTORIO_IMAGENES + empleadoExterno.getFotoEmpleado());
 			
