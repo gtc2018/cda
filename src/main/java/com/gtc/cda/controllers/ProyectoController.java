@@ -121,49 +121,7 @@ public class ProyectoController {
 				
 		        return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		        
-		        
-				
-				
-				//CODIGO DE FELIX -------------------------------------------------------------------------------------------
-				
-				//else {
-
-//					Empresa empresa = new Empresa();
-//					if (proyecto.getClienteId() != null) {
-//						empresa = this.empresaService.findByEmpresaId(proyecto.getClienteId());
-		//
-//					}
-//					if (empresa.getUrlCarpeta() != null) {
-//						proyecto.setUrlCarpeta(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-//					}
-		//
-//					FormatoFecha fecha = new FormatoFecha();
-//					Date fechaActual = new Date();
-//				
-//					if (proyecto.getId() != null) {
-//						proyecto.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-		//
-//					} else {
-//						proyecto.setFechaCreacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
-		//
-//					}
-//					
-//					this.proyectoService.save(proyecto);
-		//
-//					if (empresa.getUrlCarpeta() != null) {
-		//
-//						Generico generico = new Generico();
-//						generico.createFolder(empresa.getUrlCarpeta() + "\\" + proyecto.getNombre());
-//						logger.info("=============URL PROYECTO: ===========" + empresa.getUrlCarpeta() + "\\"
-//								+ proyecto.getNombre());
-		//
-//					} else {
-//						logger.error("************ FALLO LA CREACION DE LA CARPETA EN RUTA: " + empresa.getUrlCarpeta() + "\\"
-//								+ proyecto.getNombre());
-		//
-//					}
-		//
-				//}
+		   
 
 	}
 
