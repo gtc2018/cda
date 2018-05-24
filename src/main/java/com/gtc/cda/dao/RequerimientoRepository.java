@@ -14,14 +14,7 @@ public interface RequerimientoRepository extends JpaRepository<Requerimiento, Lo
 		@SuppressWarnings("unchecked")
 		Requerimiento save(Requerimiento requerimiento);
 		
-		//
-		//@Query(value = " call cda.getMenuSession(:rol)" , nativeQuery = true)
-		// @Query(value = "SELECT * FROM PERMISOS WHERE rol_id = ?1 AND estado = 1" , nativeQuery = true)
-		//@Procedure(name = "getMenuSession")
-		//public List<Permiso> findByRolId(@Param("rol") String rolId);
-		//public List<Permiso> findByRolId(String rolId);
-		 
-		 //@Query(value = "SELECT * FROM PERMISOS WHERE rol_id = ?1 AND menu_id = ?2" , nativeQuery = true)
-		 //public	 List<Permiso> existe(@Param("rol") String rolId, @Param("menu") String menuId);
+		@Query(value = "SELECT * FROM REQUERIMIENTOS WHERE proyectos_id = ?1" , nativeQuery = true)
+		public List<Requerimiento> findRequestToProject(@Param("id") Long project);
 
 	}

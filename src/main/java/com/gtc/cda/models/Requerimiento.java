@@ -61,8 +61,8 @@ public class Requerimiento extends ParentEntity {
 	@Column (name = "centro_costo", nullable = false, length = 10)
 	private String centroCosto;
 	
-	@Column (name = "observacion", nullable = false, length = 300)
-	private String observacion;
+	@Column (name = "archivo", nullable = false, length = 300)
+	private String archivo;
 	
 	@Column (name = "gestor_tecnico", nullable = false, length = 100)
 	private String gestorTecnico;
@@ -111,6 +111,9 @@ public class Requerimiento extends ParentEntity {
 	
 	@Transient
 	private String estadoId;
+	
+	@Transient
+	private String documento;
 
 	public Empresa getCliente() {
 		return cliente;
@@ -232,12 +235,12 @@ public class Requerimiento extends ParentEntity {
 		this.centroCosto = centroCosto;
 	}
 
-	public String getObservacion() {
-		return observacion;
+	public String getArchivo() {
+		return archivo;
 	}
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
 	}
 
 	public String getGestorTecnico() {
@@ -313,45 +316,16 @@ public class Requerimiento extends ParentEntity {
 	public void setEmailProyecto(String emailProyecto) {
 		this.emailProyecto = emailProyecto;
 	}
+	
 
-	public Requerimiento() {
-		
+	public String getDocumento() {
+		return documento;
 	}
 
-	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
-			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
-			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
-			String centroCosto, String observacion, String gestorTecnico, String gestorProyecto,
-			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
-			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto) {
-		super();
-		this.cliente = cliente;
-		this.proyecto = proyecto;
-		this.cotizacion = cotizacion;
-		this.fase = fase;
-		this.numeroCasoPrueba = numeroCasoPrueba;
-		this.adjunto = adjunto;
-		this.descripcion = descripcion;
-		this.version = version;
-		this.estado = estado;
-		this.numeroHallazgoBloqueante = numeroHallazgoBloqueante;
-		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
-		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
-		this.centroCosto = centroCosto;
-		this.observacion = observacion;
-		this.gestorTecnico = gestorTecnico;
-		this.gestorProyecto = gestorProyecto;
-		this.fechaCreacion = fechaCreacion;
-		this.usuarioCreacion = usuarioCreacion;
-		this.fechaModificacion = fechaModificacion;
-		this.usuarioModificacion = usuarioModificacion;
-		this.fechaInicio = fechaInicio;
-		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
-		this.fechaEntrega = fechaEntrega;
-		this.emailTecnico = emailTecnico;
-		this.emailProyecto = emailProyecto;
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
-
+	
 	@Transient
 	public String getClienteId() {
 		return clienteId;
@@ -398,6 +372,46 @@ public class Requerimiento extends ParentEntity {
 	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
 	}
+
+	public Requerimiento() {
+		
+	}
+
+	public Requerimiento(Empresa cliente, Proyecto proyecto, Cotizacion cotizacion, Fase fase,
+			String numeroCasoPrueba, String adjunto, String descripcion, String version, Estado estado,
+			String numeroHallazgoBloqueante, String numeroHallazgoFuncional, String numeroHallazgoPresentacion,
+			String centroCosto, String archivo, String gestorTecnico, String gestorProyecto,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
+			String fechaInicio, String fechaPlaneadaEntrega, String fechaEntrega, String emailTecnico, String emailProyecto, String documento) {
+		super();
+		this.cliente = cliente;
+		this.proyecto = proyecto;
+		this.cotizacion = cotizacion;
+		this.fase = fase;
+		this.numeroCasoPrueba = numeroCasoPrueba;
+		this.adjunto = adjunto;
+		this.descripcion = descripcion;
+		this.version = version;
+		this.estado = estado;
+		this.numeroHallazgoBloqueante = numeroHallazgoBloqueante;
+		this.numeroHallazgoFuncional = numeroHallazgoFuncional;
+		this.numeroHallazgoPresentacion = numeroHallazgoPresentacion;
+		this.centroCosto = centroCosto;
+		this.archivo = archivo;
+		this.gestorTecnico = gestorTecnico;
+		this.gestorProyecto = gestorProyecto;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
+		this.fechaInicio = fechaInicio;
+		this.fechaPlaneadaEntrega = fechaPlaneadaEntrega;
+		this.fechaEntrega = fechaEntrega;
+		this.emailTecnico = emailTecnico;
+		this.emailProyecto = emailProyecto;
+		this.documento = documento;
+	}
+
+	
 	
 }
-

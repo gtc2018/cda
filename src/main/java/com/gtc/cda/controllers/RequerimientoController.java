@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Estado;
 import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.Permiso;
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.models.Requerimiento;
 import com.gtc.cda.services.RequerimientoService;
@@ -43,19 +47,29 @@ public class RequerimientoController {
 	@RequestMapping(value ="/saveOrUpdateRequerimiento", method = RequestMethod.POST)
 	public RestResponse saveOrUpdateRequerimiento(@RequestBody String requerimientoJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
+		
+		try{
 		this.mapper = new ObjectMapper();
 		
 		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
-		
+	
 		//Se ejecuta las validaciones
 		if (!this.validate(requerimiento)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
 		
+		
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
+		
+		if(requerimiento.getDocumento() != null) {
+			requerimiento.setArchivo(fecha.DIRECTORIO_IMAGENES+"REQUERIMIENTOS/" + requerimiento.getArchivo());
+				
+				
+			}
+		
 		//seteo la fecha de creacion al campo fechaCreacion.
 		if(requerimiento.getId() ==null ) {
 			requerimiento.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
@@ -101,9 +115,36 @@ public class RequerimientoController {
 			
 			requerimiento.setProyecto(proyecto);;
 			
-			requerimiento.setEstado(estado);;
+			requerimiento.setEstado(estado);
+			
+			if (requerimiento.getDocumento() != null) {
+				Archivo archivo = new Archivo();
+
+				String arc = requerimiento.getArchivo();
+
+				if (arc != null  && arc != null
+						
+						
+						
+						
+						) {
+					String[] parts = arc.split("REQUERIMIENTOS");
+					System.out.println("PARTSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+					System.out.println(parts);
+					String part2 = parts[1];
+					String[] nombreArchivo = part2.split("/");
+
+					String nombreArchivo2 = nombreArchivo[1]; 
+					String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\REQUERIMIENTOS\\" + nombreArchivo2;
+
+					archivo.decodeBase64(requerimiento.getDocumento(), url);
+
+				}
+
+			}
 			
 			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo
+			
 
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 			
@@ -114,6 +155,15 @@ public class RequerimientoController {
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 		}
+		
+		}catch(Exception e ) {
+			
+			return new RestResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());			
+			
+		}
+		
+		
+		
 	}
 	
 	
@@ -176,6 +226,36 @@ public class RequerimientoController {
 		this.requerimientoService.deleteRequerimiento(requerimiento.getId());
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
+	}
+	
+	/**
+	 * Metodo Obtener Requerimientos por ID del proyecto.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllRequestToProject", method = RequestMethod.POST)
+	public List<Requerimiento> getAllRequestToProject(@RequestBody String proyecto) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(proyecto, Requerimiento.class);
+		
+		if(requerimiento.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.requerimientoService.findRequestToProject(requerimiento.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.requerimientoService.findRequestToProject(requerimiento.getId());
+		} 
+
 	}
 
 	/**

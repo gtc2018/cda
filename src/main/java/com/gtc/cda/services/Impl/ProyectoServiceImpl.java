@@ -34,6 +34,15 @@ public class ProyectoServiceImpl implements ProyectoService {
 		// TODO Auto-generated method stub
 		this.proyectoRepository.delete(id);
 	}
+
+
+	@Override
+	public List<Proyecto> findByCliente(Long id) {
+		// TODO Auto-generated method stub
+		return this.proyectoRepository.findByCliente(id);
+	}
+
+
 	
 	
 	

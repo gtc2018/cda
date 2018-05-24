@@ -39,5 +39,11 @@ public class RequerimientoServiceImpl implements RequerimientoService {
 		// TODO Auto-generated method stub
 		return this.requerimientoRepository.findOne(requerimientoId);
 	}
+	
+	@Override
+	public List<Requerimiento> findRequestToProject(Long project) {
+		// TODO Auto-generated method stub
+		return this.requerimientoRepository.findRequestToProject(project);
+	}
 
 }

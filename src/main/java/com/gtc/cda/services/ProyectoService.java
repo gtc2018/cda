@@ -14,6 +14,8 @@ public interface ProyectoService {
 
 	void deleteProyecto(Long id);
 	
+	List<Proyecto> findByCliente(Long id);
+	
 
 
 }

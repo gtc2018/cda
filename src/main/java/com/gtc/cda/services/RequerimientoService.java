@@ -14,6 +14,6 @@ public interface RequerimientoService {
 
 	Requerimiento findByRequerimientoId(Long id);
 	
-	//List<Requerimiento> findByRequerimiento(Long id);
+	List<Requerimiento> findRequestToProject(Long project);
 
 }
