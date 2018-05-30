@@ -40,4 +40,10 @@ public class RequerimientoServiceImpl implements RequerimientoService {
 		return this.requerimientoRepository.findOne(requerimientoId);
 	}
 
+	@Override
+	public List<Requerimiento> findByDate(Long columna1, Long columna2, String fechaInicio, String fechaFin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

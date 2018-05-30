@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -185,6 +186,51 @@ public class RequerimientoController {
 	@RequestMapping(value = "/getRequerimiento", method = RequestMethod.POST)
 	public Requerimiento getRequerimientoById(@RequestBody String id) throws Exception {
 
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(id, Requerimiento.class);
+		
+		//Se asegura que el ID no sea nulo
+		if(requerimiento.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		if (this.requerimientoService.findByRequerimientoId(requerimiento.getId()) == null) {
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.requerimientoService.findByRequerimientoId(requerimiento.getId()) ;
+		} 
+
+	}
+	
+	
+	/**
+	 * Metodo Obtener Requerimientos por Fechas.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getRequerimientoFechas", method = RequestMethod.GET)
+	public List<Requerimiento> getRequerimientoByDate(@RequestParam("columna1") Long columna1, @RequestParam("columna2") Long columna2, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin) throws Exception {
+		
+		try {
+			
+			if (this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin) == null) {
+				throw new Exception("No existen registros en las fechas a consultar");
+			}
+			else {
+				 			
+				return this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin);
+			} 
+			
+		
+		}catch(Exception e){
+			
+		}
+		
 		this.mapper = new ObjectMapper();
 		
 		Requerimiento requerimiento = this.mapper.readValue(id, Requerimiento.class);
