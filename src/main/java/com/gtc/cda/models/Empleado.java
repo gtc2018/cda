@@ -54,6 +54,9 @@ public class Empleado extends ParentEntity {
 	@Column(name="telefono", nullable = false, length = 14 )
 	private String telefono;
 	
+	@Column(name="celular", nullable = false, length = 14 )
+	private String celular;
+	
 	@Column(name="sueldo", nullable = false)
 	private Double sueldo;
 	
@@ -121,6 +124,14 @@ public class Empleado extends ParentEntity {
 
 	public void setCliente(Empresa cliente) {
 		this.cliente = cliente;
+	}
+	
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public Cargo getCargo() {
