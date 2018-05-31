@@ -67,7 +67,7 @@ public class Empleado extends ParentEntity {
 	private String ciudad;
 	
 	@Column(name="estado", nullable = false, length = 5)
-	private String estado;
+	private Integer estado;
 	
 	@Column(name="foto", nullable = false, length = 255)
 	private String foto;
@@ -190,11 +190,11 @@ public class Empleado extends ParentEntity {
 		this.ciudad = ciudad;
 	}
 
-	public String getEstado() {
+	public Integer getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
@@ -330,7 +330,7 @@ public class Empleado extends ParentEntity {
 	}
 	
 	public Empleado(Empresa cliente, Cargo cargo, Area area, String tipoEmpleado, String tipoDocumento, Long numeroDocumento, String nombres, String apellidos, String email,
-			String direccion, String telefono, Double sueldo, String sexo, String ciudad, String estado, String foto, String otrosBeneficios, String estadoEliminacion,
+			String direccion, String telefono, Double sueldo, String sexo, String ciudad, Integer estado, String foto, String otrosBeneficios, String estadoEliminacion,
 			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion) {
 		super();
 		this.cliente = cliente;
