@@ -2,6 +2,7 @@ package com.gtc.cda.controllers;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,9 +50,11 @@ public class LoginController {
 	 */
 
 	@RequestMapping(value = "/loginUsuario", method = RequestMethod.POST)
-	public Object loginUsuario(@RequestBody String usuarioJson)
+	public ResponseEntity loginUsuario(@RequestBody String usuarioJson)
 
 			throws JsonParseException, JsonMappingException, IOException, Exception {
+		
+		try {
 
 		this.mapper = new ObjectMapper();
 
@@ -64,6 +67,12 @@ public class LoginController {
 
 			Usuario usua = this.usuarioService.findByUsuarioId(usuario.getEmail(), usuario.getPassword());
 			
+			if(usua == null){
+				
+				return (ResponseEntity) ResponseEntity.badRequest().body("Usuario o contraseña inválidos");
+				
+			}
+			
 			usua.setClienteId(usua.getCliente().getId().toString());
 			
 			usua.setEmpleadoId(usua.getEmpleado().getId().toString());
@@ -75,10 +84,20 @@ public class LoginController {
 		}
 		
 		if(usuario.getEstado() != 1) {
-			throw new Exception("El usuario no se encuentra activo");
+			
+			return (ResponseEntity) ResponseEntity.badRequest().body("El usuario no se encuentra activo");
+			
 		}else {
-			return usuario;
+			
+			return (ResponseEntity) ResponseEntity.ok(usuario);
+			
 		}
+	}catch(Exception e) {
+		
+		return (ResponseEntity) ResponseEntity.badRequest().body("Error Interno en el servidor");
+		
+	}
+		
 	}
 
 }
