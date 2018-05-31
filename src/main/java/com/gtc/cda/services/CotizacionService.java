@@ -7,7 +7,7 @@ import com.gtc.cda.models.Proyecto;
 
 public interface CotizacionService {
 
-	Cotizacion save(Cotizacion empleado);
+	Cotizacion save(Cotizacion cotizacion);
 
 	List<Cotizacion> findAll();
 

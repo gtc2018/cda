@@ -44,8 +44,8 @@ public class Cotizacion extends ParentEntity {
 	@Column (name = "codigo_requerimiento", nullable = false, length = 100)
 	private String codigoRequerimiento;
 	
-	@Column (name = "descripcion", nullable = false, length = 15)
-	private String descripcion;
+	@Column (name = "descripcion_rqm", nullable = false, length = 15)
+	private String descripcionRqm;
 	
 	@Column (name = "valor_hora", nullable = false, length = 5)
 	private String valorHora;
@@ -203,12 +203,12 @@ public class Cotizacion extends ParentEntity {
 		this.codigoRequerimiento = codigoRequerimiento;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescripcionRqm() {
+		return descripcionRqm;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescripcionRqm(String descripcionRqm) {
+		this.descripcionRqm = descripcionRqm;
 	}
 
 	public String getValorHora() {
@@ -288,7 +288,7 @@ public class Cotizacion extends ParentEntity {
 	}
 
 	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, Estado estado,
-			String codigoRequerimiento, String descripcion, String valorHora, String numeroRecurso,
+			String codigoRequerimiento, String descripcionRqm, String valorHora, String numeroRecurso,
 			String fechaSolicitud, String fechaEntrega,
 			String horasFase, String horasRqm, String valorRqm, String fechaAproxEntrega,
 			String valorAcordado, String horasAcordadas, String fechaCreacion, String usuarioCreacion,
@@ -299,7 +299,7 @@ public class Cotizacion extends ParentEntity {
 		this.sistema = sistema;
 		this.herramienta = herramienta;
 		this.codigoRequerimiento = codigoRequerimiento;
-		this.descripcion = descripcion;
+		this.descripcionRqm = descripcionRqm;
 		this.valorHora = valorHora;
 		this.numeroRecurso = numeroRecurso;
 		this.estado = estado;

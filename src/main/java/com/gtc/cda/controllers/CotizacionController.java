@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,25 +46,27 @@ public class CotizacionController {
 	
 	// Guardar o Editar
 	@RequestMapping(value ="/saveOrUpdate", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateCotizacion(@RequestBody String cotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
+	public ResponseEntity saveOrUpdateCotizacion(@RequestBody String cotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
+		try {
+			
 		this.mapper = new ObjectMapper();
 		
 		Cotizacion cotizacion = this.mapper.readValue(cotizacionJson, Cotizacion.class);// Se mapea requerimiento con respecto al modelo
 		
 		//Se ejecuta las validaciones
-		if (!this.validate(cotizacion)) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"Los campos obligatorios no estan diligenciados");
-		}
+//		if (!this.validate(cotizacion)) {
+//			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+//					"Los campos obligatorios no estan diligenciados");
+//		}
 		
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
-		//seteo la fecha de creacion al campo fechaCreacion.
+		
+		//Se setea la fecha de creación o modificación según corresponda.
 		if(cotizacion.getId() ==null ) {
 			cotizacion.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
-			cotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 		}
 		else {
 		//Seteo la fecha de modificacion al campo fechaModificacion.
@@ -71,59 +74,78 @@ public class CotizacionController {
 		}
 		
 		//Valida la entrada de los datos por estructura
-		if (cotizacion.getClienteId() != null | cotizacion.getAlcanceId() != null
-				| cotizacion.getProyectoId() != null | cotizacion.getEstadoId() != null
-				| cotizacion.getHerramientaId() != null | cotizacion.getSistemaId() != null) {
+//		if (cotizacion.getClienteId() != null | cotizacion.getProyectoId() != null | cotizacion.getEstadoId() != null) {
 		
-		    Empresa empresa = new Empresa();// Variable de empresa
+		    // Variable de empresa
 	        
-	        Herramienta herramienta = new Herramienta();//Variable de fase
-	       
-	        Sistema sistema = new Sistema();//Variable de cotizacion
+//	        Herramienta herramienta = new Herramienta();//Variable de fase
+//	       
+//	        Sistema sistema = new Sistema();//Variable de cotizacion
 	        
-	        Proyecto proyecto = new Proyecto();//Variable de proyecto
-	        
-	        Estado estado = new Estado();//Variable de estado
-	        
-	        Alcance alcance = new Alcance();//Variable de alcance
+//	        Estado estado = new Estado();//Variable de estado
+//	        
+//	        Alcance alcance = new Alcance();//Variable de alcance
 			
 	        //Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
-			empresa.setId(new Long(cotizacion.getClienteId()));
+	        if (cotizacion.getClienteId() != null ) {
+
+	        	Empresa empresa = new Empresa();
+				
+	        	empresa.setId(new Long(cotizacion.getClienteId()));
+	        	
+	        	cotizacion.setCliente(empresa);
+				
+	        }
+	        
+	        if (cotizacion.getProyectoId() != null ) {
+	        	
+	        	Proyecto proyecto = new Proyecto();//Variable de proyecto
+	        	
+	        	proyecto.setId(new Long(cotizacion.getProyectoId()));
+	        	
+	        	cotizacion.setProyecto(proyecto);
+				
+	        }
+	        
+	        this.cotizacionService.save(cotizacion);
+	        
+	        return (ResponseEntity) ResponseEntity.ok().body("Registro creado exitosamente");
+	        
+		} catch(Exception e) {
 			
-			herramienta.setId(new Long(cotizacion.getHerramientaId()));
+			return (ResponseEntity) ResponseEntity.badRequest().body(e.getMessage());			
 			
-			sistema.setId(new Long(cotizacion.getSistemaId()));
-			
-			proyecto.setId(new Long(cotizacion.getProyectoId()));
-			
-			estado.setId(new Long(cotizacion.getEstadoId()));
-			
-			alcance.setId(new Long(cotizacion.getAlcanceId()));
+		}
+	        
+	        
+//			estado.setId(new Long(cotizacion.getEstadoId()));
+//			
+//			alcance.setId(new Long(cotizacion.getAlcanceId()));
 			
 			// Se le setean las variables al arreglo --------------------------------------------------------------------------
-			cotizacion.setCliente(empresa);
+//			cotizacion.setCliente(empresa);
+//			
+//			cotizacion.setSistema(sistema);
+//			
+//			cotizacion.setHerramienta(herramienta);
+//			
+//			cotizacion.setProyecto(proyecto);
+//			
+//			cotizacion.setEstado(estado);
+//			
+//			cotizacion.setAlcance(alcance);
 			
-			cotizacion.setSistema(sistema);
-			
-			cotizacion.setHerramienta(herramienta);
-			
-			cotizacion.setProyecto(proyecto);
-			
-			cotizacion.setEstado(estado);
-			
-			cotizacion.setAlcance(alcance);
-			
-			this.cotizacionService.save(cotizacion);// Ejecuta el servicio para guardar el arreglo
-
-			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
-			
-		}else {
-			
-		this.cotizacionService.save(cotizacion);
-
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-		
-		}
+//			this.cotizacionService.save(cotizacion);// Ejecuta el servicio para guardar el arreglo
+//
+//			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+//			
+//		}else {
+//			
+//		this.cotizacionService.save(cotizacion);
+//
+//		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+//		
+//		}
 	}
 	
 	
@@ -191,13 +213,13 @@ public class CotizacionController {
 	/**
 	 * Metodo de VALIDACIONES.
 	 */
-	private boolean validate(Cotizacion cotizacion) {
-		
-		boolean isValid = true;
-				
-		return isValid;
-		
-	}
+//	private boolean validate(Cotizacion cotizacion) {
+//		
+//		boolean isValid = true;
+//				
+//		return isValid;
+//		
+//	}
 	
 	
 	/**

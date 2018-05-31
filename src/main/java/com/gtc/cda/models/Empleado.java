@@ -14,7 +14,6 @@ import javax.persistence.Transient;
 @Table(name="empleados")
 @Access(AccessType.FIELD)
 public class Empleado extends ParentEntity {
-
 	
 	private static final long serialVersionUID = 1861714197594497953L;
 	
