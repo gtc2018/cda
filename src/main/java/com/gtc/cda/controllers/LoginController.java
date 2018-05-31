@@ -51,7 +51,7 @@ public class LoginController {
 	@RequestMapping(value = "/loginUsuario", method = RequestMethod.POST)
 	public Object loginUsuario(@RequestBody String usuarioJson)
 
-			throws JsonParseException, JsonMappingException, IOException {
+			throws JsonParseException, JsonMappingException, IOException, Exception {
 
 		this.mapper = new ObjectMapper();
 
@@ -71,31 +71,14 @@ public class LoginController {
 			usua.setRolId(usua.getRol().getId().toString());
 			
 			usuario = usua;
-					
-			System.out.println(usuario);
-
-			if (usua != null && usua.getEmpleadoId() != null && usua.getTipoEmpleado() != null) {
-				
-				System.out.println("entro");
-
-				if (usua.getTipoEmpleado().toUpperCase().equals("INTERNO")) {
-					empleado = this.empleadoService.findByEmpleadoId(usua.getEmpleado().getId());
-				} else if (usua.getTipoEmpleado().toUpperCase().equals("EXTERNO")) {
-					empleado = this.empleadoExternoService.findByEmpleadoId(usua.getEmpleado().getId());
-				} else {
-					System.out.println("****EL EMPLEADO NO HA SIDO DEFINIDO COMO INTERNO O EXTERNO****"+ usua.getTipoEmpleado().toUpperCase());
-					empleado = null;
-				}
-
-			} else {
-				System.out.println("***** USUARIO O CONTRASEÑA INVALIDO: ******");
-				empleado = null;
-			}
 
 		}
-
-		return usuario;
-
+		
+		if(usuario.getEstado() != 1) {
+			throw new Exception("El usuario no se encuentra activo");
+		}else {
+			return usuario;
+		}
 	}
 
 }
