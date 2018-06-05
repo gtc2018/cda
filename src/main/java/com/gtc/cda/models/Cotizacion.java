@@ -25,21 +25,11 @@ public class Cotizacion extends ParentEntity {
 	@JoinColumn(name = "proyectos_id", nullable = false, referencedColumnName =  "id")
 	private Proyecto proyecto;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "sistemas_id", nullable = false, referencedColumnName =  "id")
-	private Sistema sistema;
+	@Column (name = "estado", nullable = false, length = 255)
+	private String estado;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "herramientas_id", nullable = false, referencedColumnName =  "id")
-	private Herramienta herramienta;
-	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "estados_id", nullable = false, referencedColumnName =  "id")
-	private Estado estado;
-	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "alcance_id", nullable = false, referencedColumnName =  "id")
-	private Alcance alcance;
+	@Column (name = "alcance", nullable = false, length = 255)
+	private String alcance;
 	
 	@Column (name = "codigo_requerimiento", nullable = false, length = 100)
 	private String codigoRequerimiento;
@@ -89,23 +79,14 @@ public class Cotizacion extends ParentEntity {
 	@Column (name = "usuario_modificacion", nullable = false, length = 100)
 	private String usuarioModificacion;
 	
+	@Column (name = "consecutivo", nullable = false, length = 45)
+	private String consecutivo;
+	
 	@Transient
 	private String clienteId;
 	
 	@Transient
 	private String proyectoId;
-	
-	@Transient
-	private String sistemaId;
-	
-	@Transient
-	private String herramientaId;
-	
-	@Transient
-	private String estadoId;
-	
-	@Transient
-	private String alcanceId;
 
 	public Empresa getCliente() {
 		return cliente;
@@ -123,36 +104,12 @@ public class Cotizacion extends ParentEntity {
 		this.proyecto = proyecto;
 	}
 
-	public Sistema getSistema() {
-		return sistema;
-	}
-
-	public void setSistema(Sistema sistema) {
-		this.sistema = sistema;
-	}
-
-	public Herramienta getHerramienta() {
-		return herramienta;
-	}
-
-	public void setHerramienta(Herramienta herramienta) {
-		this.herramienta = herramienta;
-	}
-
-	public Estado getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public Alcance getAlcance() {
-		return alcance;
-	}
-
-	public void setAlcance(Alcance alcance) {
-		this.alcance = alcance;
 	}
 
 	public String getFechaEntrega() {
@@ -287,7 +244,7 @@ public class Cotizacion extends ParentEntity {
 		
 	}
 
-	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, Estado estado,
+	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, String estado,
 			String codigoRequerimiento, String descripcionRqm, String valorHora, String numeroRecurso,
 			String fechaSolicitud, String fechaEntrega,
 			String horasFase, String horasRqm, String valorRqm, String fechaAproxEntrega,
@@ -296,8 +253,6 @@ public class Cotizacion extends ParentEntity {
 		super();
 		this.cliente = cliente;
 		this.proyecto = proyecto;
-		this.sistema = sistema;
-		this.herramienta = herramienta;
 		this.codigoRequerimiento = codigoRequerimiento;
 		this.descripcionRqm = descripcionRqm;
 		this.valorHora = valorHora;
@@ -305,7 +260,6 @@ public class Cotizacion extends ParentEntity {
 		this.estado = estado;
 		this.fechaSolicitud = fechaSolicitud;
 		this.fechaEntrega = fechaEntrega;
-		this.alcance = alcance;
 		this.horasFase = horasFase;
 		this.horasRqm = horasRqm;
 		this.valorRqm = valorRqm;
@@ -338,45 +292,15 @@ public class Cotizacion extends ParentEntity {
 		this.proyectoId = proyectoId;
 	}
 
-	@Transient
-	public String getSistemaId() {
-		return sistemaId;
+	public String getConsecutivo() {
+		return consecutivo;
 	}
 
-	@Transient
-	public void setSistemaId(String sistemaId) {
-		this.sistemaId = sistemaId;
+	public void setConsecutivo(String consecutivo) {
+		this.consecutivo = consecutivo;
 	}
-
-	@Transient
-	public String getHerramientaId() {
-		return herramientaId;
-	}
-
-	@Transient
-	public void setHerramientaId(String herramientaId) {
-		this.herramientaId = herramientaId;
-	}
-
-	@Transient
-	public String getEstadoId() {
-		return estadoId;
-	}
-
-	@Transient
-	public void setEstadoId(String estadoId) {
-		this.estadoId = estadoId;
-	}
-
-	@Transient
-	public String getAlcanceId() {
-		return alcanceId;
-	}
-
-	@Transient
-	public void setAlcanceId(String alcanceId) {
-		this.alcanceId = alcanceId;
-	}
+	
+	
 	
 }
 

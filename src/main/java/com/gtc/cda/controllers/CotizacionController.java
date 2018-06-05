@@ -50,6 +50,10 @@ public class CotizacionController {
 		
 		try {
 			
+			int NumberConsecutive;
+			
+			String TextConsecutive = "COT";
+			
 		this.mapper = new ObjectMapper();
 		
 		Cotizacion cotizacion = this.mapper.readValue(cotizacionJson, Cotizacion.class);// Se mapea requerimiento con respecto al modelo
@@ -107,13 +111,40 @@ public class CotizacionController {
 				
 	        }
 	        
+	        
+	        
+	        
+	        
+	        String LastConsecutive = cotizacionService.LastConsecutive();
+
+	        if (LastConsecutive == null) {      	
+	        	
+	        	NumberConsecutive = 000001;
+	        	
+	        } else {
+	        	
+	        	int s = Integer.parseInt(LastConsecutive.substring(3));
+	        	
+	        	NumberConsecutive = s + 1;
+	        }
+	        
+	        String Consecutivo = TextConsecutive +String.valueOf(NumberConsecutive);
+	        
+	        cotizacion.setConsecutivo(Consecutivo);
+	        
 	        this.cotizacionService.save(cotizacion);
 	        
-	        return (ResponseEntity) ResponseEntity.ok().body("Registro creado exitosamente");
+	        Object c = new Object();
+	        
+	        c = cotizacion.getConsecutivo();
+	        
+	        return (ResponseEntity) ResponseEntity.ok(c);
+	        
+	        
 	        
 		} catch(Exception e) {
 			
-			return (ResponseEntity) ResponseEntity.badRequest().body(e.getMessage());			
+			return (ResponseEntity) ResponseEntity.badRequest().body("Error interno en el servidor");
 			
 		}
 	        
@@ -153,7 +184,7 @@ public class CotizacionController {
 	 * Metodo consultar todos las cotizaciones.
 	 * @return
 	 */
-	@RequestMapping(value ="/getAll", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public List<Cotizacion> getAllCotizacion(){
 		
 		return  this.cotizacionService.findAll();// Regresa todas las cotizaciones
@@ -165,7 +196,7 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getId/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/getId/{id}", method = RequestMethod.GET)
 	public Cotizacion getCotizacionById(@PathVariable(value="id") String id) throws Exception {
 
 		this.mapper = new ObjectMapper();
@@ -194,8 +225,8 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value ="/delete", method = RequestMethod.POST)
-	public RestResponse deleteCotizacion(@RequestParam("id") Long id) throws Exception{
+	@RequestMapping(value ="/Delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity deleteCotizacion(@PathVariable(value="id") Long id) throws Exception{
 		this.mapper = new ObjectMapper();
 		
 //		Cotizacion cotizacion = this.mapper.readValue(usuarioJson, Cotizacion.class);
@@ -205,8 +236,17 @@ public class CotizacionController {
 //					"El campo ID no puede ser nulo");
 //		}
 		
+//		try {
+		
 		this.cotizacionService.deleteCotizacion(id);
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+		
+		return (ResponseEntity) ResponseEntity.ok().body("");
+		 
+//		} catch(Exception e) {
+//			
+//			return (ResponseEntity) ResponseEntity.badRequest().body(e);
+//			
+//		}
 		
 	}
 
