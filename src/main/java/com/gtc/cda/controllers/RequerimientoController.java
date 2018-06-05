@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
+import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Estado;
@@ -216,7 +218,9 @@ public class RequerimientoController {
 	@RequestMapping(value = "/getRequerimientoFechas", method = RequestMethod.GET)
 	public List<Requerimiento> getRequerimientoByDate(@RequestParam("columna1") Long columna1, @RequestParam("columna2") Long columna2, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin) throws Exception {
 		
-		try {
+		List<Requerimiento> requerimientos = this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin);
+		return requerimientos;
+		/*try {
 			
 			if (this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin) == null) {
 				throw new Exception("No existen registros en las fechas a consultar");
@@ -229,26 +233,11 @@ public class RequerimientoController {
 		
 		}catch(Exception e){
 			
-		}
-		
-		this.mapper = new ObjectMapper();
-		
-		Requerimiento requerimiento = this.mapper.readValue(id, Requerimiento.class);
-		
-		//Se asegura que el ID no sea nulo
-		if(requerimiento.getId() == null){
+			System.out.println(e);
 			
-			throw new Exception("El ID no puede ser nulo.");
-		}
+		}*/
 		
-		// Se valida la existencia del registro
-		if (this.requerimientoService.findByRequerimientoId(requerimiento.getId()) == null) {
-			throw new Exception("No existen registros con este ID");
-		}
-		else {
-			 			
-			return this.requerimientoService.findByRequerimientoId(requerimiento.getId()) ;
-		} 
+		
 
 	}
 	
