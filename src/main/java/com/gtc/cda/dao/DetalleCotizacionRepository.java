@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.DetalleCotizacion;
 
 
@@ -14,5 +15,8 @@ public interface DetalleCotizacionRepository extends JpaRepository<DetalleCotiza
 	
 	@SuppressWarnings("unchecked")
 	DetalleCotizacion save(DetalleCotizacion detalleCotizaciones);
+		
+		@Query(value = "SELECT * FROM detalle_cotizacion WHERE cotizacion = ?1" , nativeQuery = true)
+		public List<DetalleCotizacion> findAllForCotizacion(@Param("cotizacionId") Long cotizacionId);
 
 }

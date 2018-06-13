@@ -39,5 +39,11 @@ public class DetalleCotizacionServiceImpl implements DetalleCotizacionService {
 		// TODO Auto-generated method stub
 		return this.detalleCotizacionRepository.findOne(detalleCotizacionId);
 	}
+	
+	
+	public List<DetalleCotizacion> findAllForCotizacion(Long CotizacionId) {
+		// TODO Auto-generated method stub
+		return this.detalleCotizacionRepository.findAllForCotizacion(CotizacionId);
+	}
 
 }

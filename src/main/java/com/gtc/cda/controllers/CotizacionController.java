@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,58 @@ public class CotizacionController {
 	protected CotizacionService cotizacionService;
 	
 	protected ObjectMapper mapper;
+	
+	
+	/**
+	 * Metodo consultar todos las cotizaciones.
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public List<Cotizacion> getAllCotizacion(){
+		
+		return  this.cotizacionService.findAll();// Regresa todas las cotizaciones
+		
+	}
+	
+	/**
+	 * Metodo Obtener Cotizacion por ID.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getId/{id}", method = RequestMethod.GET)
+	public ResponseEntity getCotizacionById(@PathVariable(value="id") Long id) throws Exception {
+
+//		this.mapper = new ObjectMapper();
+		
+//		Cotizacion cotizacion = this.mapper.readValue(id, Cotizacion.class);
+		
+		//Se asegura que el ID no sea nulo
+//		if(cotizacion.getId() == null){
+//			
+//			throw new Exception("El ID no puede ser nulo.");
+//		}
+		
+		try {
+			
+			Cotizacion quotation = this.cotizacionService.findByCotizacionId(id);
+		
+		// Se valida la existencia del registro
+		if ( quotation == null) {
+			
+			return (ResponseEntity) ((BodyBuilder) ResponseEntity.notFound()).body("No se encuentra el registro a actualizar");
+		}
+		else {
+			 			
+			return (ResponseEntity) ResponseEntity.ok(quotation);
+		} 
+		
+		}catch(Exception e) {
+			
+			return (ResponseEntity) ResponseEntity.badRequest().body(e);
+			
+		}
+
+	}
 	
 	// Guardar o Editar
 	@RequestMapping(value ="/saveOrUpdate", method = RequestMethod.POST)
@@ -111,10 +164,9 @@ public class CotizacionController {
 				
 	        }
 	        
-	        
-	        
-	        
-	        
+	        //Para la creación por prinmera vez	  
+	        	
+	        	if (cotizacion.getId() == null) {
 	        String LastConsecutive = cotizacionService.LastConsecutive();
 
 	        if (LastConsecutive == null) {      	
@@ -132,19 +184,21 @@ public class CotizacionController {
 	        
 	        cotizacion.setConsecutivo(Consecutivo);
 	        
+	        cotizacion.setEstado("GENERADA");
+
+				}
+	        
+	        
+	        
 	        this.cotizacionService.save(cotizacion);
 	        
-	        Object c = new Object();
-	        
-	        c = cotizacion.getConsecutivo();
-	        
-	        return (ResponseEntity) ResponseEntity.ok(c);
+	        return (ResponseEntity) ResponseEntity.ok(cotizacion);
 	        
 	        
 	        
 		} catch(Exception e) {
 			
-			return (ResponseEntity) ResponseEntity.badRequest().body("Error interno en el servidor");
+			return (ResponseEntity) ResponseEntity.badRequest().body(e);
 			
 		}
 	        
@@ -181,44 +235,35 @@ public class CotizacionController {
 	
 	
 	/**
-	 * Metodo consultar todos las cotizaciones.
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Cotizacion> getAllCotizacion(){
-		
-		return  this.cotizacionService.findAll();// Regresa todas las cotizaciones
-		
-	}
-	
-	/**
-	 * Metodo Obtener Cotizacion por ID.
-	 * @param usuarioJson
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/getId/{id}", method = RequestMethod.GET)
-	public Cotizacion getCotizacionById(@PathVariable(value="id") String id) throws Exception {
+	 * Metodo que obtiene las cotizaciones por proyecto
+	 * 	 */
+	@RequestMapping(value = "/getCotizacionByProyecto", method = RequestMethod.POST)
+	public List<Cotizacion> getCotizacionPorProyecto(@RequestBody String proyectoJson) throws Exception {
 
 		this.mapper = new ObjectMapper();
 		
-		Cotizacion cotizacion = this.mapper.readValue(id, Cotizacion.class);
+		Proyecto proyecto = this.mapper.readValue(proyectoJson, Proyecto.class);
 		
-		//Se asegura que el ID no sea nulo
-		if(cotizacion.getId() == null){
+		
+		if(proyecto.getId() == null){
 			
 			throw new Exception("El ID no puede ser nulo.");
 		}
 		
 		// Se valida la existencia del registro
-		if (this.cotizacionService.findByCotizacionId(cotizacion.getId()) == null) {
+		
+		if (this.cotizacionService.findByProyecto(proyecto.getId()) == null) {
+			
 			throw new Exception("No existen registros con este ID");
 		}
-		else {
-			 			
-			return this.cotizacionService.findByCotizacionId(cotizacion.getId()) ;
+		else {		
+			return this.cotizacionService.findByProyecto(proyecto.getId());
 		} 
 
 	}
+	
+	
+
 	
 	/**
 	 * Metodo Eliminar Cotizacion.
@@ -262,33 +307,7 @@ public class CotizacionController {
 //	}
 	
 	
-	/**
-	 * Metodo que obtiene las cotizaciones por proyecto
-	 * 	 */
-	@RequestMapping(value = "/getCotizacionByProyecto", method = RequestMethod.POST)
-	public List<Cotizacion> getCotizacionPorProyecto(@RequestBody String proyectoJson) throws Exception {
-
-		this.mapper = new ObjectMapper();
-		
-		Proyecto proyecto = this.mapper.readValue(proyectoJson, Proyecto.class);
-		
-		
-		if(proyecto.getId() == null){
-			
-			throw new Exception("El ID no puede ser nulo.");
-		}
-		
-		// Se valida la existencia del registro
-		
-		if (this.cotizacionService.findByProyecto(proyecto.getId()) == null) {
-			
-			throw new Exception("No existen registros con este ID");
-		}
-		else {		
-			return this.cotizacionService.findByProyecto(proyecto.getId());
-		} 
-
-	}
+	
 	
 
 }

@@ -8,10 +8,12 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -25,6 +27,7 @@ import com.gtc.cda.util.RestResponse;
 
 
 @CrossOrigin(origins="*")
+@RequestMapping(value ="/DetailQuotation")
 @RestController
 
 public class DetalleCotizacionController {
@@ -35,25 +38,20 @@ public class DetalleCotizacionController {
 	protected ObjectMapper mapper;
 	
 	// Guardar o Editar
-	@RequestMapping(value ="/saveOrUpdateDetalleCotizacion", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateDetalleCotizacion(@RequestBody String detalleCotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
-		
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity saveOrUpdateDetalleCotizacion(@RequestBody String detalleCotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
+		try {
+			
 		this.mapper = new ObjectMapper();
 		
 		DetalleCotizacion detalleCotizacion = this.mapper.readValue(detalleCotizacionJson, DetalleCotizacion.class);// Se mapea requerimiento con respecto al modelo
-		
-		//Se ejecuta las validaciones
-		if (!this.validate(detalleCotizacion)) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"Los campos obligatorios no estan diligenciados");
-		}
 		
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
 		//seteo la fecha de creacion al campo fechaCreacion.
 		if(detalleCotizacion.getId() ==null ) {
-			detalleCotizacion.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+			
 			detalleCotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 		}
 		else {
@@ -61,27 +59,21 @@ public class DetalleCotizacionController {
 			detalleCotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));	
 		}
 		
-		//Valida la entrada de los datos por estructura
-		if (detalleCotizacion.getCotizacionId() != null) {
-		
 			Cotizacion cotizacion = new Cotizacion();//Variable de cotizacion
 			
 	        //Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
-			cotizacion.setId(new Long(detalleCotizacion.getCotizacionId()));
+			cotizacion.setId(detalleCotizacion.getCotizacionId());
 			
 			// Se le setean las variables al arreglo --------------------------------------------------------------------------
 			detalleCotizacion.setCotizacion(cotizacion);;
 			
 			this.detalleCotizacionService.save(detalleCotizacion);// Ejecuta el servicio para guardar el arreglo
 
-			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");//Retorna una respuesta exitosa
+			return ResponseEntity.ok(detalleCotizacion);//Retorna una respuesta exitosa
 			
-		}else {
+		}catch(Exception e) {
 			
-		this.detalleCotizacionService.save(detalleCotizacion);
-
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-		
+			return ResponseEntity.badRequest().body(e);
 		}
 	}
 	
@@ -90,10 +82,18 @@ public class DetalleCotizacionController {
 	 * Metodo consultar todos los detalles cotizaciones.
 	 * @return
 	 */
-	@RequestMapping(value ="/getAllDetalleCotizacion", method = RequestMethod.GET)
-	public List<DetalleCotizacion> getAllDetalleCotizacion(){
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity getAllDetalleCotizacion(@RequestParam("cotizacionId") Long cotizacionId){
 		
-		return  this.detalleCotizacionService.findAll();// Regresa todas las cotizaciones
+		try {
+		
+		return  ResponseEntity.ok(this.detalleCotizacionService.findAllForCotizacion(cotizacionId));
+		
+		}catch(Exception e) {
+			
+			return ResponseEntity.badRequest().body(e);			
+			
+		}
 		
 	}
 	
