@@ -39,11 +39,13 @@ public class RequerimientoServiceImpl implements RequerimientoService {
 		// TODO Auto-generated method stub
 		return this.requerimientoRepository.findOne(requerimientoId);
 	}
-
+	
 	@Override
-	public List<Requerimiento> findByDate(Long columna1, Long columna2, String fechaInicio, String fechaFin) {
+	public List<Requerimiento> findRequestToProject(Long project) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.requerimientoRepository.findRequestToProject(project);
 	}
+
+	
 
 }

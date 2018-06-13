@@ -48,5 +48,13 @@ public class CotizacionServiceImpl implements CotizacionService {
 		return this.cotizacionRepository.findByProyecto(id);
 
 	}
+	
+	@Override
+	public String LastConsecutive() {
+		// TODO Auto-generated method stub
+		
+		return this.cotizacionRepository.LastConsecutive();
+
+	}
 
 }

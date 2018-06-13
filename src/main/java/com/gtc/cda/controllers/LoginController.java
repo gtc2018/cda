@@ -2,6 +2,7 @@ package com.gtc.cda.controllers;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,9 +50,11 @@ public class LoginController {
 	 */
 
 	@RequestMapping(value = "/loginUsuario", method = RequestMethod.POST)
-	public Object loginUsuario(@RequestBody String usuarioJson)
+	public ResponseEntity loginUsuario(@RequestBody String usuarioJson)
 
-			throws JsonParseException, JsonMappingException, IOException {
+			throws JsonParseException, JsonMappingException, IOException, Exception {
+		
+		try {
 
 		this.mapper = new ObjectMapper();
 
@@ -64,6 +67,12 @@ public class LoginController {
 
 			Usuario usua = this.usuarioService.findByUsuarioId(usuario.getEmail(), usuario.getPassword());
 			
+			if(usua == null){
+				
+				return (ResponseEntity) ResponseEntity.badRequest().body("Usuario o contraseña inválidos");
+				
+			}
+			
 			usua.setClienteId(usua.getCliente().getId().toString());
 			
 			usua.setEmpleadoId(usua.getEmpleado().getId().toString());
@@ -71,31 +80,24 @@ public class LoginController {
 			usua.setRolId(usua.getRol().getId().toString());
 			
 			usuario = usua;
-					
-			System.out.println(usuario);
-
-			if (usua != null && usua.getEmpleadoId() != null && usua.getTipoEmpleado() != null) {
-				
-				System.out.println("entro");
-
-				if (usua.getTipoEmpleado().toUpperCase().equals("INTERNO")) {
-					empleado = this.empleadoService.findByEmpleadoId(usua.getEmpleado().getId());
-				} else if (usua.getTipoEmpleado().toUpperCase().equals("EXTERNO")) {
-					empleado = this.empleadoExternoService.findByEmpleadoId(usua.getEmpleado().getId());
-				} else {
-					System.out.println("****EL EMPLEADO NO HA SIDO DEFINIDO COMO INTERNO O EXTERNO****"+ usua.getTipoEmpleado().toUpperCase());
-					empleado = null;
-				}
-
-			} else {
-				System.out.println("***** USUARIO O CONTRASEÑA INVALIDO: ******");
-				empleado = null;
-			}
 
 		}
-
-		return usuario;
-
+		
+		if(usuario.getEstado() != 1) {
+			
+			return (ResponseEntity) ResponseEntity.badRequest().body("El usuario no se encuentra activo");
+			
+		}else {
+			
+			return (ResponseEntity) ResponseEntity.ok(usuario);
+			
+		}
+	}catch(Exception e) {
+		
+		return (ResponseEntity) ResponseEntity.badRequest().body("Error Interno en el servidor");
+		
+	}
+		
 	}
 
 }

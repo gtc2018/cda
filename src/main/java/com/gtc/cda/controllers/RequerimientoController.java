@@ -29,6 +29,7 @@ import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Estado;
 import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.Permiso;
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.models.Requerimiento;
 import com.gtc.cda.services.RequerimientoService;
@@ -210,36 +211,7 @@ public class RequerimientoController {
 	}
 	
 	
-	/**
-	 * Metodo Obtener Requerimientos por Fechas.
-	 * @param usuarioJson
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/getRequerimientoFechas", method = RequestMethod.GET)
-	public List<Requerimiento> getRequerimientoByDate(@RequestParam("columna1") Long columna1, @RequestParam("columna2") Long columna2, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin) throws Exception {
-		
-		List<Requerimiento> requerimientos = this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin);
-		return requerimientos;
-		/*try {
-			
-			if (this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin) == null) {
-				throw new Exception("No existen registros en las fechas a consultar");
-			}
-			else {
-				 			
-				return this.requerimientoService.findByDate(columna1, columna2, fechaInicio, fechaFin);
-			} 
-			
-		
-		}catch(Exception e){
-			
-			System.out.println(e);
-			
-		}*/
-		
-		
-
-	}
+	
 	
 	/**
 	 * Metodo Eliminar Requerimiento.
@@ -260,6 +232,36 @@ public class RequerimientoController {
 		this.requerimientoService.deleteRequerimiento(requerimiento.getId());
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
+	}
+	
+	/**
+	 * Metodo Obtener Requerimientos por ID del proyecto.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllRequestToProject", method = RequestMethod.POST)
+	public List<Requerimiento> getAllRequestToProject(@RequestBody String proyecto) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(proyecto, Requerimiento.class);
+		
+		if(requerimiento.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.requerimientoService.findRequestToProject(requerimiento.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.requerimientoService.findRequestToProject(requerimiento.getId());
+		} 
+
 	}
 
 	/**

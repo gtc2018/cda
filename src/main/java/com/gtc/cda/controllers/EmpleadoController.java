@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -35,6 +37,17 @@ public class EmpleadoController {
 	protected EmpleadoService empleadoService;
 
 	protected ObjectMapper mapper;
+	
+//	@RequestMapping(value = "/saveFile", method = RequestMethod.POST)
+//	public RestResponse saveOrUpdatkeEmpleado(@RequestParam(value="formulario", required=false) String empleadoJson, @RequestParam("file") MultipartFile file)
+//			throws JsonParseException, JsonMappingException, IOException, ParseException {
+//		
+//		this.mapper = new ObjectMapper();
+//		
+//		Empleado empleado = new ObjectMapper().readValue(empleadoJson, Empleado.class);
+//		
+//			return null;		
+//	}
 
 	@RequestMapping(value = "/saveOrUpdateEmpleado", method = RequestMethod.POST)
 	public RestResponse saveOrUpdateEmpleado(@RequestBody String empleadoJson)
@@ -96,8 +109,6 @@ public class EmpleadoController {
 					String foto = empleado.getFoto();
 
 					if (foto != null  && foto != null
-							
-							
 							
 							
 							) {

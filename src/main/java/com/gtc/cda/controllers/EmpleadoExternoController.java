@@ -100,12 +100,7 @@ public class EmpleadoExternoController {
 
 			String foto = empleadoExterno.getFotoEmpleado();
 
-			if (foto != null  && foto != null
-					
-					
-					
-					
-					) {
+			if (foto != null  && foto != null) {
 				String[] parts = foto.split("87");
 				String part2 = parts[1];
 				String[] nombreArchivo = part2.split("/");

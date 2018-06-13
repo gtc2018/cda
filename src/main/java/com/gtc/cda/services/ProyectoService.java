@@ -17,5 +17,4 @@ public interface ProyectoService {
 	List<Proyecto> findByCliente(Long id);
 
 
-
 }

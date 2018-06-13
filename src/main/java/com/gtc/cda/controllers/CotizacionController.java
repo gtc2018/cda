@@ -8,10 +8,13 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -31,6 +34,7 @@ import com.gtc.cda.util.RestResponse;
 
 
 @CrossOrigin(origins="*")
+@RequestMapping(value ="/Quotations")
 @RestController
 
 public class CotizacionController {
@@ -41,26 +45,32 @@ public class CotizacionController {
 	protected ObjectMapper mapper;
 	
 	// Guardar o Editar
-	@RequestMapping(value ="/saveOrUpdateCotizacion", method = RequestMethod.POST)
-	public RestResponse saveOrUpdateCotizacion(@RequestBody String cotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
+	@RequestMapping(value ="/saveOrUpdate", method = RequestMethod.POST)
+	public ResponseEntity saveOrUpdateCotizacion(@RequestBody String cotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
+		try {
+			
+			int NumberConsecutive;
+			
+			String TextConsecutive = "COT";
+			
 		this.mapper = new ObjectMapper();
 		
 		Cotizacion cotizacion = this.mapper.readValue(cotizacionJson, Cotizacion.class);// Se mapea requerimiento con respecto al modelo
 		
 		//Se ejecuta las validaciones
-		if (!this.validate(cotizacion)) {
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"Los campos obligatorios no estan diligenciados");
-		}
+//		if (!this.validate(cotizacion)) {
+//			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+//					"Los campos obligatorios no estan diligenciados");
+//		}
 		
 		//Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fech = new Date();
-		//seteo la fecha de creacion al campo fechaCreacion.
+		
+		//Se setea la fecha de creación o modificación según corresponda.
 		if(cotizacion.getId() ==null ) {
 			cotizacion.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
-			cotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 		}
 		else {
 		//Seteo la fecha de modificacion al campo fechaModificacion.
@@ -68,59 +78,105 @@ public class CotizacionController {
 		}
 		
 		//Valida la entrada de los datos por estructura
-		if (cotizacion.getClienteId() != null | cotizacion.getAlcanceId() != null
-				| cotizacion.getProyectoId() != null | cotizacion.getEstadoId() != null
-				| cotizacion.getHerramientaId() != null | cotizacion.getSistemaId() != null) {
+//		if (cotizacion.getClienteId() != null | cotizacion.getProyectoId() != null | cotizacion.getEstadoId() != null) {
 		
-		    Empresa empresa = new Empresa();// Variable de empresa
+		    // Variable de empresa
 	        
-	        Herramienta herramienta = new Herramienta();//Variable de fase
-	       
-	        Sistema sistema = new Sistema();//Variable de cotizacion
+//	        Herramienta herramienta = new Herramienta();//Variable de fase
+//	       
+//	        Sistema sistema = new Sistema();//Variable de cotizacion
 	        
-	        Proyecto proyecto = new Proyecto();//Variable de proyecto
-	        
-	        Estado estado = new Estado();//Variable de estado
-	        
-	        Alcance alcance = new Alcance();//Variable de alcance
+//	        Estado estado = new Estado();//Variable de estado
+//	        
+//	        Alcance alcance = new Alcance();//Variable de alcance
 			
 	        //Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
-			empresa.setId(new Long(cotizacion.getClienteId()));
+	        if (cotizacion.getClienteId() != null ) {
+
+	        	Empresa empresa = new Empresa();
+				
+	        	empresa.setId(new Long(cotizacion.getClienteId()));
+	        	
+	        	cotizacion.setCliente(empresa);
+				
+	        }
+	        
+	        if (cotizacion.getProyectoId() != null ) {
+	        	
+	        	Proyecto proyecto = new Proyecto();//Variable de proyecto
+	        	
+	        	proyecto.setId(new Long(cotizacion.getProyectoId()));
+	        	
+	        	cotizacion.setProyecto(proyecto);
+				
+	        }
+	        
+	        
+	        
+	        
+	        
+	        String LastConsecutive = cotizacionService.LastConsecutive();
+
+	        if (LastConsecutive == null) {      	
+	        	
+	        	NumberConsecutive = 000001;
+	        	
+	        } else {
+	        	
+	        	int s = Integer.parseInt(LastConsecutive.substring(3));
+	        	
+	        	NumberConsecutive = s + 1;
+	        }
+	        
+	        String Consecutivo = TextConsecutive +String.valueOf(NumberConsecutive);
+	        
+	        cotizacion.setConsecutivo(Consecutivo);
+	        
+	        this.cotizacionService.save(cotizacion);
+	        
+	        Object c = new Object();
+	        
+	        c = cotizacion.getConsecutivo();
+	        
+	        return (ResponseEntity) ResponseEntity.ok(c);
+	        
+	        
+	        
+		} catch(Exception e) {
 			
-			herramienta.setId(new Long(cotizacion.getHerramientaId()));
+			return (ResponseEntity) ResponseEntity.badRequest().body("Error interno en el servidor");
 			
-			sistema.setId(new Long(cotizacion.getSistemaId()));
-			
-			proyecto.setId(new Long(cotizacion.getProyectoId()));
-			
-			estado.setId(new Long(cotizacion.getEstadoId()));
-			
-			alcance.setId(new Long(cotizacion.getAlcanceId()));
+		}
+	        
+	        
+//			estado.setId(new Long(cotizacion.getEstadoId()));
+//			
+//			alcance.setId(new Long(cotizacion.getAlcanceId()));
 			
 			// Se le setean las variables al arreglo --------------------------------------------------------------------------
-			cotizacion.setCliente(empresa);
+//			cotizacion.setCliente(empresa);
+//			
+//			cotizacion.setSistema(sistema);
+//			
+//			cotizacion.setHerramienta(herramienta);
+//			
+//			cotizacion.setProyecto(proyecto);
+//			
+//			cotizacion.setEstado(estado);
+//			
+//			cotizacion.setAlcance(alcance);
 			
-			cotizacion.setSistema(sistema);
-			
-			cotizacion.setHerramienta(herramienta);
-			
-			cotizacion.setProyecto(proyecto);
-			
-			cotizacion.setEstado(estado);
-			
-			cotizacion.setAlcance(alcance);
-			
-			this.cotizacionService.save(cotizacion);// Ejecuta el servicio para guardar el arreglo
-
-			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
-			
-		}else {
-			
-		this.cotizacionService.save(cotizacion);
-
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-		
-		}
+//			this.cotizacionService.save(cotizacion);// Ejecuta el servicio para guardar el arreglo
+//
+//			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+//			
+//		}else {
+//			
+//		this.cotizacionService.save(cotizacion);
+//
+//		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+//		
+//		}
 	}
 	
 	
@@ -128,7 +184,7 @@ public class CotizacionController {
 	 * Metodo consultar todos las cotizaciones.
 	 * @return
 	 */
-	@RequestMapping(value ="/getAllCotizacion", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public List<Cotizacion> getAllCotizacion(){
 		
 		return  this.cotizacionService.findAll();// Regresa todas las cotizaciones
@@ -140,8 +196,8 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getCotizacion", method = RequestMethod.POST)
-	public Cotizacion getCotizacionById(@RequestBody String id) throws Exception {
+	@RequestMapping(value = "/getId/{id}", method = RequestMethod.GET)
+	public Cotizacion getCotizacionById(@PathVariable(value="id") String id) throws Exception {
 
 		this.mapper = new ObjectMapper();
 		
@@ -169,32 +225,41 @@ public class CotizacionController {
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value ="/deleteCotizacion", method = RequestMethod.POST)
-	public RestResponse deleteCotizacion(@RequestBody String usuarioJson) throws Exception{
+	@RequestMapping(value ="/Delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity deleteCotizacion(@PathVariable(value="id") Long id) throws Exception{
 		this.mapper = new ObjectMapper();
 		
-		Cotizacion cotizacion = this.mapper.readValue(usuarioJson, Cotizacion.class);
+//		Cotizacion cotizacion = this.mapper.readValue(usuarioJson, Cotizacion.class);
 		
-		if(cotizacion.getId() == null){
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"El campo ID no puede ser nulo");
-		}
+//		if(cotizacion.getId() == null){
+//			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
+//					"El campo ID no puede ser nulo");
+//		}
 		
-		this.cotizacionService.deleteCotizacion(cotizacion.getId());
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+//		try {
+		
+		this.cotizacionService.deleteCotizacion(id);
+		
+		return (ResponseEntity) ResponseEntity.ok().body("");
+		 
+//		} catch(Exception e) {
+//			
+//			return (ResponseEntity) ResponseEntity.badRequest().body(e);
+//			
+//		}
 		
 	}
 
 	/**
 	 * Metodo de VALIDACIONES.
 	 */
-	private boolean validate(Cotizacion cotizacion) {
-		
-		boolean isValid = true;
-				
-		return isValid;
-		
-	}
+//	private boolean validate(Cotizacion cotizacion) {
+//		
+//		boolean isValid = true;
+//				
+//		return isValid;
+//		
+//	}
 	
 	
 	/**

@@ -3,11 +3,10 @@ package com.gtc.cda.services;
 import java.util.List;
 
 import com.gtc.cda.models.Cotizacion;
-import com.gtc.cda.models.Proyecto;
 
 public interface CotizacionService {
 
-	Cotizacion save(Cotizacion empleado);
+	Cotizacion save(Cotizacion cotizacion);
 
 	List<Cotizacion> findAll();
 
@@ -18,5 +17,7 @@ public interface CotizacionService {
 	//List<Cotizacion> findByCotizacion(Long id);
 	
 	List<Cotizacion> findByProyecto(Long id);
+	
+	String LastConsecutive();
 
 }

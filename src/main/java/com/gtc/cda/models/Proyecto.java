@@ -44,8 +44,14 @@ public class Proyecto extends ParentEntity {
 	@Column(name="usuario_modificacion", nullable = false, length = 20)
 	private String usuarioModificacion;
 	
+	@Column(name="documento", nullable = false, length = 300)
+	private String documento;
+	
 	@Transient
 	private String clienteId;
+	
+	@Transient
+	private String docBits;
 	
 	public Proyecto() {
 	}
@@ -146,5 +152,27 @@ public class Proyecto extends ParentEntity {
 	public void setClienteId(String clienteId) {
 		this.clienteId = clienteId;
 	}
+
+	@Transient
+	public String getDocBits() {
+		return docBits;
+	}
+
+	@Transient
+	public void setDocBits(String docBits) {
+		this.docBits = docBits;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+	
+	
+	
+	
 
 }

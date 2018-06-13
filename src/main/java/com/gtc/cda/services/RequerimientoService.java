@@ -14,8 +14,8 @@ public interface RequerimientoService {
 
 	Requerimiento findByRequerimientoId(Long id);
 	
-	//List<Requerimiento> findByRequerimiento(Long id);
-	
-	List<Requerimiento> findByDate(Long columna1, Long columna2, String fechaInicio, String fechaFin );
+
+	List<Requerimiento> findRequestToProject(Long project);
+
 
 }
