@@ -34,7 +34,6 @@ import com.gtc.cda.util.RestResponse;
 
 
 @CrossOrigin(origins="*")
-@RequestMapping(value ="/Quotations")
 @RestController
 
 public class CotizacionController {
@@ -232,6 +231,7 @@ public class CotizacionController {
 		
 		Proyecto proyecto = this.mapper.readValue(proyectoJson, Proyecto.class);
 		
+		System.out.println(proyecto.getId());
 		
 		if(proyecto.getId() == null){
 			

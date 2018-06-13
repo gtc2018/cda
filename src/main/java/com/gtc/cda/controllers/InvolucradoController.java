@@ -153,6 +153,22 @@ public class InvolucradoController {
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 	}
+	
+	/**
+	 * Metodo que obtiene los involucrados por requerimiento
+	 * 	 */
+	@RequestMapping(value = "/getInvolvedByRequest", method = RequestMethod.POST)
+	public List<Involucrado> getInvolvedByRequest(@RequestBody String involucradoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Involucrado involucrado = this.mapper.readValue(involucradoJson, Involucrado.class);
+		
+				
+		return this.involucradoService.findInvolvedByRequest(involucrado.getId());
+ 
+
+	}
 
 	/**
 	 * Metodo de VALIDACIONES.

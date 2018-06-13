@@ -39,5 +39,11 @@ public class InvolucradoServiceImpl implements InvolucradoService {
 		// TODO Auto-generated method stub
 		return this.involucradoRepository.findOne(involucradoId);
 	}
+	
+	@Override
+	public List<Involucrado> findInvolvedByRequest(Long id) {
+		// TODO Auto-generated method stub
+		return this.involucradoRepository.findInvolvedByRequest(id);
+	}
 
 }

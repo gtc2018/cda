@@ -25,21 +25,11 @@ public class Cotizacion extends ParentEntity {
 	@JoinColumn(name = "proyectos_id", nullable = false, referencedColumnName =  "id")
 	private Proyecto proyecto;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "sistemas_id", nullable = false, referencedColumnName =  "id")
-	private Sistema sistema;
+	@Column (name = "estado", nullable = false, length = 255)
+	private String estado;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "herramientas_id", nullable = false, referencedColumnName =  "id")
-	private Herramienta herramienta;
-	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "estados_id", nullable = false, referencedColumnName =  "id")
-	private Estado estado;
-	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "alcance_id", nullable = false, referencedColumnName =  "id")
-	private Alcance alcance;
+	@Column (name = "alcance", nullable = false, length = 255)
+	private String alcance;
 	
 	@Column (name = "codigo_requerimiento", nullable = false, length = 100)
 	private String codigoRequerimiento;
@@ -59,16 +49,13 @@ public class Cotizacion extends ParentEntity {
 	@Column (name = "fecha_entrega", nullable = false, length = 20)
 	private String fechaEntrega;
 	
-	@Column (name = "horas_por_fase", nullable = false, length = 10)
-	private String horasFase;
-	
 	@Column (name = "horas_totales_rqm", nullable = false, length = 10)
 	private String horasRqm;
 	
 	@Column (name = "valor_total_rqm", nullable = false, length = 10)
 	private String valorRqm;
 	
-	@Column (name = "fecha_aproximada_entrega", nullable = false, length = 300)
+	@Column (name = "fecha_entrega_rqm", nullable = false, length = 300)
 	private String fechaAproxEntrega;
 	
 	@Column (name = "valor_total_acordado", nullable = false, length = 100)
@@ -89,23 +76,14 @@ public class Cotizacion extends ParentEntity {
 	@Column (name = "usuario_modificacion", nullable = false, length = 100)
 	private String usuarioModificacion;
 	
+	@Column (name = "consecutivo", nullable = false, length = 45)
+	private String consecutivo;
+	
 	@Transient
 	private String clienteId;
 	
 	@Transient
 	private String proyectoId;
-	
-	@Transient
-	private String sistemaId;
-	
-	@Transient
-	private String herramientaId;
-	
-	@Transient
-	private String estadoId;
-	
-	@Transient
-	private String alcanceId;
 
 	public Empresa getCliente() {
 		return cliente;
@@ -123,36 +101,12 @@ public class Cotizacion extends ParentEntity {
 		this.proyecto = proyecto;
 	}
 
-	public Sistema getSistema() {
-		return sistema;
-	}
-
-	public void setSistema(Sistema sistema) {
-		this.sistema = sistema;
-	}
-
-	public Herramienta getHerramienta() {
-		return herramienta;
-	}
-
-	public void setHerramienta(Herramienta herramienta) {
-		this.herramienta = herramienta;
-	}
-
-	public Estado getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public Alcance getAlcance() {
-		return alcance;
-	}
-
-	public void setAlcance(Alcance alcance) {
-		this.alcance = alcance;
 	}
 
 	public String getFechaEntrega() {
@@ -235,14 +189,6 @@ public class Cotizacion extends ParentEntity {
 		this.fechaSolicitud = fechaSolicitud;
 	}
 
-	public String getHorasFase() {
-		return horasFase;
-	}
-
-	public void setHorasFase(String horasFase) {
-		this.horasFase = horasFase;
-	}
-
 	public String getHorasRqm() {
 		return horasRqm;
 	}
@@ -287,17 +233,14 @@ public class Cotizacion extends ParentEntity {
 		
 	}
 
-	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, Estado estado,
+	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, String estado,
 			String codigoRequerimiento, String descripcionRqm, String valorHora, String numeroRecurso,
-			String fechaSolicitud, String fechaEntrega,
-			String horasFase, String horasRqm, String valorRqm, String fechaAproxEntrega,
+			String fechaSolicitud, String fechaEntrega, String horasRqm, String valorRqm, String fechaAproxEntrega,
 			String valorAcordado, String horasAcordadas, String fechaCreacion, String usuarioCreacion,
 			String fechaModificacion, String usuarioModificacion) {
 		super();
 		this.cliente = cliente;
 		this.proyecto = proyecto;
-		this.sistema = sistema;
-		this.herramienta = herramienta;
 		this.codigoRequerimiento = codigoRequerimiento;
 		this.descripcionRqm = descripcionRqm;
 		this.valorHora = valorHora;
@@ -305,8 +248,6 @@ public class Cotizacion extends ParentEntity {
 		this.estado = estado;
 		this.fechaSolicitud = fechaSolicitud;
 		this.fechaEntrega = fechaEntrega;
-		this.alcance = alcance;
-		this.horasFase = horasFase;
 		this.horasRqm = horasRqm;
 		this.valorRqm = valorRqm;
 		this.fechaAproxEntrega = fechaAproxEntrega;
@@ -338,45 +279,14 @@ public class Cotizacion extends ParentEntity {
 		this.proyectoId = proyectoId;
 	}
 
-	@Transient
-	public String getSistemaId() {
-		return sistemaId;
+	public String getConsecutivo() {
+		return consecutivo;
 	}
 
-	@Transient
-	public void setSistemaId(String sistemaId) {
-		this.sistemaId = sistemaId;
-	}
-
-	@Transient
-	public String getHerramientaId() {
-		return herramientaId;
-	}
-
-	@Transient
-	public void setHerramientaId(String herramientaId) {
-		this.herramientaId = herramientaId;
-	}
-
-	@Transient
-	public String getEstadoId() {
-		return estadoId;
-	}
-
-	@Transient
-	public void setEstadoId(String estadoId) {
-		this.estadoId = estadoId;
-	}
-
-	@Transient
-	public String getAlcanceId() {
-		return alcanceId;
-	}
-
-	@Transient
-	public void setAlcanceId(String alcanceId) {
-		this.alcanceId = alcanceId;
+	public void setConsecutivo(String consecutivo) {
+		this.consecutivo = consecutivo;
 	}
 	
+	
+	
 }
-

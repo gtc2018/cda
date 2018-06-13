@@ -23,9 +23,12 @@ import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Area;
 import com.gtc.cda.models.Cargo;
+import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Fase;
+import com.gtc.cda.models.Involucrado;
+import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 
@@ -72,6 +75,8 @@ public class EmpleadoController {
 				empleado.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
 			}
 		
+		System.out.println(empleado.getEstado());
+		
 		//Valida la entrada de los datos por estructura
 		if (empleado.getClienteId() != null | empleado.getCargoId() != null
 				| empleado.getAreaId() != null) {
@@ -96,35 +101,51 @@ public class EmpleadoController {
 					
 			this.empleadoService.save(empleado);// Ejecuta el servicio para guardar el arreglo
 			
-			if(empleado.getImagen() != null) {
-				empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
-				}else {
-					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "logo.png");
-				}
-				this.empleadoService.save(empleado);
-
+			
+			if(empleado.getId() != null) {
+					
 				if (empleado.getImagen() != null) {
+					
+					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
 					Archivo archivo = new Archivo();
-
 					String foto = empleado.getFoto();
+					this.empleadoService.save(empleado);
 
-					if (foto != null  && foto != null
+						if (foto != null  && foto != null) {
 							
-							
-							) {
-						String[] parts = foto.split("87");
-						String part2 = parts[1];
-						String[] nombreArchivo = part2.split("/");
-
-						String nombreArchivo2 = nombreArchivo[1]; 
-						String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
-
-						archivo.decodeBase64(empleado.getImagen(), url);
-
+							String[] parts = foto.split("87");
+							String part2 = parts[1];
+							String[] nombreArchivo = part2.split("/");
+							String nombreArchivo2 = nombreArchivo[1]; 
+							String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+							archivo.decodeBase64(empleado.getImagen(), url);
+						}
+					}
+			}else {
+			
+				if(empleado.getImagen() != null) {
+					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
+					}else {
+						empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "logo.png");
 					}
 
-				}
+					if (empleado.getImagen() != null) {
+						
+						Archivo archivo = new Archivo();
+						String foto = empleado.getFoto();
 
+						if (foto != null  && foto != null) {
+							String[] parts = foto.split("87");
+							String part2 = parts[1];
+							String[] nombreArchivo = part2.split("/");
+							String nombreArchivo2 = nombreArchivo[1]; 
+							String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+							archivo.decodeBase64(empleado.getImagen(), url);
+
+						}
+					}	
+			}
+			
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 					
 			}else {
@@ -234,6 +255,22 @@ public class EmpleadoController {
 		}
 
 		this.empleadoService.deleteEmpleado(empleado.getId());
+
+	}
+	
+	/**
+	 * Metodo que obtiene los empleados por que no esten en el requerimiento
+	 * 	 */
+	@RequestMapping(value = "/getEmployeeByRequest", method = RequestMethod.POST)
+	public List<Empleado> getEmployeeByRequest(@RequestBody String involucradoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empleado involucrado = this.mapper.readValue(involucradoJson, Empleado.class);
+		
+				
+		return this.empleadoService.findEmployeeByRequest(involucrado.getId());
+ 
 
 	}
 
