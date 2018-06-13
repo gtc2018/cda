@@ -42,4 +42,9 @@ public class FaseServiceImpl implements FaseService {
 		return  fase;
 	}
 
+	@Override
+	public List<Fase> findFaseByEnterprise(Long empresa) {
+		// TODO Auto-generated method stub
+		return this.faseRepository.findFaseByEnterprise(empresa);
+	}
 }

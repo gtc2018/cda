@@ -23,7 +23,7 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Long>{
 	@Query(value = "SELECT * FROM EMPLEADOS WHERE cliente_id = ?1" , nativeQuery = true)
 	public List<Empleado> findEmployeesToEnterprise(@Param("empresaId") Long clienteId);
 	
-	@Query(value = "SELECT * FROM EMPLEADOS E WHERE id NOT IN(SELECT empleados_id FROM INVOLUCRADOS WHERE requerimientos_id = ?1 AND empleados_id = E.id)" , nativeQuery = true)
-	public List<Empleado> findEmployeeByRequest(@Param("id") Long id);
+	@Query(value = "SELECT * FROM EMPLEADOS E WHERE cliente_id = ?1 AND id NOT IN(SELECT empleados_id FROM INVOLUCRADOS WHERE requerimientos_id = ?2 AND empleados_id = E.id)" , nativeQuery = true)
+	public List<Empleado> findEmployeeByRequest(@Param("cliente") Long cliente, @Param("rqm") Long rqm);
 
 }

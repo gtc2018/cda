@@ -262,14 +262,22 @@ public class EmpleadoController {
 	 * Metodo que obtiene los empleados por que no esten en el requerimiento
 	 * 	 */
 	@RequestMapping(value = "/getEmployeeByRequest", method = RequestMethod.POST)
-	public List<Empleado> getEmployeeByRequest(@RequestBody String involucradoJson) throws Exception {
+	public List<Empleado> getEmployeeByRequest(@RequestBody String empleadoJson) throws Exception {
 
 		this.mapper = new ObjectMapper();
 		
-		Empleado involucrado = this.mapper.readValue(involucradoJson, Empleado.class);
+		Empleado empleado = this.mapper.readValue(empleadoJson, Empleado.class);
 		
+		Empresa empresa = new Empresa();
+		Area area = new Area();
+		
+		empresa.setId(new Long(empleado.getClienteId()));
+		empleado.setCliente(empresa);
+		
+		area.setId(new Long(empleado.getAreaId()));
+		empleado.setArea(area);
 				
-		return this.empleadoService.findEmployeeByRequest(involucrado.getId());
+		return this.empleadoService.findEmployeeByRequest(empleado.getCliente().getId(), empleado.getArea().getId());
  
 
 	}

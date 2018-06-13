@@ -19,6 +19,6 @@ public interface EmpleadoService {
 	
 	List<Empleado> findEmployeesToEnterprise(Long empresaId);
 	
-	List<Empleado> findEmployeeByRequest(Long id);
+	List<Empleado> findEmployeeByRequest(Long cliente, Long rqm);
 
 }

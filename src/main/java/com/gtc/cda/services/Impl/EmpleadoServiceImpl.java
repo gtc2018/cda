@@ -53,10 +53,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 	}
 	
 	@Override
-	public List<Empleado> findEmployeeByRequest(Long id) {
+	public List<Empleado> findEmployeeByRequest(Long cliente, Long rqm) {
 		// TODO Auto-generated method stub
 		
-		return this.empleadoRepository.findEmployeeByRequest(id);
+		return this.empleadoRepository.findEmployeeByRequest(cliente, rqm);
 
 	}
 

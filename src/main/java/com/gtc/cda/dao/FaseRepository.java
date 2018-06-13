@@ -18,4 +18,6 @@ public interface FaseRepository extends JpaRepository<Fase, Long> {
 	 @Query(value = "SELECT * FROM FASES WHERE id = ?1" , nativeQuery = true)
 	 public	 List<Fase> existe(@Param("id") Long id);
 
+	 @Query(value = "SELECT * FROM FASES F WHERE id NOT IN(SELECT fases_id FROM PORCENTAJE_POR_FASES WHERE clientes_id = ?1 AND fases_id = F.id)" , nativeQuery = true)
+	public List<Fase> findFaseByEnterprise(@Param("empresa") Long empresa);
 }
