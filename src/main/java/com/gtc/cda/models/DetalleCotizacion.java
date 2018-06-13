@@ -61,7 +61,7 @@ public class DetalleCotizacion extends ParentEntity {
 	private String usuarioModificacion;
 	
 	@Transient
-	private String cotizacionId;
+	private Long cotizacionId;
 
 	public Cotizacion getCotizacion() {
 		return cotizacion;
@@ -199,12 +199,12 @@ public class DetalleCotizacion extends ParentEntity {
 	}
 
 	@Transient
-	public String getCotizacionId() {
+	public Long getCotizacionId() {
 		return cotizacionId;
 	}
 
 	@Transient
-	public void setCotizacionId(String cotizacionId) {
+	public void setCotizacionId(Long cotizacionId) {
 		this.cotizacionId = cotizacionId;
 	}
 	

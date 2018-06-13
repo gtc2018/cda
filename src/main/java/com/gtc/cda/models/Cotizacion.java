@@ -32,16 +32,16 @@ public class Cotizacion extends ParentEntity {
 	private String alcance;
 	
 	@Column (name = "codigo_requerimiento", nullable = false, length = 100)
-	private String codigoRequerimiento;
+	private String codigoRqm;
 	
 	@Column (name = "descripcion_rqm", nullable = false, length = 15)
 	private String descripcionRqm;
 	
 	@Column (name = "valor_hora", nullable = false, length = 5)
-	private String valorHora;
+	private double valueHour;
 	
 	@Column (name = "numero_recurso", nullable = false, length = 10)
-	private String numeroRecurso;
+	private int numeroRecursos;
 	
 	@Column (name = "fecha_solicitud", nullable = false, length = 20)
 	private String fechaSolicitud;
@@ -49,23 +49,20 @@ public class Cotizacion extends ParentEntity {
 	@Column (name = "fecha_entrega", nullable = false, length = 20)
 	private String fechaEntrega;
 	
-	@Column (name = "horas_por_fase", nullable = false, length = 10)
-	private String horasFase;
-	
 	@Column (name = "horas_totales_rqm", nullable = false, length = 10)
-	private String horasRqm;
+	private int horasTotal;
 	
 	@Column (name = "valor_total_rqm", nullable = false, length = 10)
-	private String valorRqm;
+	private double valorTotal;
 	
-	@Column (name = "fecha_aproximada_entrega", nullable = false, length = 300)
-	private String fechaAproxEntrega;
+	@Column (name = "fecha_entrega_rqm", nullable = false, length = 300)
+	private String fechaEntregaRqm;
 	
 	@Column (name = "valor_total_acordado", nullable = false, length = 100)
-	private String valorAcordado;
+	private double valorAcordado;
 	
 	@Column (name = "horas_acordadas", nullable = false, length = 100)
-	private String horasAcordadas;
+	private int horasAcordadas;
 	
 	@Column (name = "fecha_creacion", nullable = false, length = 20)
 	private String fechaCreacion;
@@ -152,14 +149,6 @@ public class Cotizacion extends ParentEntity {
 		this.usuarioModificacion = usuarioModificacion;
 	}
 
-	public String getCodigoRequerimiento() {
-		return codigoRequerimiento;
-	}
-
-	public void setCodigoRequerimiento(String codigoRequerimiento) {
-		this.codigoRequerimiento = codigoRequerimiento;
-	}
-
 	public String getDescripcionRqm() {
 		return descripcionRqm;
 	}
@@ -168,21 +157,7 @@ public class Cotizacion extends ParentEntity {
 		this.descripcionRqm = descripcionRqm;
 	}
 
-	public String getValorHora() {
-		return valorHora;
-	}
 
-	public void setValorHora(String valorHora) {
-		this.valorHora = valorHora;
-	}
-
-	public String getNumeroRecurso() {
-		return numeroRecurso;
-	}
-
-	public void setNumeroRecurso(String numeroRecurso) {
-		this.numeroRecurso = numeroRecurso;
-	}
 
 	public String getFechaSolicitud() {
 		return fechaSolicitud;
@@ -192,84 +167,28 @@ public class Cotizacion extends ParentEntity {
 		this.fechaSolicitud = fechaSolicitud;
 	}
 
-	public String getHorasFase() {
-		return horasFase;
+	public String getFechaEntregaRqm() {
+		return fechaEntregaRqm;
 	}
 
-	public void setHorasFase(String horasFase) {
-		this.horasFase = horasFase;
+	public void setFechaEntregaRqm(String fechaEntregaRqm) {
+		this.fechaEntregaRqm = fechaEntregaRqm;
 	}
 
-	public String getHorasRqm() {
-		return horasRqm;
-	}
-
-	public void setHorasRqm(String horasRqm) {
-		this.horasRqm = horasRqm;
-	}
-
-	public String getValorRqm() {
-		return valorRqm;
-	}
-
-	public void setValorRqm(String valorRqm) {
-		this.valorRqm = valorRqm;
-	}
-
-	public String getFechaAproxEntrega() {
-		return fechaAproxEntrega;
-	}
-
-	public void setFechaAproxEntrega(String fechaAproxEntrega) {
-		this.fechaAproxEntrega = fechaAproxEntrega;
-	}
-
-	public String getValorAcordado() {
+	public double getValorAcordado() {
 		return valorAcordado;
 	}
 
-	public void setValorAcordado(String valorAcordado) {
+	public void setValorAcordado(double valorAcordado) {
 		this.valorAcordado = valorAcordado;
 	}
 
-	public String getHorasAcordadas() {
+	public int getHorasAcordadas() {
 		return horasAcordadas;
 	}
 
-	public void setHorasAcordadas(String horasAcordadas) {
+	public void setHorasAcordadas(int horasAcordadas) {
 		this.horasAcordadas = horasAcordadas;
-	}
-
-	public Cotizacion() {
-		
-	}
-
-	public Cotizacion(Empresa cliente, Proyecto proyecto, Sistema sistema, Herramienta herramienta, Alcance alcance, String estado,
-			String codigoRequerimiento, String descripcionRqm, String valorHora, String numeroRecurso,
-			String fechaSolicitud, String fechaEntrega,
-			String horasFase, String horasRqm, String valorRqm, String fechaAproxEntrega,
-			String valorAcordado, String horasAcordadas, String fechaCreacion, String usuarioCreacion,
-			String fechaModificacion, String usuarioModificacion) {
-		super();
-		this.cliente = cliente;
-		this.proyecto = proyecto;
-		this.codigoRequerimiento = codigoRequerimiento;
-		this.descripcionRqm = descripcionRqm;
-		this.valorHora = valorHora;
-		this.numeroRecurso = numeroRecurso;
-		this.estado = estado;
-		this.fechaSolicitud = fechaSolicitud;
-		this.fechaEntrega = fechaEntrega;
-		this.horasFase = horasFase;
-		this.horasRqm = horasRqm;
-		this.valorRqm = valorRqm;
-		this.fechaAproxEntrega = fechaAproxEntrega;
-		this.valorAcordado = valorAcordado;
-		this.horasAcordadas = horasAcordadas;
-		this.fechaCreacion = fechaCreacion;
-		this.usuarioCreacion = usuarioCreacion;
-		this.fechaModificacion = fechaModificacion;
-		this.usuarioModificacion = usuarioModificacion;
 	}
 
 	@Transient
@@ -299,8 +218,88 @@ public class Cotizacion extends ParentEntity {
 	public void setConsecutivo(String consecutivo) {
 		this.consecutivo = consecutivo;
 	}
+
+	public String getAlcance() {
+		return alcance;
+	}
+
+	public void setAlcance(String alcance) {
+		this.alcance = alcance;
+	}
+
+	public String getCodigoRqm() {
+		return codigoRqm;
+	}
+
+	public void setCodigoRqm(String codigoRqm) {
+		this.codigoRqm = codigoRqm;
+	}
+
+	public double getValueHour() {
+		return valueHour;
+	}
+
+	public void setValueHour(double valueHour) {
+		this.valueHour = valueHour;
+	}
+
+	public int getNumeroRecursos() {
+		return numeroRecursos;
+	}
+
+	public void setNumeroRecursos(int numeroRecursos) {
+		this.numeroRecursos = numeroRecursos;
+	}
+
+	public int getHorasTotal() {
+		return horasTotal;
+	}
+
+	public void setHorasTotal(int horasTotal) {
+		this.horasTotal = horasTotal;
+	}
 	
-	
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public Cotizacion() {
+		
+	}
+
+	public Cotizacion(Empresa cliente, Proyecto proyecto, String estado, String alcance, String codigoRqm,
+			String descripcionRqm, double valueHour, int numeroRecursos, String fechaSolicitud, String fechaEntrega,
+			int horasTotal, double valorTotal, String fechaEntregaRqm, double valorAcordado, int horasAcordadas,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion,
+			String consecutivo, String clienteId, String proyectoId) {
+		super();
+		this.cliente = cliente;
+		this.proyecto = proyecto;
+		this.estado = estado;
+		this.alcance = alcance;
+		this.codigoRqm = codigoRqm;
+		this.descripcionRqm = descripcionRqm;
+		this.valueHour = valueHour;
+		this.numeroRecursos = numeroRecursos;
+		this.fechaSolicitud = fechaSolicitud;
+		this.fechaEntrega = fechaEntrega;
+		this.horasTotal = horasTotal;
+		this.valorTotal = valorTotal;
+		this.fechaEntregaRqm = fechaEntregaRqm;
+		this.valorAcordado = valorAcordado;
+		this.horasAcordadas = horasAcordadas;
+		this.fechaCreacion = fechaCreacion;
+		this.usuarioCreacion = usuarioCreacion;
+		this.fechaModificacion = fechaModificacion;
+		this.usuarioModificacion = usuarioModificacion;
+		this.consecutivo = consecutivo;
+		this.clienteId = clienteId;
+		this.proyectoId = proyectoId;
+	}
 	
 }
 

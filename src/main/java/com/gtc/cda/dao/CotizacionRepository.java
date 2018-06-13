@@ -20,7 +20,7 @@ public interface CotizacionRepository extends JpaRepository<Cotizacion, Long>{
 	@Query(value = "SELECT * FROM COTIZACIONES C WHERE proyectos_id = ?1 AND id NOT IN(SELECT cotizaciones_id FROM REQUERIMIENTOS WHERE cotizaciones_id=C.id )" , nativeQuery = true)
 	public List<Cotizacion> findByProyecto(@Param("id") Long id);
 	
-	@Query(value = "SELECT consecutivo FROM COTIZACIONES order by consecutivo desc limit 0,1" , nativeQuery = true)
+	@Query(value = "SELECT consecutivo FROM COTIZACIONES order by Cast(SUBSTRING(consecutivo,4) as UNSIGNED) desc limit 0,1" , nativeQuery = true)
 	public String LastConsecutive();
 
 }

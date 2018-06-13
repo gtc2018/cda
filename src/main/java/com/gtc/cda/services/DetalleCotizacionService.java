@@ -14,6 +14,6 @@ public interface DetalleCotizacionService {
 
 	DetalleCotizacion findByDetalleCotizacionId(Long id);
 	
-	//List<DetalleCotizacion> findByDetalleCotizacion(Long id);
+	List<DetalleCotizacion> findAllForCotizacion(Long id);
 
 }
