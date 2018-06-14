@@ -2,7 +2,6 @@ package com.gtc.cda.services;
 
 import java.util.List;
 
-import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empleado;
 
 public interface EmpleadoService {
@@ -20,5 +19,7 @@ public interface EmpleadoService {
 	List<Empleado> findEmployeesToEnterprise(Long empresaId);
 	
 	List<Empleado> findEmployeeByRequest(Long cliente, Long rqm);
+	
+	List<Empleado> findEmployeeForRegistre(String email, Long documento);
 
 }

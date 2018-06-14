@@ -281,6 +281,21 @@ public class EmpleadoController {
  
 
 	}
+	
+	/**
+	 * Metodo que obtiene los empleados por numero de cedula o email
+	 * 	 */
+	@RequestMapping(value = "/getEmployeeForRegistre", method = RequestMethod.POST)
+	public List<Empleado> getEmployeeForRegistre(@RequestBody String empleadoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empleado empleado = this.mapper.readValue(empleadoJson, Empleado.class);
+				
+		return this.empleadoService.findEmployeeForRegistre(empleado.getEmail(), empleado.getNumeroDocumento());
+ 
+
+	}
 
 	private boolean validate(Empleado empleado) {
 

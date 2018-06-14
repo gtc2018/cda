@@ -59,5 +59,13 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 		return this.empleadoRepository.findEmployeeByRequest(cliente, rqm);
 
 	}
+	
+	@Override
+	public List<Empleado> findEmployeeForRegistre(String email, Long documento) {
+		// TODO Auto-generated method stub
+		
+		return this.empleadoRepository.findEmployeeForRegistre(email, documento);
+
+	}
 
 }
