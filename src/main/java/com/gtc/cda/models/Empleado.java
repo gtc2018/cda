@@ -29,6 +29,27 @@ public class Empleado extends ParentEntity {
 	@JoinColumn(name="areas_id", nullable = false, referencedColumnName =  "id")
 	private Area area;
 	
+//	@ManyToOne(cascade=CascadeType.REFRESH)
+//	@JoinColumn(name = "pais", nullable = false, referencedColumnName =  "id")
+//	private Dane pais;
+//	
+//	@ManyToOne(cascade=CascadeType.REFRESH)
+//	@JoinColumn(name = "departamento", nullable = false, referencedColumnName =  "id")
+//	private Dane departamento;
+//	
+//	@ManyToOne(cascade=CascadeType.REFRESH)
+//	@JoinColumn(name = "ciudad_d", nullable = false, referencedColumnName =  "id")
+//	private Dane ciudadN;
+	
+	@Column(name="pais", nullable = false, length = 30 )
+	private Long pais;
+	
+	@Column(name="departamento", nullable = false, length = 30 )
+	private Long departamento;
+	
+	@Column(name="ciudad", nullable = false, length = 60)
+	private Long ciudad;
+	
 	@Column(name="tipo_empleado", nullable = false, length = 30 )
 	private String tipoEmpleado;
 	
@@ -61,9 +82,6 @@ public class Empleado extends ParentEntity {
 	
 	@Column(name="sexo", nullable = false, length = 5)
 	private String sexo;
-	
-	@Column(name="ciudad", nullable = false, length = 60)
-	private String ciudad;
 	
 	@Column(name="estado", nullable = false, length = 5)
 	private Integer estado;
@@ -178,14 +196,6 @@ public class Empleado extends ParentEntity {
 		this.sexo = sexo;
 	}
 
-	public String getCiudad() {
-		return ciudad;
-	}
-
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
-	}
-
 	public Integer getEstado() {
 		return estado;
 	}
@@ -282,6 +292,56 @@ public class Empleado extends ParentEntity {
 		this.telefono = telefono;
 	}
 	
+	public Long getPais() {
+		return pais;
+	}
+
+	public void setPais(Long pais) {
+		this.pais = pais;
+	}
+
+	public Long getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Long departamento) {
+		this.departamento = departamento;
+	}
+
+	
+
+//	public Dane getPais() {
+//		return pais;
+//	}
+//
+//	public void setPais(Dane pais) {
+//		this.pais = pais;
+//	}
+//
+//	public Dane getDepartamento() {
+//		return departamento;
+//	}
+//
+//	public void setDepartamento(Dane departamento) {
+//		this.departamento = departamento;
+//	}
+//
+//	public Dane getCiudadN() {
+//		return ciudadN;
+//	}
+//
+//	public void setCiudadN(Dane ciudadN) {
+//		this.ciudadN = ciudadN;
+//	}
+
+	public Long getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(Long ciudad) {
+		this.ciudad = ciudad;
+	}
+
 	@Transient
 	public String getImagen() {
 		return imagen;
@@ -326,8 +386,8 @@ public class Empleado extends ParentEntity {
 	}
 	
 	public Empleado(Empresa cliente, Cargo cargo, Area area, String tipoEmpleado, String tipoDocumento, Long numeroDocumento, String nombres, String apellidos, String email,
-			String direccion, String telefono, Double sueldo, String sexo, String ciudad, Integer estado, String foto, String otrosBeneficios, String estadoEliminacion,
-			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion) {
+			String direccion, String telefono, Double sueldo, String sexo, Long ciudad, Integer estado, String foto, String otrosBeneficios, String estadoEliminacion,
+			String fechaCreacion, String usuarioCreacion, String fechaModificacion, String usuarioModificacion, Long pais, Long departamento) {
 		super();
 		this.cliente = cliente;
 		this.cargo = cargo;
@@ -351,6 +411,8 @@ public class Empleado extends ParentEntity {
 		this.usuarioCreacion = usuarioCreacion;
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioModificacion = usuarioModificacion;
+		this.pais = pais;
+		this.departamento = departamento;
 	}
 
 	

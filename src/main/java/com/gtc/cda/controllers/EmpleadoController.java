@@ -24,6 +24,7 @@ import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Area;
 import com.gtc.cda.models.Cargo;
 import com.gtc.cda.models.Cotizacion;
+import com.gtc.cda.models.Dane;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Fase;
@@ -77,6 +78,12 @@ public class EmpleadoController {
 		
 		System.out.println(empleado.getEstado());
 		
+		//Dane****************************************************
+		
+//		empleado.setPais(new Long(empleado.getPais()));
+//		empleado.setDepartamento(new Long(empleado.getDepartamento()));
+//		empleado.setCiudadN(new Long(empleado.getCiudadN()));
+		
 		//Valida la entrada de los datos por estructura
 		if (empleado.getClienteId() != null | empleado.getCargoId() != null
 				| empleado.getAreaId() != null) {
@@ -86,7 +93,19 @@ public class EmpleadoController {
 			Cargo cargo = new Cargo();//Variable de cargo
 			
 			Area area = new Area();//Variable de area
-					
+			
+//			Dane pais = new Dane();
+//			Dane departamento = new Dane();
+//			Dane ciudad = new Dane();
+//			
+//			pais.setId(new Long(empleado.getPaisId()));
+//			ciudad.setId(new Long(empleado.getCiudadId()));
+//			departamento.setId(new Long(empleado.getDepartamentoId()));
+//			
+//			empleado.setPais(pais);
+//			empleado.setDepartamento(departamento);
+//			empleado.setCiudadN(ciudad);
+			
 			empresa.setId(new Long(empleado.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
 					
 			empleado.setCliente(empresa);//Setea la empresa al cliente
