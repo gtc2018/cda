@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.Cotizacion;
+import com.gtc.cda.models.HerramientasxCotizacion;
 import com.gtc.cda.models.SistemasxCotizaciones;
 import com.gtc.cda.services.CotizacionService;
 import com.gtc.cda.services.SistemasxCotizacionesService;
@@ -37,9 +38,9 @@ public class SistemaxCotizacionesController {
 	protected SistemasxCotizacionesService sistemasxCotizacionesService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<SistemasxCotizaciones> getAllCotizacion(){
+	public List<SistemasxCotizaciones> getAllTools(@RequestParam("id") int quotationId){
 		
-		return  this.sistemasxCotizacionesService.findAll();// Regresa todas las cotizaciones
+		return  this.sistemasxCotizacionesService.findAllForQuotation(quotationId);
 		
 	}
 	
@@ -54,6 +55,7 @@ public class SistemaxCotizacionesController {
 		if (!String.valueOf(sistemasxCotizacionesForDelete).equals("[]")) {
 		
 		this.sistemasxCotizacionesService.deleteAllByQuotation(sistemasxCotizacionesForDelete);
+		
 		}
 		this.sistemasxCotizacionesService.save(sistemasxCotizacionesJson);
 		

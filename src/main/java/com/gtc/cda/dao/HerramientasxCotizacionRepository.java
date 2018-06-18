@@ -9,7 +9,7 @@ import com.gtc.cda.models.HerramientasxCotizacion;
 
 public interface HerramientasxCotizacionRepository extends JpaRepository<HerramientasxCotizacion, Long>{
 	
-	@Query(value = "SELECT * FROM herramientasxcotizacion WHERE cotizacion_id = ?1" , nativeQuery = true)
+	@Query(value = "SELECT * FROM herramientasxcotizaciones WHERE cotizacion_id = ?1" , nativeQuery = true)
 	public List<HerramientasxCotizacion> findAllForQuotation(@Param("quotationId") int quotationId);
 	
 }
