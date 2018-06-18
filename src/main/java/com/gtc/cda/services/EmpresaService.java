@@ -16,5 +16,7 @@ public interface EmpresaService {
 	Empresa findByEmpresaId (Long id);
 	
 	Empresa getOne(Long id);
+	
+	List<Empresa> findEnterpriseForRegistre(String documento);
 
 }

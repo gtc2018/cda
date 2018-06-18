@@ -47,6 +47,12 @@ public class EmpresaServiceImpl implements EmpresaService{
 		return this.empresaRepository.findById(id);
 	}
 	
+	@Override
+	public List<Empresa> findEnterpriseForRegistre(String documento) {
+		// TODO Auto-generated method stub
+		return this.empresaRepository.findEnterpriseForRegistre(documento);
+	}
+	
 	
 
 }
