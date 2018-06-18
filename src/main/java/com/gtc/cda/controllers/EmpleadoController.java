@@ -32,6 +32,7 @@ import com.gtc.cda.models.Involucrado;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
+import com.jayway.jsonpath.internal.filter.ValueNode.UndefinedNode;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -65,7 +66,6 @@ public class EmpleadoController {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
 					"Los campos obligatorios no estan diligenciados");
 		}
-
 		// Generacion fecha creacion
 		FormatoFecha fecha = new FormatoFecha();
 		Date fechaActual = new Date();
@@ -120,7 +120,6 @@ public class EmpleadoController {
 					
 			this.empleadoService.save(empleado);// Ejecuta el servicio para guardar el arreglo
 			
-			
 			if(empleado.getId() != null) {
 					
 				if (empleado.getImagen() != null) {
@@ -141,7 +140,7 @@ public class EmpleadoController {
 						}
 					}
 			}else {
-			
+				
 				if(empleado.getImagen() != null) {
 					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
 					}else {
@@ -152,7 +151,7 @@ public class EmpleadoController {
 						
 						Archivo archivo = new Archivo();
 						String foto = empleado.getFoto();
-
+	
 						if (foto != null  && foto != null) {
 							String[] parts = foto.split("87");
 							String part2 = parts[1];
@@ -164,7 +163,7 @@ public class EmpleadoController {
 						}
 					}	
 			}
-			
+
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
 					
 			}else {

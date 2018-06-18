@@ -35,6 +35,7 @@ public class Cotizacion extends ParentEntity {
 	private String codigoRequerimiento;
 	
 	@Column (name = "descripcion_rqm", nullable = false, length = 15)
+
 	private String descripcionRqm;
 	
 	@Column (name = "valor_hora", nullable = false, length = 5)
