@@ -35,7 +35,6 @@ import com.gtc.cda.util.RestResponse;
 
 
 @CrossOrigin(origins="*")
-@RequestMapping(value ="/Quotations")
 @RestController
 
 public class CotizacionController {
@@ -305,9 +304,6 @@ public class CotizacionController {
 //		return isValid;
 //		
 //	}
-	
-	
-	
 	
 
 }

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.common.Generico;
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.services.EmpresaService;
 import com.gtc.cda.util.RestResponse;
@@ -72,38 +73,60 @@ public class EmpresaController {
 
 			}
 			
-			if (empresa.getImagen() != null) {
+			//Imagen ---------------------------------------------------------------------------
+			if(empresa.getId() != null) {
 				
-				empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES + empresa.getImagenEmpresa());
-			}else {
-				empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES+"logo.png");
-			}
-			
-			this.empresaService.save(empresa);
+				if(empresa.getImagen() != null) {
+					
+					empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES + empresa.getImagenEmpresa());
+					Archivo archivo = new Archivo();
+					String foto = empresa.getImagenEmpresa();
+					this.empresaService.save(empresa);
+					
+					if (foto != null) {
+						String[] parts = foto.split("87");
+						String part2 = parts[1];
+						String[] nombreArchivo = part2.split("/");
 
-			if (empresa.getImagen() != null) {
-				Archivo archivo = new Archivo();
+						String nombreArchivo2 = nombreArchivo[1];
+						String url2 = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
 
-				String foto = empresa.getImagenEmpresa();
-
-				if (foto != null) {
-					String[] parts = foto.split("87");
-					String part2 = parts[1];
-					String[] nombreArchivo = part2.split("/");
-
-					String nombreArchivo2 = nombreArchivo[1];
-					String url2 = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
-
-					archivo.decodeBase64(empresa.getImagen(), url2);
-
+						archivo.decodeBase64(empresa.getImagen(), url2);
+					}	
 				}
+			}else {
+				
+				if (empresa.getImagen() != null) {
+					
+					empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES + empresa.getImagenEmpresa());
+				}else {
+					empresa.setImagenEmpresa(fecha.DIRECTORIO_IMAGENES+"logo.png");
+				}
+				
+				if (empresa.getImagen() != null) {
+					Archivo archivo = new Archivo();
+					String foto = empresa.getImagenEmpresa();
 
+					if (foto != null) {
+						String[] parts = foto.split("87");
+						String part2 = parts[1];
+						String[] nombreArchivo = part2.split("/");
+
+						String nombreArchivo2 = nombreArchivo[1];
+						String url2 = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+
+						archivo.decodeBase64(empresa.getImagen(), url2);
+
+					}
+				}
+				
 			}
 
 			// Llamado al metodo para crear carpeta Empresa.
 			Generico generico = new Generico();
 			generico.createFolder(url);
 			generico.createFolder(url + "\\Empleados\\Fotos");
+			this.empresaService.save(empresa);
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		}
 	}
@@ -147,6 +170,21 @@ public class EmpresaController {
 			throw new Exception("El ID no puede ser nulo.");
 		}
 		this.empresaService.deleteEmpresa(empresa.getId());
+
+	}
+	
+	/**
+	 * Metodo que obtiene los empresas por numero de documento
+	 * 	 */
+	@RequestMapping(value = "/getEnterpriseForRegistre", method = RequestMethod.POST)
+	public List<Empresa> getEnterpriseForRegistre(@RequestBody String empresaJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empresa empresa = this.mapper.readValue(empresaJson, Empresa.class);
+				
+		return this.empresaService.findEnterpriseForRegistre(empresa.getNumeroDocumento());
+ 
 
 	}
 

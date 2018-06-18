@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.EmpleadoRepository;
+import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.services.EmpleadoService;
 
@@ -49,6 +50,22 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 	public List<Empleado> findEmployeesToEnterprise(Long empresaId) {
 		// TODO Auto-generated method stub
 		return this.empleadoRepository.findEmployeesToEnterprise(empresaId);
+	}
+	
+	@Override
+	public List<Empleado> findEmployeeByRequest(Long cliente, Long rqm) {
+		// TODO Auto-generated method stub
+		
+		return this.empleadoRepository.findEmployeeByRequest(cliente, rqm);
+
+	}
+	
+	@Override
+	public List<Empleado> findEmployeeForRegistre(String email, Long documento) {
+		// TODO Auto-generated method stub
+		
+		return this.empleadoRepository.findEmployeeForRegistre(email, documento);
+
 	}
 
 }

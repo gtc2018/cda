@@ -14,5 +14,8 @@ public interface InvolucradoRepository extends JpaRepository<Involucrado, Long>{
 	
 	@SuppressWarnings("unchecked")
 	Involucrado save(Involucrado involucrado);
+	
+	@Query(value = "SELECT * FROM INVOLUCRADOS WHERE requerimientos_id = ?1" , nativeQuery = true)
+	public List<Involucrado> findInvolvedByRequest(@Param("id") Long id);
 
 }
