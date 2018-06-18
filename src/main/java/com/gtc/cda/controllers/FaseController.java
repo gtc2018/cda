@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
+import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Fase;
+import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.services.FaseService;
 import com.gtc.cda.util.RestResponse;
 
@@ -77,6 +79,27 @@ public class FaseController {
 		}
 		this.faseService.deleteFase(fase.getId());
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+	}
+	
+	/**
+	 * Metodo que obtiene las fases que no esten en porsentaje por fase
+	 * 	 */
+	@RequestMapping(value = "/getFaseByEnterprise", method = RequestMethod.POST)
+	public List<Fase> getFaseByEnterprise(@RequestBody String porcentajeJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		PorcentajePorFase porcentaje = this.mapper.readValue(porcentajeJson, PorcentajePorFase.class);
+		
+		Empresa empresa = new Empresa();
+		
+		empresa.setId(new Long(porcentaje.getClienteId()));
+		porcentaje.setCliente(empresa);
+		
+				
+		return this.faseService.findFaseByEnterprise(porcentaje.getCliente().getId());
+ 
+
 	}
 
 	/**

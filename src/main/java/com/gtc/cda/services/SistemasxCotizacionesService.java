@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.SistemasxCotizaciones;
 
 public interface SistemasxCotizacionesService {
@@ -15,7 +16,11 @@ public interface SistemasxCotizacionesService {
 
 	List<SistemasxCotizaciones> findAll();
 	
-//	ResponseEntity deleteAllByProject(Iterable<AsociarProyecto> asociarProyecto);
+	List<SistemasxCotizaciones> findAllForQuotation(int cotizacionId);
+	
+	Iterable<SistemasxCotizaciones> save(Iterable<SistemasxCotizaciones> sistemasxCotizaciones);
+	
+	void deleteAllByQuotation(Iterable<SistemasxCotizaciones> sistemasxCotizaciones);
 	
 
 }

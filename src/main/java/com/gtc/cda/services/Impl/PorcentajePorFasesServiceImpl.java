@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.PorcentajePorFasesRepository;
+import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.PorcentajePorFase;
 import com.gtc.cda.services.PorcentajePorFasesService;
 
@@ -45,5 +46,7 @@ public class PorcentajePorFasesServiceImpl implements PorcentajePorFasesService 
 		// TODO Auto-generated method stub
 		return this.porcentajePorFasesRepository.findByPorcentajePorFaseYEmpresa(porcentajePorFaseYEmpresa);
 	}
+	
+	
 
 }

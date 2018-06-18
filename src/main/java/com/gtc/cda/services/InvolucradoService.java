@@ -14,6 +14,6 @@ public interface InvolucradoService {
 
 	Involucrado findByInvolucradoId(Long id);
 	
-	//List<Involucrado> findByInvolucrado(Long id);
+	List<Involucrado> findInvolvedByRequest(Long id);
 
 }

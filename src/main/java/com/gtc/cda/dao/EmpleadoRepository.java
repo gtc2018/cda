@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.gtc.cda.models.Empleado;
-import com.gtc.cda.models.Usuario;
 
 
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long>{
@@ -23,5 +22,11 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Long>{
 	
 	@Query(value = "SELECT * FROM EMPLEADOS WHERE cliente_id = ?1" , nativeQuery = true)
 	public List<Empleado> findEmployeesToEnterprise(@Param("empresaId") Long clienteId);
+	
+	@Query(value = "SELECT * FROM EMPLEADOS E WHERE cliente_id = ?1 AND id NOT IN(SELECT empleados_id FROM INVOLUCRADOS WHERE requerimientos_id = ?2 AND empleados_id = E.id)" , nativeQuery = true)
+	public List<Empleado> findEmployeeByRequest(@Param("cliente") Long cliente, @Param("rqm") Long rqm);
+	
+	@Query(value = "SELECT * FROM empleados WHERE numero_documento = ?2 OR email = ?1" , nativeQuery = true)
+	public List<Empleado> findEmployeeForRegistre(@Param("email") String email, @Param("documento") Long documento);
 
 }

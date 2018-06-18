@@ -18,6 +18,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
+import com.gtc.cda.models.Area;
+import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.Permiso;

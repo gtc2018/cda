@@ -23,9 +23,13 @@ import com.gtc.cda.common.Archivo;
 import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Area;
 import com.gtc.cda.models.Cargo;
+import com.gtc.cda.models.Cotizacion;
+import com.gtc.cda.models.Dane;
 import com.gtc.cda.models.Empleado;
 import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Fase;
+import com.gtc.cda.models.Involucrado;
+import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.services.EmpleadoService;
 import com.gtc.cda.util.RestResponse;
 import com.jayway.jsonpath.internal.filter.ValueNode.UndefinedNode;
@@ -72,6 +76,14 @@ public class EmpleadoController {
 				empleado.setFechaModificacion(fecha.fecha(fecha.FORMATO_YYYY_MM_DD, fechaActual));
 			}
 		
+		System.out.println(empleado.getEstado());
+		
+		//Dane****************************************************
+		
+//		empleado.setPais(new Long(empleado.getPais()));
+//		empleado.setDepartamento(new Long(empleado.getDepartamento()));
+//		empleado.setCiudadN(new Long(empleado.getCiudadN()));
+		
 		//Valida la entrada de los datos por estructura
 		if (empleado.getClienteId() != null | empleado.getCargoId() != null
 				| empleado.getAreaId() != null) {
@@ -81,7 +93,19 @@ public class EmpleadoController {
 			Cargo cargo = new Cargo();//Variable de cargo
 			
 			Area area = new Area();//Variable de area
-					
+			
+//			Dane pais = new Dane();
+//			Dane departamento = new Dane();
+//			Dane ciudad = new Dane();
+//			
+//			pais.setId(new Long(empleado.getPaisId()));
+//			ciudad.setId(new Long(empleado.getCiudadId()));
+//			departamento.setId(new Long(empleado.getDepartamentoId()));
+//			
+//			empleado.setPais(pais);
+//			empleado.setDepartamento(departamento);
+//			empleado.setCiudadN(ciudad);
+			
 			empresa.setId(new Long(empleado.getClienteId()));// Setea el id que viene del campo ClienteId a la variable empresa
 					
 			empleado.setCliente(empresa);//Setea la empresa al cliente
@@ -96,6 +120,7 @@ public class EmpleadoController {
 					
 			this.empleadoService.save(empleado);// Ejecuta el servicio para guardar el arreglo
 			
+//<<<<<<< HEAD
 			if(empleado.getImagen() != null) {
 //<<<<<<< HEAD
 //				empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
@@ -129,29 +154,50 @@ public class EmpleadoController {
 					}else {
 						empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "avatar.png");
 //>>>>>>> origin/anggelo
+//=======
+//			if(empleado.getId() != null) {
+//					
+//				if (empleado.getImagen() != null) {
+//					
+//					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
+//					Archivo archivo = new Archivo();
+//					String foto = empleado.getFoto();
+//					this.empleadoService.save(empleado);
+//
+//						if (foto != null  && foto != null) {
+//							
+//							String[] parts = foto.split("87");
+//							String part2 = parts[1];
+//							String[] nombreArchivo = part2.split("/");
+//							String nombreArchivo2 = nombreArchivo[1]; 
+//							String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
+//							archivo.decodeBase64(empleado.getImagen(), url);
+//						}
+//>>>>>>> origin/anggelo
 					}
+			}else {
 				
-					this.empleadoService.save(empleado);
-	
+				if(empleado.getImagen() != null) {
+					empleado.setFoto(fecha.DIRECTORIO_IMAGENES + empleado.getFoto());
+					}else {
+						empleado.setFoto(fecha.DIRECTORIO_IMAGENES + "logo.png");
+					}
+
 					if (empleado.getImagen() != null) {
+						
 						Archivo archivo = new Archivo();
-	
 						String foto = empleado.getFoto();
 	
 						if (foto != null  && foto != null) {
 							String[] parts = foto.split("87");
 							String part2 = parts[1];
 							String[] nombreArchivo = part2.split("/");
-	
 							String nombreArchivo2 = nombreArchivo[1]; 
 							String url = "\\\\25.72.193.72\\Compartida\\CDA_DIR\\" + nombreArchivo2;
-	
 							archivo.decodeBase64(empleado.getImagen(), url);
-	
+
 						}
-	
-					}
-				
+					}	
 			}
 
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
@@ -263,6 +309,45 @@ public class EmpleadoController {
 		}
 
 		this.empleadoService.deleteEmpleado(empleado.getId());
+
+	}
+	
+	/**
+	 * Metodo que obtiene los empleados por que no esten en el requerimiento
+	 * 	 */
+	@RequestMapping(value = "/getEmployeeByRequest", method = RequestMethod.POST)
+	public List<Empleado> getEmployeeByRequest(@RequestBody String empleadoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empleado empleado = this.mapper.readValue(empleadoJson, Empleado.class);
+		
+		Empresa empresa = new Empresa();
+		Area area = new Area();
+		
+		empresa.setId(new Long(empleado.getClienteId()));
+		empleado.setCliente(empresa);
+		
+		area.setId(new Long(empleado.getAreaId()));
+		empleado.setArea(area);
+				
+		return this.empleadoService.findEmployeeByRequest(empleado.getCliente().getId(), empleado.getArea().getId());
+ 
+
+	}
+	
+	/**
+	 * Metodo que obtiene los empleados por numero de cedula o email
+	 * 	 */
+	@RequestMapping(value = "/getEmployeeForRegistre", method = RequestMethod.POST)
+	public List<Empleado> getEmployeeForRegistre(@RequestBody String empleadoJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Empleado empleado = this.mapper.readValue(empleadoJson, Empleado.class);
+				
+		return this.empleadoService.findEmployeeForRegistre(empleado.getEmail(), empleado.getNumeroDocumento());
+ 
 
 	}
 

@@ -166,9 +166,9 @@ public class Cotizacion extends ParentEntity {
 	public void setFechaSolicitud(String fechaSolicitud) {
 		this.fechaSolicitud = fechaSolicitud;
 	}
-
 	public String getFechaEntregaRqm() {
 		return fechaEntregaRqm;
+		
 	}
 
 	public void setFechaEntregaRqm(String fechaEntregaRqm) {
@@ -186,7 +186,8 @@ public class Cotizacion extends ParentEntity {
 	public int getHorasAcordadas() {
 		return horasAcordadas;
 	}
-
+	
+	
 	public void setHorasAcordadas(int horasAcordadas) {
 		this.horasAcordadas = horasAcordadas;
 	}
@@ -302,4 +303,6 @@ public class Cotizacion extends ParentEntity {
 	}
 	
 }
-
+	
+	
+	

@@ -306,8 +306,5 @@ public class CotizacionController {
 //		
 //	}
 	
-	
-	
-	
 
 }

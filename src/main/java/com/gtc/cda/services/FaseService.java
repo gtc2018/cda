@@ -16,5 +16,6 @@ public interface FaseService {
 	
 	public List<Fase> existe(Long id);
 	
+	List<Fase> findFaseByEnterprise(Long empresa);
 
 }

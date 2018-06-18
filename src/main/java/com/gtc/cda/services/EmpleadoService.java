@@ -17,5 +17,9 @@ public interface EmpleadoService {
 	Empleado getOne(Long id);
 	
 	List<Empleado> findEmployeesToEnterprise(Long empresaId);
+	
+	List<Empleado> findEmployeeByRequest(Long cliente, Long rqm);
+	
+	List<Empleado> findEmployeeForRegistre(String email, Long documento);
 
 }

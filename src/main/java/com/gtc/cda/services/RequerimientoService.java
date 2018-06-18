@@ -16,6 +16,10 @@ public interface RequerimientoService {
 	
 
 	List<Requerimiento> findRequestToProject(Long project);
+	
+	List<Requerimiento> findRequestByProjectAndEmployee(Long project, Long cliente);
+	
+	List<Requerimiento> findByDate(Long columna1, Long columna2, String fechaInicio, String fechaFin );
 
 
 }

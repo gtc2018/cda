@@ -2,6 +2,7 @@ package com.gtc.cda.services;
 
 import java.util.List;
 
+import com.gtc.cda.models.Fase;
 import com.gtc.cda.models.PorcentajePorFase;;
 
 public interface PorcentajePorFasesService {
@@ -15,5 +16,7 @@ public interface PorcentajePorFasesService {
 	PorcentajePorFase findByPorcentajePorFaseId(Long id);
 	
 	List<PorcentajePorFase> findByPorcentajePorFaseYEmpresa(Long id);
+	
+	
 
 }

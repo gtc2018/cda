@@ -45,6 +45,18 @@ public class RequerimientoServiceImpl implements RequerimientoService {
 		// TODO Auto-generated method stub
 		return this.requerimientoRepository.findRequestToProject(project);
 	}
+	
+	@Override
+	public List<Requerimiento> findRequestByProjectAndEmployee(Long project, Long cliente) {
+		// TODO Auto-generated method stub
+		return this.requerimientoRepository.findRequestByProjectAndEmployee(project, cliente);
+	}
+	
+	@Override
+    public List<Requerimiento> findByDate(Long columna1, Long columna2, String fechaInicio, String fechaFin) {
+        // TODO Auto-generated method stub
+        return this.requerimientoRepository.findByDate(columna1, columna2, fechaInicio, fechaFin);
+    }
 
 	
 

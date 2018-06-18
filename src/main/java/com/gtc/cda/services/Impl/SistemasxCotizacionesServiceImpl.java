@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.SistemasxCotizacionRepository;
+import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.SistemasxCotizaciones;
 import com.gtc.cda.services.SistemasxCotizacionesService;
 
@@ -22,31 +23,30 @@ public class SistemasxCotizacionesServiceImpl implements SistemasxCotizacionesSe
 	@Autowired
 	protected SistemasxCotizacionRepository sistemasxCotizacionRepository;
 	
+	//Para traer todos los registros
 	@Override
 	public List<SistemasxCotizaciones> findAll() {
 		// TODO Auto-generated method stub
 		return this.sistemasxCotizacionRepository.findAll();
 	}
-
-//	@Override
-//	public AsociarProyecto save(AsociarProyecto asociarProyecto) {
-//		// TODO Auto-generated method stub
-//		return (AsociarProyecto) this.asociarProyectoRepository.save(asociarProyecto);
-//	}
-//	
-//	public Iterable<AsociarProyecto> save(Iterable<AsociarProyecto> asociarProyecto) {
-//		// TODO Auto-generated method stub
-//		return (Iterable<AsociarProyecto>) this.asociarProyectoRepository.save(asociarProyecto);
-//	}
-//	
-	public void deleteAllByProject(Iterable<SistemasxCotizaciones> sistemasxCotizaciones) {
+	
+	//Para traer todos los registros de determinada cotizacion
+	@Override
+	public List<SistemasxCotizaciones> findAllForQuotation(int quotationId) {
+		// TODO Auto-generated method stub
+		return this.sistemasxCotizacionRepository.findAllForQuotation(quotationId);
+	}
+	
+	//Para guardar todos los registros de un array
+	public Iterable<SistemasxCotizaciones> save(Iterable<SistemasxCotizaciones> sistemasxCotizaciones) {
+		// TODO Auto-generated method stub
+		return (Iterable<SistemasxCotizaciones>) this.sistemasxCotizacionRepository.save(sistemasxCotizaciones);
+	}
+	
+	//Para traer todos los registros
+	public void deleteAllByQuotation(Iterable<SistemasxCotizaciones> sistemasxCotizaciones) {
 		// TODO Auto-generated method stub
 		this.sistemasxCotizacionRepository.delete(sistemasxCotizaciones);
 	}
-//	
-//	public Iterable<AsociarProyecto> FindForProjectArray(Iterable<AsociarProyecto> asociarProyecto) {
-//		// TODO Auto-generated method stub
-//		return (Iterable<AsociarProyecto>) this.asociarProyectoRepository.save(asociarProyecto);
-//	}
 
 }

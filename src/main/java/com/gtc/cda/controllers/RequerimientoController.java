@@ -263,6 +263,79 @@ public class RequerimientoController {
 		} 
 
 	}
+	
+	/**
+	 * Metodo Obtener Requerimientos por ID del proyecto y usuario en sesion.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getRequestByProjectAndEmployee", method = RequestMethod.POST)
+	public List<Requerimiento> getRequestByProjectAndEmployee(@RequestBody String request) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(request, Requerimiento.class);
+		
+		Proyecto proyecto = new Proyecto();//Variable de proyecto
+		Empresa empresa = new Empresa();// Variable de empresa
+		
+		//Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
+		empresa.setId(new Long(requerimiento.getClienteId()));
+		proyecto.setId(new Long(requerimiento.getProyectoId()));
+		
+		// Se le setean las variables al arreglo --------------------------------------------------------------------------
+		requerimiento.setCliente(empresa);
+		requerimiento.setProyecto(proyecto);
+			 			
+		// Se valida la existencia del registro
+		if (this.requerimientoService.findRequestByProjectAndEmployee(requerimiento.getProyecto().getId(), 
+				requerimiento.getCliente().getId()) == null) {
+					
+			throw new Exception("No existen registros dentro del rango de fecha");
+		}
+		else {
+					 			
+			return this.requerimientoService.findRequestByProjectAndEmployee(requerimiento.getProyecto().getId(), 
+					requerimiento.getCliente().getId());
+		}
+	}
+	
+	/**
+	 * Metodo Obtener Requerimientos por Fechas.
+	 * @param usuarioJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllRequestToDate", method = RequestMethod.POST)
+	public List<Requerimiento> getAllRequestToDate(@RequestBody String rqmDateJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(rqmDateJson, Requerimiento.class);
+		
+		Proyecto proyecto = new Proyecto();//Variable de proyecto
+		Empresa empresa = new Empresa();// Variable de empresa
+		
+		//Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
+		empresa.setId(new Long(requerimiento.getClienteId()));
+		proyecto.setId(new Long(requerimiento.getProyectoId()));
+		
+		// Se le setean las variables al arreglo --------------------------------------------------------------------------
+		requerimiento.setCliente(empresa);
+		requerimiento.setProyecto(proyecto);
+	
+		// Se valida la existencia del registro
+		if (this.requerimientoService.findByDate(requerimiento.getCliente().getId(), 
+				requerimiento.getProyecto().getId(), requerimiento.getFechaInicio(), requerimiento.getFechaEntrega()) == null) {
+			
+			throw new Exception("No existen registros dentro del rango de fecha");
+		}
+		else {
+			 			
+			return this.requerimientoService.findByDate(requerimiento.getCliente().getId(), 
+					requerimiento.getProyecto().getId(), requerimiento.getFechaInicio(), requerimiento.getFechaEntrega());
+		} 
+
+	}
 
 	/**
 	 * Metodo de VALIDACIONES.

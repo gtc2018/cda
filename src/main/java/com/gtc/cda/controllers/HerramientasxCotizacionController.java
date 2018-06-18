@@ -19,45 +19,46 @@ import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.HerramientasxCotizacion;
 import com.gtc.cda.models.SistemasxCotizaciones;
 import com.gtc.cda.services.CotizacionService;
+import com.gtc.cda.services.HerramientasxCotizacionService;
 import com.gtc.cda.services.SistemasxCotizacionesService;
 
 /**
- * Controlador Asociar Proyecto, esta clase controla los servicios expuestos
- * de la entidad Asociar proyectos.
+ * Controlador Herramientas por cotizacion, esta clase controla los servicios expuestos
+ * de la entidad Herramientas por cotizacion.
  * @author Santiago Carrillo
  *
  */
 
 @CrossOrigin(origins="*")
-@RequestMapping(value ="/SystemsXQuotation")
+@RequestMapping(value ="/ToolsXQuotation")
 @RestController
 
-public class SistemaxCotizacionesController {
+public class HerramientasxCotizacionController {
 	
 	@Autowired
-	protected SistemasxCotizacionesService sistemasxCotizacionesService;
+	protected HerramientasxCotizacionService herramientasxCotizacionService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<SistemasxCotizaciones> getAllTools(@RequestParam("id") int quotationId){
+	public List<HerramientasxCotizacion> getAllTools(@RequestParam("id") int quotationId){
 		
-		return  this.sistemasxCotizacionesService.findAllForQuotation(quotationId);
+		return  this.herramientasxCotizacionService.findAllForQuotation(quotationId);
 		
 	}
 	
-	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity saveOrUpdateAsociarProyecto(@RequestParam("quotationId") int QuotationId,@RequestBody Iterable<SistemasxCotizaciones> sistemasxCotizacionesJson) throws JsonParseException, JsonMappingException, IOException{
+	public ResponseEntity saveOrUpdateToolsxQuotation(@RequestParam("quotationId") int QuotationId,@RequestBody Iterable<HerramientasxCotizacion> herramientasxCotizacionJson)
+			throws JsonParseException, JsonMappingException, IOException{
 		
 		try{
 			
-		Iterable<SistemasxCotizaciones> sistemasxCotizacionesForDelete = this.sistemasxCotizacionesService.findAllForQuotation(QuotationId);
+		Iterable<HerramientasxCotizacion> herramientasxCotizacionForDelete = this.herramientasxCotizacionService.findAllForQuotation(QuotationId);
 		
-		if (!String.valueOf(sistemasxCotizacionesForDelete).equals("[]")) {
+		if (!String.valueOf(herramientasxCotizacionForDelete).equals("[]")) {
 		
-		this.sistemasxCotizacionesService.deleteAllByQuotation(sistemasxCotizacionesForDelete);
+		this.herramientasxCotizacionService.deleteAllByQuotation(herramientasxCotizacionForDelete);
 		
 		}
-		this.sistemasxCotizacionesService.save(sistemasxCotizacionesJson);
+		this.herramientasxCotizacionService.save(herramientasxCotizacionJson);
 		
 		return (ResponseEntity) ResponseEntity.ok().body("");
 		
@@ -67,6 +68,7 @@ public class SistemaxCotizacionesController {
 			
 			return (ResponseEntity) ResponseEntity.badRequest().body("Error al insertar los involucrados");
 		}
+		
 	}
 	
 	
