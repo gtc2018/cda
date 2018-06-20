@@ -113,15 +113,40 @@ public class EpicaController {
 	}
 	
 	/**
-	 * 	Metodo consultar Epicas 
+	 * 	Metodo consultar Epicas por proyecto
 	 * @return
 	 */
 	@RequestMapping(value ="/getAllEpicasProyecto", method = RequestMethod.GET)
-	public List<Epica> getAllEpicaProyecto(){
-		return  this.epicaService.findAll();
+	public List<Epica> getAllEpicaProyecto(@RequestBody String proyectoJson) throws Exception{
+		
+		this.mapper = new ObjectMapper();
+		
+		Proyecto proyecto = this.mapper.readValue(proyectoJson, Proyecto.class);
+		
+		if(proyecto.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.epicaService.findAllToProject(proyecto.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.epicaService.findAllToProject(proyecto.getId());
+		}
 		
 	}
 	
+	
+	
+	/**
+	 * 	Metodo eliminar Epicas 
+	 * @return
+	 */
 	@RequestMapping(value ="/deleteEpica", method = RequestMethod.POST)
 	public void deleteEpica(@RequestBody String epicaJson) throws Exception{
 		this.mapper = new ObjectMapper();
