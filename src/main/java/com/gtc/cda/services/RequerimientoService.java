@@ -6,7 +6,7 @@ import com.gtc.cda.models.Requerimiento;
 
 public interface RequerimientoService {
 
-	Requerimiento save(Requerimiento empleado);
+	Requerimiento save(Requerimiento requerimiento);
 
 	List<Requerimiento> findAll();
 

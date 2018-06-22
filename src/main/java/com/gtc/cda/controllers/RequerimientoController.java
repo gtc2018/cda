@@ -244,22 +244,22 @@ public class RequerimientoController {
 
 		this.mapper = new ObjectMapper();
 		
-		Requerimiento requerimiento = this.mapper.readValue(proyecto, Requerimiento.class);
+		Proyecto proyect = this.mapper.readValue(proyecto, Proyecto.class);
 		
-		if(requerimiento.getId() == null){
+		if(proyect.getId() == null){
 			
 			throw new Exception("El ID no puede ser nulo.");
 		}
 		
 		// Se valida la existencia del registro
 		
-		if (this.requerimientoService.findRequestToProject(requerimiento.getId()) == null) {
+		if (this.requerimientoService.findRequestToProject(proyect.getId()) == null) {
 			
 			throw new Exception("No existen registros con este ID");
 		}
 		else {
 			 			
-			return this.requerimientoService.findRequestToProject(requerimiento.getId());
+			return this.requerimientoService.findRequestToProject(proyect.getId());
 		} 
 
 	}
