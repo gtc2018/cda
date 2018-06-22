@@ -6,30 +6,28 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gtc.cda.common.FormatoFecha;
-import com.gtc.cda.models.Cotizacion;
-import com.gtc.cda.models.EmpleadoExterno;
-import com.gtc.cda.models.Empresa;
 import com.gtc.cda.models.Epica;
+import com.gtc.cda.models.HerramientasxCotizacion;
 import com.gtc.cda.models.Proyecto;
 import com.gtc.cda.models.Requerimiento;
 import com.gtc.cda.services.EpicaService;
-import com.gtc.cda.util.RestResponse;
 
 @CrossOrigin(origins="*")
+//@RequestMapping(value ="/Epics")
 @RestController
+
 public class EpicaController {
 	
 	@Autowired
@@ -63,17 +61,7 @@ public class EpicaController {
 				}
 				
 
-			    //Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
-			    if (epica.getRequerimientoId() != null ) {
-			    	
-		
-			        	Requerimiento requerimiento = new Requerimiento();
-						
-			        	requerimiento.setId(new Long(epica.getRequerimientoId()));
-			        	
-			        	epica.setRequerimiento(requerimiento);
-						
-			    }
+
 			     
 			    
 			    if (epica.getProyectoId() != null ) {
@@ -116,7 +104,7 @@ public class EpicaController {
 	 * 	Metodo consultar Epicas por proyecto
 	 * @return
 	 */
-	@RequestMapping(value ="/getAllEpicasProyecto", method = RequestMethod.GET)
+	@RequestMapping(value ="/getAllEpicasProyecto", method = RequestMethod.POST)
 	public List<Epica> getAllEpicaProyecto(@RequestBody String proyectoJson) throws Exception{
 		
 		this.mapper = new ObjectMapper();
@@ -142,6 +130,35 @@ public class EpicaController {
 	}
 	
 	
+	/**
+	 * 	Metodo consultar Epicas por requerimiento
+	 * @return
+	 */
+	@RequestMapping(value ="/getAllEpicasRequerimiento", method = RequestMethod.POST)
+	public List<Epica> getAllEpicaRequerimiento(@RequestBody String requerimientoJson) throws Exception{
+		
+		this.mapper = new ObjectMapper();
+		
+		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);
+		
+		if(requerimiento.getId() == null){
+			
+			throw new Exception("El ID no puede ser nulo.");
+		}
+		
+		// Se valida la existencia del registro
+		
+		if (this.epicaService.findEpicaToRequest(requerimiento.getId()) == null) {
+			
+			throw new Exception("No existen registros con este ID");
+		}
+		else {
+			 			
+			return this.epicaService.findEpicaToRequest(requerimiento.getId());
+		}
+		
+	}
+	
 	
 	/**
 	 * 	Metodo eliminar Epicas 
@@ -160,6 +177,9 @@ public class EpicaController {
 		this.epicaService.deleteEpica(epica.getId());
 		
 	}
+	
+	
+
 
 	
 }

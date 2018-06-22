@@ -20,15 +20,13 @@ public class Epica extends ParentEntity{
 	 */
 	private static final long serialVersionUID = -7521340058894269069L;
 
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name = "requerimientos_id", nullable = false, referencedColumnName =  "id")
-	private Requerimiento requerimiento;
+
 	
 	@ManyToOne(cascade=CascadeType.REFRESH)
 	@JoinColumn(name = "proyectos_id", nullable = false, referencedColumnName =  "id")
 	private Proyecto proyecto;
 	
-	@Column(name = "descrpcion", nullable = false, length = 100)
+	@Column(name = "descripcion", nullable = false, length = 100)
 	private String descripcion;
 	
 	@Column(name = "estadoe", nullable = false, length = 5)
@@ -46,19 +44,10 @@ public class Epica extends ParentEntity{
 	@Column(name = "fecha_modificacion", nullable = false, length = 20)
 	private String fecha_modificacion;
 	
-	@Transient
-	private String requerimientoId;
+
 	
 	@Transient
 	private String proyectoId;
-
-	public Requerimiento getRequerimiento() {
-		return requerimiento;
-	}
-
-	public void setRequerimiento(Requerimiento requerimiento) {
-		this.requerimiento = requerimiento;
-	}
 
 	public String getDescripcion() {
 		return descripcion;
@@ -106,16 +95,7 @@ public class Epica extends ParentEntity{
 
 	public void setFecha_modificacion(String fecha_modificacion) {
 		this.fecha_modificacion = fecha_modificacion;
-	}
-
-	public String getRequerimientoId() {
-		return requerimientoId;
-	}
-
-	public void setRequerimientoId(String requerimientoId) {
-		this.requerimientoId = requerimientoId;
-	}
-	
+	}	
 	
 	public Proyecto getProyecto() {
 		return proyecto;
@@ -137,10 +117,9 @@ public class Epica extends ParentEntity{
 		
 	}
 
-	public Epica(Requerimiento requerimiento, Proyecto proyecto, String descripcion, int estadoe,
+	public Epica(Proyecto proyecto, String descripcion, int estadoe,
 			String usuario_creacion, String fecha_creacion, String usuario_modificacion, String fecha_modificacion) {
 		super();
-		this.requerimiento = requerimiento;
 		this.proyecto = proyecto;
 		this.descripcion = descripcion;
 		this.estadoe = estadoe;

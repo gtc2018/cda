@@ -12,9 +12,12 @@ import com.gtc.cda.models.Requerimiento;
 public interface EpicaRepository extends JpaRepository<Epica, Long>{
 	
 	@SuppressWarnings("unchecked")
-	Epica save(Epica Epica);
+	Epica save(Epica epica);
 
 	@Query(value = "SELECT 	* FROM 	EPICAS WHERE 	proyectos_id = ?1 " , nativeQuery = true)
 	public List<Epica> findAllToProject(@Param("id") Long project);
+	
+	@Query(value = "SELECT 	* FROM 	EPICAS A INNER JOIN EPICASXREQUERIMIENTOS B ON A.id=B.epicas_id WHERE 	B.requerimientos_id = ?1 " , nativeQuery = true)
+	public List<Epica> findEpicaToRequest(@Param("id") Long request);
 
 }
