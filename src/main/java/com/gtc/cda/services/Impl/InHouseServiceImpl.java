@@ -45,6 +45,12 @@ public class InHouseServiceImpl implements InHouseService {
 		return this.inHouseRepository.findInHouseByEmployee(id);
 	}
 	
+	@Override
+	public List<InHouse> getInHouseByDate(String fecha1, String fecha2) {
+		// TODO Auto-generated method stub
+		return this.inHouseRepository.findInHouseByDate(fecha1, fecha2);
+	}
+	
 //	@Override
 //	public List<Area> getAllAreasToEnterprise(Long empresaId) {
 //		// TODO Auto-generated method stub

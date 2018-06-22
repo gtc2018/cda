@@ -125,6 +125,21 @@ public class InHouseController {
 	}
 	
 	/**
+	 * Metodo consultar el empleado inHouse por fechas
+	 * @param inHouseJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value ="/getInHouseByDate", method = RequestMethod.POST)
+	public List<InHouse> getInHouseByDate(@RequestBody String inHouseJson) throws Exception{
+		this.mapper = new ObjectMapper();
+		
+		InHouse inHouse = this.mapper.readValue(inHouseJson, InHouse.class);
+		
+			
+		return this.inHouseService.getInHouseByDate(inHouse.getDesde(), inHouse.getHasta());
+	}
+	
+	/**
 	 * Metodo consultar inHouse
 	 * @return
 	 */

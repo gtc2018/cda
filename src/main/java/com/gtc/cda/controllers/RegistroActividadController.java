@@ -214,6 +214,23 @@ public class RegistroActividadController {
 	}
 	
 	/**
+	 * Metodo Obtener RegistroActividades por rango de fecha.
+	 * @param registroJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getAllRegistreByDate", method = RequestMethod.POST)
+	public List<RegistroActividad> getAllRegistreByDate(@RequestBody String registroJson) throws Exception {
+
+		this.mapper = new ObjectMapper();
+
+		RegistroActividad registro = this.mapper.readValue(registroJson, RegistroActividad.class);
+
+		return this.registroActividadService.getAllRegistreByDate(registro.getId(), registro.getFechaTrabajo(),
+				registro.getHoraInicio(), registro.getHoraFin());
+
+	}
+	
+	/**
 	 * Metodo Obtener RegistroActividades por empleado y fecha.
 	 * @param registroJson
 	 * @throws Exception

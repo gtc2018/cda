@@ -17,5 +17,8 @@ public interface InHouseRepository extends JpaRepository<InHouse, Long> {
 
 	@Query(value = "SELECT * FROM IN_HOUSE WHERE empleados_id = ?1" , nativeQuery = true)
 	public List<InHouse> findInHouseByEmployee(@Param("id") Long id);
+	
+	@Query(value = "SELECT * FROM IN_HOUSE WHERE desde>= ?1 AND hasta<= ?2" , nativeQuery = true)
+    public List<InHouse> findInHouseByDate(@Param("fecha1") String fecha1, @Param("fecha2") String fecha2);
 
 }

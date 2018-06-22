@@ -16,6 +16,8 @@ public interface RegistroActividadService {
 	
 	List<RegistroActividad> findRegistreToEmployee(Long empleadoId);
 	
+	List<RegistroActividad> getAllRegistreByDate(Long empleadoId, String fechaTrabajo, String horaI, String horaF);
+	
 	List<RegistroActividad> findRegistreByEmployeeAndDate(Long empleadoId, String fechaTrabajo);
 
 }
