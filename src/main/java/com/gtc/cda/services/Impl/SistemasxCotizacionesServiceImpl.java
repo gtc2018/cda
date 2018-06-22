@@ -3,11 +3,9 @@ package com.gtc.cda.services.Impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gtc.cda.dao.SistemasxCotizacionRepository;
-import com.gtc.cda.models.AsociarProyecto;
 import com.gtc.cda.models.SistemasxCotizaciones;
 import com.gtc.cda.services.SistemasxCotizacionesService;
 
@@ -22,14 +20,6 @@ public class SistemasxCotizacionesServiceImpl implements SistemasxCotizacionesSe
 	
 	@Autowired
 	protected SistemasxCotizacionRepository sistemasxCotizacionRepository;
-	
-	//Para traer todos los registros
-	@Override
-	public List<SistemasxCotizaciones> findAll() {
-		// TODO Auto-generated method stub
-		return this.sistemasxCotizacionRepository.findAll();
-	}
-	
 	//Para traer todos los registros de determinada cotizacion
 	@Override
 	public List<SistemasxCotizaciones> findAllForQuotation(int quotationId) {

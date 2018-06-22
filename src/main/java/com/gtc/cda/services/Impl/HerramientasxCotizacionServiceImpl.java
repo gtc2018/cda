@@ -21,7 +21,6 @@ public class HerramientasxCotizacionServiceImpl implements HerramientasxCotizaci
 	
 	@Autowired
 	protected HerramientasxCotizacionRepository herramientasxCotizacionRepository;
-
 	
 	//Para traer todos los registros de determinada cotizacion
 	@Override
@@ -31,9 +30,9 @@ public class HerramientasxCotizacionServiceImpl implements HerramientasxCotizaci
 	}
 	
 	//Para guardar todos los registros de un array
-	public Iterable<HerramientasxCotizacion> save(Iterable<HerramientasxCotizacion> sistemasxCotizaciones) {
+	public Iterable<HerramientasxCotizacion> save(Iterable<HerramientasxCotizacion> herramientasxCotizacion) {
 		// TODO Auto-generated method stub
-		return (Iterable<HerramientasxCotizacion>) this.herramientasxCotizacionRepository.save(sistemasxCotizaciones);
+		return (Iterable<HerramientasxCotizacion>) this.herramientasxCotizacionRepository.save(herramientasxCotizacion);
 	}
 	
 	//Para traer todos los registros

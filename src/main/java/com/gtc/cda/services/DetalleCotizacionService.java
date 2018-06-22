@@ -8,8 +8,6 @@ public interface DetalleCotizacionService {
 
 	DetalleCotizacion save(DetalleCotizacion empleado);
 
-	List<DetalleCotizacion> findAll();
-
 	void deleteDetalleCotizacion(Long id);
 
 	DetalleCotizacion findByDetalleCotizacionId(Long id);

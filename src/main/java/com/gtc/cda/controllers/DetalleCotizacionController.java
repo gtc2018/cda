@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,57 +38,16 @@ public class DetalleCotizacionController {
 	
 	protected ObjectMapper mapper;
 	
-	// Guardar o Editar
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity saveOrUpdateDetalleCotizacion(@RequestBody String detalleCotizacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
-		try {
-			
-		this.mapper = new ObjectMapper();
-		
-		DetalleCotizacion detalleCotizacion = this.mapper.readValue(detalleCotizacionJson, DetalleCotizacion.class);// Se mapea requerimiento con respecto al modelo
-		
-		//Generacion fecha creacion
-		FormatoFecha fecha = new FormatoFecha();
-		Date fech = new Date();
-		//seteo la fecha de creacion al campo fechaCreacion.
-		if(detalleCotizacion.getId() ==null ) {
-			
-			detalleCotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
-		}
-		else {
-		//Seteo la fecha de modificacion al campo fechaModificacion.
-			detalleCotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));	
-		}
-		
-			Cotizacion cotizacion = new Cotizacion();//Variable de cotizacion
-			
-	        //Se le pasan las variables del arreglo a las variables ---------------------------------------------------------
-			cotizacion.setId(detalleCotizacion.getCotizacionId());
-			
-			// Se le setean las variables al arreglo --------------------------------------------------------------------------
-			detalleCotizacion.setCotizacion(cotizacion);;
-			
-			this.detalleCotizacionService.save(detalleCotizacion);// Ejecuta el servicio para guardar el arreglo
-
-			return ResponseEntity.ok(detalleCotizacion);//Retorna una respuesta exitosa
-			
-		}catch(Exception e) {
-			
-			return ResponseEntity.badRequest().body(e);
-		}
-	}
-	
-	
 	/**
 	 * Metodo consultar todos los detalles cotizaciones.
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity getAllDetalleCotizacion(@RequestParam("cotizacionId") Long cotizacionId){
+	public ResponseEntity getAllDetalleCotizacion(@RequestParam("id") Long id){
 		
 		try {
 		
-		return  ResponseEntity.ok(this.detalleCotizacionService.findAllForCotizacion(cotizacionId));
+		return  ResponseEntity.ok(this.detalleCotizacionService.findAllForCotizacion(id));
 		
 		}catch(Exception e) {
 			
@@ -99,64 +59,78 @@ public class DetalleCotizacionController {
 	
 	/**
 	 * Metodo Obtener  el detalle de cotizacion por ID.
-	 * @param usuarioJson
-	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getDetalleCotizacion", method = RequestMethod.POST)
-	public DetalleCotizacion getDetalleCotizacionById(@RequestBody String id) throws Exception {
-
-		this.mapper = new ObjectMapper();
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity getDetalleCotizacionById(@PathVariable(value="id") Long id) throws Exception {
 		
-		DetalleCotizacion detalleCotizacion = this.mapper.readValue(id, DetalleCotizacion.class);
+		DetalleCotizacion detalleCotizacion =  this.detalleCotizacionService.findByDetalleCotizacionId(id);		
 		
-		//Se asegura que el ID no sea nulo
-		if(detalleCotizacion.getId() == null){
+		try {
 			
-			throw new Exception("El ID no puede ser nulo.");
+			return ResponseEntity.ok(detalleCotizacion);
+			
+		}catch(Exception e) {
+			
+			return ResponseEntity.badRequest().body(e);
+			
 		}
-		
-		// Se valida la existencia del registro
-		if (this.detalleCotizacionService.findByDetalleCotizacionId(detalleCotizacion.getId()) == null) {
-			throw new Exception("No existen registros con este ID");
-		}
-		else {
-			 			
-			return this.detalleCotizacionService.findByDetalleCotizacionId(detalleCotizacion.getId()) ;
-		} 
 
 	}
+	
+	
+	// Guardar o Editar
+		@RequestMapping(method = RequestMethod.POST)
+		public ResponseEntity saveOrUpdateDetalleCotizacion(@RequestBody String detalleCotizacionJson)
+				throws JsonParseException, JsonMappingException, IOException, ParseException{
+			
+			try {
+				
+			this.mapper = new ObjectMapper();
+			
+			DetalleCotizacion detalleCotizacion = this.mapper.readValue(detalleCotizacionJson, DetalleCotizacion.class);// Se mapea requerimiento con respecto al modelo
+			
+			//Generacion fecha creacion
+			FormatoFecha fecha = new FormatoFecha();
+			Date fech = new Date();
+			
+			//seteo la fecha de creacion al campo fechaCreacion.
+			if(detalleCotizacion.getId() == null ) {
+				
+				detalleCotizacion.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+			}
+			else {
+			//Seteo la fecha de modificacion al campo fechaModificacion.
+				detalleCotizacion.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+				
+			}
+			
+			this.detalleCotizacionService.save(detalleCotizacion);// Ejecuta el servicio para guardar el arreglo
+			
+			return ResponseEntity.ok(detalleCotizacion);//Retorna una respuesta exitosa
+				
+			}catch(Exception e) {
+				
+				return ResponseEntity.badRequest().body(e);
+			}
+		}
 	
 	/**
 	 * Metodo Eliminar detalle de cotizacion.
-	 * @param usuarioJson
-	 * @throws Exception
 	 */
-	@RequestMapping(value ="/deleteDetalleCotizacion", method = RequestMethod.POST)
-	public RestResponse deleteDetalleCotizacion(@RequestBody String usuarioJson) throws Exception{
-		this.mapper = new ObjectMapper();
+	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity deleteDetalleCotizacion(@PathVariable(value="id") Long id) throws Exception{
 		
-		DetalleCotizacion detalleCotizacion = this.mapper.readValue(usuarioJson, DetalleCotizacion.class);
+		try {
 		
-		if(detalleCotizacion.getId() == null){
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"El campo ID no puede ser nulo");
+		this.detalleCotizacionService.deleteDetalleCotizacion(id);
+		return ResponseEntity.ok("");
+		
+		}catch (Exception e) {
+			
+			return ResponseEntity.badRequest().body(e);		
+			
 		}
 		
-		this.detalleCotizacionService.deleteDetalleCotizacion(detalleCotizacion.getId());
-		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
-		
 	}
-
-	/**
-	 * Metodo de VALIDACIONES.
-	 */
-	private boolean validate(DetalleCotizacion detalleCotizacion) {
-		
-		boolean isValid = true;
-				
-		return isValid;
-		
-	}
-	
 
 }

@@ -16,7 +16,7 @@ public interface DetalleCotizacionRepository extends JpaRepository<DetalleCotiza
 	@SuppressWarnings("unchecked")
 	DetalleCotizacion save(DetalleCotizacion detalleCotizaciones);
 		
-		@Query(value = "SELECT * FROM detalle_cotizacion WHERE cotizacion = ?1" , nativeQuery = true)
+		@Query(value = "SELECT * FROM detalle_cotizacion WHERE cotizacion_id = ?1" , nativeQuery = true)
 		public List<DetalleCotizacion> findAllForCotizacion(@Param("cotizacionId") Long cotizacionId);
 
 }

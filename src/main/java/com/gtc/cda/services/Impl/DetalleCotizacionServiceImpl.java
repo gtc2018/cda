@@ -12,7 +12,6 @@ import com.gtc.cda.services.DetalleCotizacionService;
 @Service
 public class DetalleCotizacionServiceImpl implements DetalleCotizacionService {
 	
-	
 	@Autowired
 	protected DetalleCotizacionRepository detalleCotizacionRepository;
 
@@ -20,12 +19,6 @@ public class DetalleCotizacionServiceImpl implements DetalleCotizacionService {
 	public DetalleCotizacion save(DetalleCotizacion detalleCotizacion) {
 		// TODO Auto-generated method stub
 		return this.detalleCotizacionRepository.save(detalleCotizacion);
-	}
-
-	@Override
-	public List<DetalleCotizacion> findAll() {
-		// TODO Auto-generated method stub
-		return this.detalleCotizacionRepository.findAll();
 	}
 
 	@Override
@@ -39,7 +32,6 @@ public class DetalleCotizacionServiceImpl implements DetalleCotizacionService {
 		// TODO Auto-generated method stub
 		return this.detalleCotizacionRepository.findOne(detalleCotizacionId);
 	}
-	
 	
 	public List<DetalleCotizacion> findAllForCotizacion(Long CotizacionId) {
 		// TODO Auto-generated method stub

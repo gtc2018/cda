@@ -17,6 +17,7 @@ public interface PorcentajePorFasesService {
 	
 	List<PorcentajePorFase> findByPorcentajePorFaseYEmpresa(Long id);
 	
+	List<PorcentajePorFase> findFasesxEmpresaInPorcentajeFases(Long id, Long detailId);
 	
 
 }

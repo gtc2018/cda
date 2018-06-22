@@ -13,3 +13,4 @@ public interface HerramientasxCotizacionRepository extends JpaRepository<Herrami
 	public List<HerramientasxCotizacion> findAllForQuotation(@Param("quotationId") int quotationId);
 	
 }
+ 
