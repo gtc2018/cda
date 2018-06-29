@@ -2,9 +2,16 @@ package com.gtc.cda.dao;
 
 
 
+import java.sql.ResultSet;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import com.gtc.cda.models.Fase;
@@ -44,5 +51,10 @@ public interface PorcentajePorFasesRepository extends JpaRepository<PorcentajePo
 	public List<PorcentajePorFase> findFasesxEmpresaInPorcentajeFases(@Param("id") Long id, @Param("detailId") Long detailId);
 	
 	
+//	@Query(value = "{CALL SQ_HORASTOTALES_COTIZACION(:id)}" , nativeQuery = true)
+//	public void updateTotal(@Param("id") Long id);
+	
+	@Procedure(procedureName = "SQ_HORASTOTALES_COTIZACION")
+	public void updateTotal(@Param("id") Long DETALLEID);
 
-}
+	   }

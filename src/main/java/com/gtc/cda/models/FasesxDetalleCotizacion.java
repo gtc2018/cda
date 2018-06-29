@@ -7,11 +7,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name="fasesxdetalle_cotizacion")
+
+@NamedStoredProcedureQueries({
+   @NamedStoredProcedureQuery(name = "SQ_HORASTOTALES_COTIZACION", 
+                              procedureName = "SQ_HORASTOTALES_COTIZACION",
+                              parameters = {
+                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "DETALLEID", type = Long.class)
+                              })
+})
 @Access(AccessType.FIELD)
 public class FasesxDetalleCotizacion extends ParentEntity {
 	
@@ -58,6 +70,8 @@ public class FasesxDetalleCotizacion extends ParentEntity {
 	public String getFaseName() {
 		return fase.getDescripcion();
 	}
+	
+	
 
 	
 	

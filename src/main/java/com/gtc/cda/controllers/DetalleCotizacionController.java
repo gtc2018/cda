@@ -24,6 +24,7 @@ import com.gtc.cda.common.FormatoFecha;
 import com.gtc.cda.models.Cotizacion;
 import com.gtc.cda.models.DetalleCotizacion;
 import com.gtc.cda.services.DetalleCotizacionService;
+import com.gtc.cda.services.PorcentajePorFasesService;
 import com.gtc.cda.util.RestResponse;
 
 
@@ -35,6 +36,9 @@ public class DetalleCotizacionController {
 	
 	@Autowired
 	protected DetalleCotizacionService detalleCotizacionService;
+	
+	@Autowired
+	protected PorcentajePorFasesService porcentajePorFasesService;
 	
 	protected ObjectMapper mapper;
 	
@@ -121,9 +125,21 @@ public class DetalleCotizacionController {
 	public ResponseEntity deleteDetalleCotizacion(@PathVariable(value="id") Long id) throws Exception{
 		
 		try {
+			
+			try {
+				
+				this.porcentajePorFasesService.updateTotal(id);
+				
+				
+				
+			}catch(Exception e) {
+				
+				return  (ResponseEntity) ResponseEntity.badRequest().body("Error al actualizar las horas totales de la cotización");
+			}
 		
 		this.detalleCotizacionService.deleteDetalleCotizacion(id);
-		return ResponseEntity.ok("");
+		
+		return  (ResponseEntity) ResponseEntity.ok("");
 		
 		}catch (Exception e) {
 			

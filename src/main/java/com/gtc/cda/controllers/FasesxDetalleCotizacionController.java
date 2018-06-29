@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gtc.cda.models.FasesxCotizacion;
 import com.gtc.cda.models.FasesxDetalleCotizacion;
 import com.gtc.cda.services.FasesxDetalleCotizacionService;
+import com.gtc.cda.services.PorcentajePorFasesService;
 
 @CrossOrigin(origins="*")
 @RequestMapping(value ="/FasesxDetalleCotizacion")
@@ -28,6 +30,9 @@ public class FasesxDetalleCotizacionController {
 	
 	@Autowired
 	protected FasesxDetalleCotizacionService fasesxDetalleCotizacionService;
+	
+	@Autowired
+	protected PorcentajePorFasesService porcentajePorFasesService;
 	
 	protected ObjectMapper mapper;
 	
@@ -40,18 +45,48 @@ public class FasesxDetalleCotizacionController {
 	
 		
 	}
+	
+	@RequestMapping(value ="/getAllFasesxCotizacion", method = RequestMethod.GET)
+	public ResponseEntity<List<FasesxCotizacion>> getAllFasesxCotización(@RequestParam("id") Long id){
+		
+		try {
+			
+			List<FasesxCotizacion> fasesxDetalleCotizacion =  this.fasesxDetalleCotizacionService.getAllFasesxCotizacion(id);
+		
+		return  ResponseEntity.ok(fasesxDetalleCotizacion);
+		
+		}catch(Exception e) {
+			
+			return (ResponseEntity) ResponseEntity.badRequest().body(e);			
+			
+		}
+			
+	}
 
 	
 	//Para guardar o actualizar
 	@RequestMapping(method= RequestMethod.POST)
-	public ResponseEntity<Serializable> Save(@RequestBody FasesxDetalleCotizacion fasesxDetalleCotizacionJson )
+	public ResponseEntity Save(@RequestBody FasesxDetalleCotizacion fasesxDetalleCotizacionJson )
 			throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		try {
 			
 			this.fasesxDetalleCotizacionService.save(fasesxDetalleCotizacionJson);
 			
-			return  (ResponseEntity) ResponseEntity.ok("");
+			
+			
+			try {
+				
+				this.porcentajePorFasesService.updateTotal(new Long(fasesxDetalleCotizacionJson.getDetalleCotizacionId()));
+				
+				return  (ResponseEntity) ResponseEntity.ok("");
+				
+			}catch(Exception e) {
+				
+				return  (ResponseEntity) ResponseEntity.badRequest().body("Error al actualizar las horas totales de la cotización");
+			}
+			
+			
 			
 		    }
 		
@@ -69,10 +104,22 @@ public class FasesxDetalleCotizacionController {
 	public ResponseEntity deleteCotizacion(@PathVariable(value="id") Long id) throws Exception{
 		
 		try {
+			
+			int detalleId = this.fasesxDetalleCotizacionService.findOne(id).getDetalleCotizacionId();
 		
-		this.fasesxDetalleCotizacionService.delete(id);
+		    this.fasesxDetalleCotizacionService.delete(id);
 		
-		return (ResponseEntity) ResponseEntity.ok().body("");
+		try {
+			
+			this.porcentajePorFasesService.updateTotal(new Long(detalleId));
+			
+		}catch(Exception e) {
+			
+			return  (ResponseEntity) ResponseEntity.badRequest().body("Error al actualizar las horas totales de la cotización");
+		}		
+
+		return  (ResponseEntity) ResponseEntity.ok("");
+		
 		 
 		} catch(Exception e) {
 			
@@ -81,6 +128,8 @@ public class FasesxDetalleCotizacionController {
 		}
 		
 	}
+	
+	
 	
 	
 	

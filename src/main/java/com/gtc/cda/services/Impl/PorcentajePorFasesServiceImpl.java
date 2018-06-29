@@ -53,6 +53,12 @@ public class PorcentajePorFasesServiceImpl implements PorcentajePorFasesService 
 		return this.porcentajePorFasesRepository.findFasesxEmpresaInPorcentajeFases(id, detailId );
 	}
 	
+	@Override
+	public void updateTotal(Long id) {
+		// TODO Auto-generated method stub
+	 this.porcentajePorFasesRepository.updateTotal(id);
+	}
+	
 	
 
 }
