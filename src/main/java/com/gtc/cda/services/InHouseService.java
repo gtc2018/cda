@@ -19,6 +19,8 @@ public interface InHouseService {
 	
 	List<InHouse> getInHouseByDate(String fecha1, String fecha2);
 	
+	List<InHouse> getInHouseToDate(String fecha1, String fecha2, Long empleado);
+	
 //	List<InHouse> getAllAreasToEnterprise(Long empresaId);
 
 }

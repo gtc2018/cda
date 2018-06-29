@@ -140,6 +140,26 @@ public class InHouseController {
 	}
 	
 	/**
+	 * Metodo consultar inHouse por fechas en rango
+	 * @param inHouseJson
+	 * @throws Exception
+	 */
+	@RequestMapping(value ="/getInHouseToDate", method = RequestMethod.POST)
+	public List<InHouse> getInHouseToDate(@RequestBody String inHouseJson) throws Exception{
+		this.mapper = new ObjectMapper();
+		
+		InHouse inHouse = this.mapper.readValue(inHouseJson, InHouse.class);
+		
+		Empleado empleado = new Empleado();
+		
+		empleado.setId(new Long(inHouse.getEmpleadoId()));
+		
+		inHouse.setEmpleado(empleado);
+			
+		return this.inHouseService.getInHouseToDate(inHouse.getDesde(), inHouse.getHasta(), inHouse.getEmpleado().getId());
+	}
+	
+	/**
 	 * Metodo consultar inHouse
 	 * @return
 	 */
@@ -178,34 +198,6 @@ public class InHouseController {
 
 	}
 	
-//	/**
-//	 * Metodo Obtener InHouses por ID de empresa.
-//	 * @param InHouseJson
-//	 * @throws Exception
-//	 */
-//	@RequestMapping(value = "/getAllAreasToEnterprise", method = RequestMethod.POST)
-//	public List<Area> getAllAreasToEnterprise(@RequestBody String areaId) throws Exception {
-//
-//		this.mapper = new ObjectMapper();
-//			
-//		Empresa empresa = this.mapper.readValue(areaId, Empresa.class);
-//	
-//		if(empresa.getId() == null){
-//			
-//			throw new Exception("El ID no puede ser nulo.");
-//		}
-//		
-//		// Se valida la existencia del registro
-//		
-//		if (this.areaService.getAllAreasToEnterprise(empresa.getId()) == null) {
-//			throw new Exception("No existen registros con este ID");
-//		}
-//		else {
-//			 			
-//			return this.areaService.getAllAreasToEnterprise(empresa.getId()) ;
-//		} 
-//
-//	}
 	
 	// Validaciones
 	private boolean validate(InHouse inHouse) {		
