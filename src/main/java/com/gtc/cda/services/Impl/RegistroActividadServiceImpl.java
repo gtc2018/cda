@@ -46,6 +46,12 @@ public class RegistroActividadServiceImpl implements RegistroActividadService {
 	}
 	
 	@Override
+	public List<RegistroActividad> getAllRegistreByDate(Long empleadoId, String fechaTrabajo, String horaI, String horaF) {
+		// TODO Auto-generated method stub
+		return this.registroActividadRepository.findAllRegistreByDate(empleadoId, fechaTrabajo, horaI, horaF);
+	}
+	
+	@Override
 	public List<RegistroActividad> findRegistreByEmployeeAndDate(Long empleadoId, String fechaTrabajo) {
 		// TODO Auto-generated method stub
 		return this.registroActividadRepository.findRegistreByEmployeeAndDate(empleadoId, fechaTrabajo);
