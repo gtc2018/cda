@@ -21,7 +21,8 @@ import javax.persistence.Transient;
    @NamedStoredProcedureQuery(name = "SQ_HORASTOTALES_COTIZACION", 
                               procedureName = "SQ_HORASTOTALES_COTIZACION",
                               parameters = {
-                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "DETALLEID", type = Long.class)
+                            		  @StoredProcedureParameter(mode = ParameterMode.IN, name = "DETALLEID", type = Long.class),
+                            		  @StoredProcedureParameter(mode = ParameterMode.IN, name = "COTIZACION_ID_OPTIONAL", type = Long.class)
                               })
 })
 @Access(AccessType.FIELD)

@@ -54,9 +54,9 @@ public class PorcentajePorFasesServiceImpl implements PorcentajePorFasesService 
 	}
 	
 	@Override
-	public void updateTotal(Long id) {
+	public void updateTotal(Long id, Long cotizacionId) {
 		// TODO Auto-generated method stub
-	 this.porcentajePorFasesRepository.updateTotal(id);
+	 this.porcentajePorFasesRepository.updateTotal(id, cotizacionId);
 	}
 	
 	

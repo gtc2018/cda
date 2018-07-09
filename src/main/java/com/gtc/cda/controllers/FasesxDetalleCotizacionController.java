@@ -77,7 +77,7 @@ public class FasesxDetalleCotizacionController {
 			
 			try {
 				
-				this.porcentajePorFasesService.updateTotal(new Long(fasesxDetalleCotizacionJson.getDetalleCotizacionId()));
+				this.porcentajePorFasesService.updateTotal(new Long(fasesxDetalleCotizacionJson.getDetalleCotizacionId()),(new Long(0)));
 				
 				return  (ResponseEntity) ResponseEntity.ok("");
 				
@@ -111,7 +111,7 @@ public class FasesxDetalleCotizacionController {
 		
 		try {
 			
-			this.porcentajePorFasesService.updateTotal(new Long(detalleId));
+			this.porcentajePorFasesService.updateTotal(new Long(detalleId),(new Long(0)));
 			
 		}catch(Exception e) {
 			

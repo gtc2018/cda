@@ -1,5 +1,7 @@
 package com.gtc.cda.models;
 
+import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -7,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -44,6 +47,9 @@ public class DetalleCotizacion extends ParentEntity {
 	
 	@Column (name = "usuario_modificacion", nullable = false, length = 100)
 	private String usuarioModificacion;
+	
+	@OneToMany(mappedBy="detalleCotizacionId", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<FasesxDetalleCotizacion> fases;
 
 	public String getProceso() {
 		return proceso;

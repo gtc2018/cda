@@ -19,7 +19,7 @@ public interface PorcentajePorFasesService {
 	
 	List<PorcentajePorFase> findFasesxEmpresaInPorcentajeFases(Long id, Long detailId);
 	
-	void updateTotal(Long id);
+	void updateTotal(Long id, Long cotizacionId);
 	
 
 }

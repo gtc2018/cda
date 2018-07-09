@@ -55,6 +55,7 @@ public interface PorcentajePorFasesRepository extends JpaRepository<PorcentajePo
 //	public void updateTotal(@Param("id") Long id);
 	
 	@Procedure(procedureName = "SQ_HORASTOTALES_COTIZACION")
-	public void updateTotal(@Param("id") Long DETALLEID);
+	public void updateTotal(@Param("id") Long DETALLEID,
+			@Param("cotizacionId")Long COTIZACION_ID_OPTIONAL);
 
 	   }

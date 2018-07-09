@@ -126,18 +126,21 @@ public class DetalleCotizacionController {
 		
 		try {
 			
-			try {
-				
-				this.porcentajePorFasesService.updateTotal(id);
-				
-				
-				
-			}catch(Exception e) {
-				
-				return  (ResponseEntity) ResponseEntity.badRequest().body("Error al actualizar las horas totales de la cotización");
-			}
+		Long cotizacionId = (long) this.detalleCotizacionService.findByDetalleCotizacionId(id).getCotizacionId();
+					
 		
 		this.detalleCotizacionService.deleteDetalleCotizacion(id);
+		
+		try {
+			
+			this.porcentajePorFasesService.updateTotal(id,cotizacionId);
+			
+			
+			
+		}catch(Exception e) {
+			
+			return  (ResponseEntity) ResponseEntity.badRequest().body("Error al actualizar las horas totales de la cotización");
+		}
 		
 		return  (ResponseEntity) ResponseEntity.ok("");
 		
@@ -146,6 +149,8 @@ public class DetalleCotizacionController {
 			return ResponseEntity.badRequest().body(e);		
 			
 		}
+		
+		
 		
 	}
 
