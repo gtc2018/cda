@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import com.gtc.cda.services.PlaneacionService;
 import com.gtc.cda.util.RestResponse;
 
 @CrossOrigin(origins="*")
+@RequestMapping(value ="/Planeacion")
 @RestController
 public class PlaneacionController {
 
@@ -35,7 +37,19 @@ public class PlaneacionController {
 	
 	protected ObjectMapper mapper;
 	
-	@RequestMapping(value ="/saveOrUpdatePlaneacion", method = RequestMethod.POST)
+	/**
+	 * 	Metodo consultar Epicas 
+	 * @return
+	 */
+	@RequestMapping( method = RequestMethod.GET)
+	public List<Planeacion> getAllPlaneacion(){
+		return  this.planeacionService.findAll();
+		
+	}
+	
+
+	
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity saveOrUpdatePlaneacion(@RequestBody String planeacionJson) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		
 		try {					
@@ -118,32 +132,15 @@ public class PlaneacionController {
 	}
 	
 	/**
-	 * 	Metodo consultar Epicas 
-	 * @return
-	 */
-	@RequestMapping(value ="/getAllPlaneaciones", method = RequestMethod.GET)
-	public List<Planeacion> getAllPlaneacion(){
-		return  this.planeacionService.findAll();
-		
-	}
-	
-	/**
 	 * Metodo Eliminar Requerimiento.
 	 * @param usuarioJson
 	 * @throws Exception
 	 */
-	@RequestMapping(value ="/deletePlaneacion", method = RequestMethod.POST)
-	public RestResponse deletePlaneacion(@RequestBody String planeacionJson) throws Exception{
-		this.mapper = new ObjectMapper();
+	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+	public RestResponse deletePlaneacion(@PathVariable(value="id") Long id) throws Exception{
 		
-		Planeacion planeacion = this.mapper.readValue(planeacionJson, Planeacion.class);
+		this.planeacionService.deletePlaneacion(id);
 		
-		if(planeacion.getId() == null){
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),
-					"El campo ID no puede ser nulo");
-		}
-		
-		this.planeacionService.deletePlaneacion(planeacion.getId());
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		
 	}
