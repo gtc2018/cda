@@ -7,11 +7,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "requerimientos")
+
+@NamedStoredProcedureQueries({
+	   @NamedStoredProcedureQuery(name = "SQ_SAVE_EPICASTORQM", 
+	                              procedureName = "SQ_SAVE_EPICASTORQM",
+	                              parameters = {
+	                            		  @StoredProcedureParameter(mode = ParameterMode.IN, name = "RQMID", type = Long.class),
+	                              })
+	})
+
 @Access(AccessType.FIELD)
 public class Requerimiento extends ParentEntity {
 	

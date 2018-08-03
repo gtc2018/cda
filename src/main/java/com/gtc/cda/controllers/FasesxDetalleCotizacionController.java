@@ -92,11 +92,15 @@ public class FasesxDetalleCotizacionController {
 		
 		catch(Exception e) {
 			
-					
+			if(e.getMessage().indexOf("could not execute statement; SQL [n/a]; constraint [UC_detallexfase]")!=-1) {
+				
+				return  (ResponseEntity) ResponseEntity.badRequest().body("La fase ya se encuentra creada en el detalle");				
+				
+			}
+							
 			return  (ResponseEntity) ResponseEntity.badRequest().body(e);
 			
-		}
-		
+		}		
 		
 	}
 	

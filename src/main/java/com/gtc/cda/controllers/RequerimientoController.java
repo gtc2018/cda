@@ -54,6 +54,8 @@ public class RequerimientoController {
 		try{
 		this.mapper = new ObjectMapper();
 		
+		boolean saveEpicas = false; 
+		
 		Requerimiento requerimiento = this.mapper.readValue(requerimientoJson, Requerimiento.class);// Se mapea requerimiento con respecto al modelo
 	
 		//Se ejecuta las validaciones
@@ -77,6 +79,9 @@ public class RequerimientoController {
 		if(requerimiento.getId() ==null ) {
 			requerimiento.setFechaCreacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
 			requerimiento.setFechaModificacion(fecha.fecha("yyyy-MM-dd HH:mm:ss", fech));
+			
+			saveEpicas = true;
+			
 		}
 		else {
 		//Seteo la fecha de modificacion al campo fechaModificacion.
@@ -146,14 +151,43 @@ public class RequerimientoController {
 
 			}
 			
-			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo
+			this.requerimientoService.save(requerimiento);// Ejecuta el servicio para guardar el arreglo	
 			
+			if(saveEpicas == true ) {
+				
+				try {
+					
+					this.requerimientoService.insertEpicasxRQM(requerimiento.getId());				
+					
+				}catch(Exception e) {
+					
+					return new RestResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+					
+				}
+				
+				
+			}
 
-			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa"); // Se retorna una respuesta exitosa
+			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 			
 		}else {
 			
 		this.requerimientoService.save(requerimiento);
+		
+		if(saveEpicas == true ) {
+			
+			try {
+				
+				this.requerimientoService.insertEpicasxRQM(requerimiento.getId());				
+				
+			}catch(Exception e) {
+				
+				return new RestResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+				
+			}
+			
+			
+		}
 
 		return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 		

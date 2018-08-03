@@ -57,6 +57,12 @@ public class RequerimientoServiceImpl implements RequerimientoService {
         // TODO Auto-generated method stub
         return this.requerimientoRepository.findByDate(columna1, columna2, fechaInicio, fechaFin);
     }
+	
+	@Override
+    public void insertEpicasxRQM(Long RQMID) {
+        // TODO Auto-generated method stub
+        this.requerimientoRepository.insertEpicasxRQM(RQMID);
+    }
 
 	
 

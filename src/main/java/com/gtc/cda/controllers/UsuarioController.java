@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,6 +68,8 @@ public class UsuarioController {
 		
 		this.mapper = new ObjectMapper();
 		
+//		try {
+		
 		Usuario usuario = this.mapper.readValue(usuarioJson, Usuario.class);
 		
 		if (!this.validate(usuario)) {
@@ -118,6 +122,40 @@ public class UsuarioController {
 	
 					return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
 				}
+				
+//		}catch(NullPointerException e) {
+//			
+//			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+			
+//		}catch(DataIntegrityViolationException e) {
+//			
+//			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Llave duplicada");
+			
+//		}catch(Exception e) {
+//			
+//			String a = e.getMessage();
+//			
+//			String q = e.getCause().toString();
+//			
+//			String u = e.getLocalizedMessage();
+//			
+//			String hg = e.getCause().toString();
+//			
+//			String sdfdf = e.getMessage();
+//			
+//			String asdasd = e.getCause().getCause().toString();
+//			
+//			String asdsa = e.getCause().getCause().getMessage();
+//			
+//			if(e.getMessage().indexOf("could not execute statement; SQL [n/a]; constraint")!=-1) {
+//				
+//				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Error, un valor único no puede ser duplicado");
+//				
+//			}
+//			
+//			
+//			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
+//		}
 	}
 	
 	

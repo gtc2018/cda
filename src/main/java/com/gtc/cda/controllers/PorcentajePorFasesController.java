@@ -217,5 +217,22 @@ public class PorcentajePorFasesController {
 
 	}
 	
+	
+	@RequestMapping(value = "/PorcentajePorFase/getFasesxEmpresa/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getFasesporEmpresa(@PathVariable(value="id") Long id) throws Exception {
+		
+		try {
+			
+			List<PorcentajePorFase> porcentajePorFase = this.porcentajePorFasesService.findByPorcentajePorFaseYEmpresa(id);
+			
+			return ResponseEntity.ok(porcentajePorFase);		
+			
+			
+		}catch(Exception e) {
+			
+			return ResponseEntity.badRequest().body(e);
+		}
+
+	}	
 
 }
